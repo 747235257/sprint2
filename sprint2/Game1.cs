@@ -1,13 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.ComponentModel;
 
 namespace sprint2
 {
     public class Game1 : Game
     {
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+
+        private IPlayer player;
+        private IController keyboard;
 
         public Game1()
         {
@@ -19,6 +25,14 @@ namespace sprint2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            player = new Player(new Vector2(50, 50));
+
+            Texture2D TRightWalk = Content.Load<Texture2D>("RightWalk");
+            Texture2D TLeftWalk = Content.Load<Texture2D>("LeftWalk");
+            Texture2D TUpWalk = Content.Load<Texture2D>("UpWalk");
+            Texture2D TDownWalk = Content.Load<Texture2D>("DownWalk");
+            Texture2D TInitialStand = Content.Load<Texture2D>("InitialStand");
+            player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
 
             base.Initialize();
         }
@@ -27,24 +41,38 @@ namespace sprint2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            //Texture2D TRightWalk = Content.Load<Texture2D>("RightWalk");
+            //Texture2D TLeftWalk = Content.Load<Texture2D>("LeftWalk");
+            //Texture2D TUpWalk = Content.Load<Texture2D>("UpWalk");
+            //Texture2D TDownWalk = Content.Load<Texture2D>("DownWalk");
+            //Texture2D TInitialStand = Content.Load<Texture2D>("InitialStand");
+            //player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
+
+            //loads kb and mouse support
+            keyboard = new KeyboardCont();
+
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D0) || Mouse.GetState().RightButton != 0)
                 Exit();
 
-            // TODO: Add your update logic here
+            keyboard.Handle(_graphics, player);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Cyan);
 
             // TODO: Add your drawing code here
+
+            //TUTORIAL
+            _spriteBatch.Begin();
+            player.Draw(_spriteBatch);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
