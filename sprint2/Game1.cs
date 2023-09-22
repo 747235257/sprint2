@@ -17,6 +17,9 @@ namespace sprint2
         private SpriteBatch _spriteBatch;
 
 
+        private Vector2 initPosition;
+
+
         private INPC Dragon;
         private INPC Skull;
         private INPC OldMan;
@@ -26,15 +29,25 @@ namespace sprint2
         private INPC cur;
         private ArrayList NPCList;
         public int currentNPC { get; set; }
+
+
+        Texture2D Blocks;
+
         private float timer;
         private bool keyEn;
+
         Texture2D Enemies;
         Texture2D Bosses;
         Texture2D NPCs;
         Texture2D ItemSprite;
 
         private IPlayer player;
+        private IBlock block;
         private IController keyboard;
+
+
+        private int blockRow = 3;
+        private int blockCol = 4;
 
 
         private List<IProjectile> playerProjectiles;
@@ -42,6 +55,7 @@ namespace sprint2
 
 
         private IItem item;
+
 
         public Game1()
         {
@@ -52,6 +66,12 @@ namespace sprint2
 
         protected override void Initialize()
         {
+
+            // TODO: Add your initialization logic here
+            initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+            
+
+
 
 
             NPCList= new ArrayList();
@@ -79,10 +99,23 @@ namespace sprint2
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
+
+            Blocks = Content.Load<Texture2D>("zeldaBlocks");
+            block = new Block(Blocks, blockRow, blockCol, initPosition);
+            //Create NPCs
+
+            CreateNPCs();
+            
+            
+            player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
+
+            
+
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
 
             //Create NPCs
+
 
             CreateNPCs();
         }
@@ -124,9 +157,14 @@ namespace sprint2
             }
             
             
+
+            
+            block = keyboard.blockHandle(_graphics, Blocks, blockRow, blockCol, initPosition, block);
+
             
 
             removeEnemyProjectileList();
+
 
             cur = (INPC)NPCList[currentNPC];
 
@@ -148,8 +186,12 @@ namespace sprint2
 
             //TUTORIAL
             _spriteBatch.Begin();
+
+            block.drawBlock(_spriteBatch);
+
             player.Draw();
             drawAllProjectiles();
+
             _spriteBatch.End();
 
             item.ItemProcess(_spriteBatch);

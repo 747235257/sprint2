@@ -123,4 +123,20 @@ public class KeyboardCont : IController
         }
         return false;
     }
+    public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky)
+    {
+        var kstate = Keyboard.GetState();
+
+        if (kstate.IsKeyDown(Keys.Y))
+        {
+            blocky = new Block(block, spriteRow, spriteCol, initPosition);
+            blocky.switchBlock(_graphics, Block.FrameDirection.Forward);
+        }
+        if (kstate.IsKeyDown(Keys.T))
+        {
+            blocky = new Block(block, spriteRow, spriteCol, initPosition);
+            blocky.switchBlock(_graphics, Block.FrameDirection.Backward);
+        }
+        return blocky;
+    }
 }

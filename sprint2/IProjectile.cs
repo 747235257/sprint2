@@ -14,7 +14,10 @@ namespace sprint2
 
         void Draw(SpriteBatch spriteBatch);
 
+
+
         bool ReturnStatus();
+
 
 
     }
