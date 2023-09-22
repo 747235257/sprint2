@@ -24,12 +24,6 @@ namespace sprint2
             currentRange = 0;
             isActive = true;
 
-            LoadProjectile(Content, name);      
-        }
-
-        public void LoadProjectile(ContentManager Content, string name) {
-            
-
             LoadProjectile(Content, name);
         }
 
@@ -57,9 +51,10 @@ namespace sprint2
 
             }
 
-            else if(name == "Goriya")
-            {   
+            else if (name == "Goriya")
+            {
                 Texture = Content.Load<Texture2D>("banana");
+            }
 
             else if (name == "Goriya")
             {
@@ -73,55 +68,54 @@ namespace sprint2
             }
 
 
-        }
+            }
+        
 
         public void UpdatePosition(GameTime gameTime)
-        {
+            {
             if (isActive)
-            {
-                Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                currentRange++;
-                currSprite.Update();
+                {
+                    Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    currentRange++;
+                    currSprite.Update();
 
-                CheckRange();
+                    CheckRange();
 
+                }
             }
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (isActive)
+            public void Draw(SpriteBatch spriteBatch)
             {
-
-               
-                currSprite.Draw(spriteBatch, Position);
-                
+                if (isActive)
+                {
 
 
-                currSprite.Draw(spriteBatch, Position);
+                    currSprite.Draw(spriteBatch, Position);
 
 
+
+                    currSprite.Draw(spriteBatch, Position);
+
+
+                }
             }
-        }
 
-        public void CheckRange()
-        {
-            if (currentRange > range)
+            public void CheckRange()
             {
-                isActive = false;
-                //DeadAnimation();
+                if (currentRange > range)
+                {
+                    isActive = false;
+                    //DeadAnimation();
+                }
             }
+
+            public bool ReturnStatus()
+            {
+                return isActive;
+            }
+
+
         }
-
-
     }
-}
 
-        public bool ReturnStatus()
-        {
-            return isActive;
-        }
-
-    }
-}
 

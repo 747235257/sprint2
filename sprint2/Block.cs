@@ -33,38 +33,34 @@ public class Block : IBlock
     {
         if (direction == FrameDirection.Forward)
         {
-            currentFrame++;
-            if (currentFrame >= totalFrames)
-            {
-                currentFrame = 0;
-            }
+            
+            
+             currentFrame = (currentFrame+1) %10;
+            
         }
         else if (direction == FrameDirection.Backward)
         {
-            currentFrame--;
-            if (currentFrame < 0)
-            {
-                currentFrame = totalFrames - 1;
-            }
+            
+            
+             currentFrame = (currentFrame+9)%10;
+            
         }
     } 
     public void blockPosition(Vector2 position)
     {
 
     }
-    public void Update(GraphicsDeviceManager _graphics)
-    {
-        currentFrame++;
-    }
+    
 
     public void drawBlock(SpriteBatch spriteBatch)
     {
-        int width = Texture.Width / Columns;
-        int height = Texture.Height / Rows;
-        int row = currentFrame / Columns;
-        int column = currentFrame % Columns;
+        int width = 16;
+        int height = 16;
+        int row = currentFrame / 4 ;
+        int col = currentFrame % 4;
+        
 
-        Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
+        Rectangle sourceRectangle = new Rectangle(0+17*col, 0+17*row, width, height);
         Rectangle destinationRectangle = new Rectangle((int)pos.X - 70, (int)pos.Y - 100, width * 5, height * 5);
 
         //draws a portion of the texture into a portion of the screen

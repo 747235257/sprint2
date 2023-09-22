@@ -105,12 +105,9 @@ namespace sprint2
             //Create NPCs
 
             CreateNPCs();
-            
-            
-            player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
+       
 
-            
-
+         
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
 
