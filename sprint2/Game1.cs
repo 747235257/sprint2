@@ -26,7 +26,8 @@ namespace sprint2
         private INPC cur;
         private ArrayList NPCList;
         public int currentNPC { get; set; }
-
+        private float timer;
+        private bool keyEn;
         Texture2D Enemies;
         Texture2D Bosses;
         Texture2D NPCs;
@@ -60,11 +61,10 @@ namespace sprint2
             enemyProjectiles = new List<IProjectile>();
 
             // TODO: Add your initialization logic here
-            player = new Player(new Vector2(50, 50));
             NPCList = new ArrayList();
             //loads kb and mouse support
-            keyboard = new KeyboardCont(this, currentNPC);
-            item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
+            timer = 0;
+            keyEn = false;
 
             base.Initialize();
         }
@@ -76,32 +76,15 @@ namespace sprint2
 
             player = new Player(this, _graphics, _spriteBatch);
 
-
-            Texture2D TRightWalk = Content.Load<Texture2D>("RightWalk");
-            Texture2D TLeftWalk = Content.Load<Texture2D>("LeftWalk");
-            Texture2D TUpWalk = Content.Load<Texture2D>("UpWalk");
-            Texture2D TDownWalk = Content.Load<Texture2D>("DownWalk");
-            Texture2D TInitialStand = Content.Load<Texture2D>("InitialStand");
-
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
             ItemSprite = Content.Load<Texture2D>("Sheet");
+            item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
 
             //Create NPCs
 
             CreateNPCs();
-
-            
-  
-
-
-
-            player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
-
-
-
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -109,7 +92,8 @@ namespace sprint2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D0) || Mouse.GetState().RightButton != 0)
                 Exit();
 
-
+            
+            keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
             keyboard.HandleDamaged(_graphics, player);
@@ -126,12 +110,23 @@ namespace sprint2
             UpdatePlayerProjectileList(gameTime);
 
 
-            keyboard.HandleSwitchEnemy(currentNPC);
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(timer > 0.5 && !keyEn)
+            {
+                keyEn = keyboard.HandleSwitchEnemy(currentNPC);
+                if(keyEn)
+                {
+                    timer = 0;
+                }
+            }else if(timer > 0.5 && keyEn)
+            {
+                keyEn = false;
+            }
+            
+            
+            
 
             removeEnemyProjectileList();
-
-            keyboard.Handle(_graphics, player);
-
 
             cur = (INPC)NPCList[currentNPC];
 
@@ -157,7 +152,7 @@ namespace sprint2
             drawAllProjectiles();
             _spriteBatch.End();
 
-            item.ItemProcess(_spriteBatch, new Vector2(1, 1));
+            item.ItemProcess(_spriteBatch);
 
 
             cur.Draw();
@@ -224,14 +219,8 @@ namespace sprint2
         private void CreateNPCs()
         {
             Skull = new Skull(Enemies, _spriteBatch);
-            OldMan = new OldMan(NPCs, _spriteBatch); 
-            Goriya = new Goriya(Enemies, _spriteBatch, this);
-
-        private void CreateNPCs()
-        {
-            Skull = new Skull(Enemies, _spriteBatch);
             OldMan = new OldMan(NPCs, _spriteBatch);
-            Goriya = new Goriya(Enemies, _spriteBatch);
+            Goriya = new Goriya(Enemies, _spriteBatch, this);
 
             Gel = new Gel(Enemies, _spriteBatch);
             Bat = new Bat(Enemies, _spriteBatch);

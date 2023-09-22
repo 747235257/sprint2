@@ -43,7 +43,7 @@ namespace sprint2
             }
         }
 
-        public void ItemProcess(SpriteBatch spriteBatch, Vector2 loc)
+        public void ItemProcess(SpriteBatch spriteBatch)
         {
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
@@ -51,7 +51,7 @@ namespace sprint2
             int column = currentFrame % Columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)loc.X, (int)loc.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle((int)pos.X, (int)pos.Y, width*2, height*2);
 
             //draws a portion of the texture into a portion of the screen
             spriteBatch.Begin();

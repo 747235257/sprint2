@@ -11,7 +11,7 @@ public interface IController
     public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player);
 
 
-    public void HandleSwitchEnemy(int currentNPC);
+    public bool HandleSwitchEnemy(int currentNPC);
 
     public void HandleItem(GraphicsDeviceManager _graphics, IItem item);
 

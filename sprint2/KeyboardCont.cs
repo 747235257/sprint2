@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sprint2;
 using System;
-using System.Numerics;
+
 
 public class KeyboardCont : IController
 {
@@ -105,19 +105,22 @@ public class KeyboardCont : IController
         }
     }
 
-    public void HandleSwitchEnemy(int currentNPC)
+    public bool HandleSwitchEnemy(int currentNPC)
     {
         KeyboardState kstate = Keyboard.GetState();
         if (kstate.IsKeyDown(Keys.O))
         {
             currentNPC = (currentNPC + 1) % 6;
             game.currentNPC = currentNPC;
+            return true;
         }
         else if (kstate.IsKeyDown(Keys.P))
         {
             currentNPC = (currentNPC + 5) % 6;
 
             game.currentNPC = currentNPC;
+            return true;
         }
+        return false;
     }
 }

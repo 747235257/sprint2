@@ -12,7 +12,7 @@ namespace sprint2
     {
         public void CurrentItemMinus();
         public void CurrentItemPlus();
-        public void ItemProcess(SpriteBatch spriteBatch, Vector2 loc);
+        public void ItemProcess(SpriteBatch spriteBatch);
 
     }
 }
