@@ -12,7 +12,7 @@ namespace sprint2
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        
+        private Vector2 initPosition;
 
         private INPC Dragon;
         private INPC Skull;
@@ -24,12 +24,17 @@ namespace sprint2
         private ArrayList NPCList;
         public int currentNPC { get; set; }
 
+        Texture2D Blocks;
         Texture2D Enemies;
         Texture2D Bosses;
         Texture2D NPCs;
 
         private IPlayer player;
+        private IBlock block;
         private IController keyboard;
+
+        private int blockRow = 3;
+        private int blockCol = 4;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -40,6 +45,7 @@ namespace sprint2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             player = new Player(new Vector2(50, 50));
             NPCList= new ArrayList();
             //loads kb and mouse support
@@ -60,9 +66,10 @@ namespace sprint2
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
-
+            Blocks = Content.Load<Texture2D>("zeldaBlocks");
+            block = new Block(Blocks, blockRow, blockCol, initPosition);
             //Create NPCs
-            
+
             CreateNPCs();
             
             
@@ -78,7 +85,9 @@ namespace sprint2
                 Exit();
             
             keyboard.Handle(_graphics, player);
-            
+            keyboard.Handle(_graphics, player);
+            block = keyboard.blockHandle(_graphics, Blocks, blockRow, blockCol, initPosition, block);
+
             cur = (INPC)NPCList[currentNPC];
             cur.Execute(gameTime);
             Dragon.Execute(gameTime);
@@ -96,6 +105,7 @@ namespace sprint2
             //TUTORIAL
             _spriteBatch.Begin();
             player.Draw(_spriteBatch);
+            block.drawBlock(_spriteBatch);
             _spriteBatch.End();
 
             
