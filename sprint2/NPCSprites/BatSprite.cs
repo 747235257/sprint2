@@ -28,7 +28,7 @@ namespace sprint2
             timer = 0;
             frameCol = 0;
         }
-        public void Update(GameTime gameTime, int curdir)
+        public Rectangle Update(GameTime gameTime, int curdir)
         {
             
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -61,7 +61,7 @@ namespace sprint2
                 frameCol %= 2;
 
             }
-
+            return destination;
 
 
         }

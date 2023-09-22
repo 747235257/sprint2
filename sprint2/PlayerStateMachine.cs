@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Reflection.Metadata;
+using sprint2;
+
 
 public class PlayerStateMachine : IPlayerStateMachine
 {
@@ -56,6 +58,9 @@ public class PlayerStateMachine : IPlayerStateMachine
         walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveRight"), 1, 4, this.currPos));
         //damagedSprites
         damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), 1, 1, this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), 1, 1, this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedLeft"), 1, 1, this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedRight"), 1, 1, this.currPos));
         //itemSprites
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemDown"), 1, 1, this.currPos));
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemUp"), 1, 1, this.currPos));
@@ -208,17 +213,17 @@ public class PlayerStateMachine : IPlayerStateMachine
         }
         else if (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.IDLE_UP)
         {
-            currSprite = damagedSprites[0];
+            currSprite = damagedSprites[1];
             state = State.DAMAGED_UP;
         }
         else if (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.IDLE_RIGHT)
         {
-            currSprite = damagedSprites[0];
+            currSprite = damagedSprites[3];
             state = State.DAMAGED_RIGHT;
         }
         else if (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.IDLE_LEFT)
         {
-            currSprite = damagedSprites[0];
+            currSprite = damagedSprites[2];
             state = State.DAMAGED_LEFT;
         }
     }
@@ -297,38 +302,47 @@ public class PlayerStateMachine : IPlayerStateMachine
 
     }
 
-    public  int useItem()
+    public  IProjectile useItem(string itemName)
     {
+        IProjectile proj = null;
         if (!InAttack() && !InItem())
         {
+            Vector2 dir = new Vector2(0, 0);
             if (state == State.IDLE_DOWN)
             {
                 currSprite = itemSprites[0];
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
+                dir.Y += 1;
+                
             }
             else if (state == State.IDLE_UP)
             {
                 currSprite = itemSprites[1];
                 state = State.ITEM_UP;
                 itemCounter = 1;
+                dir.Y -= 1;
             }
             else if (state == State.IDLE_LEFT)
             {
                 currSprite = itemSprites[2];
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
+                dir.X -= 1;
             }
             else if (state == State.IDLE_RIGHT)
             {
                 currSprite = itemSprites[3];
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
+                dir.X += 1;
             }
-            //something = new Projectile();
-            // return new Projectile(,....)
+
+            proj = new Projectile(currPos, itemName, game.Content, dir);
+
+
         }
-        return 0;
+        return proj;
 
     }
 

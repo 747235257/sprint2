@@ -23,9 +23,9 @@ namespace sprint2
             this.spriteBatch = spriteBatch;
             source = new Rectangle(1, 11, width, height);
         }
-        public void Update(GameTime gametime, int curdir)
+        public Rectangle Update(GameTime gametime, int curdir)
         {
-
+            return destination;
         }
 
         public void Draw()

@@ -30,9 +30,9 @@ namespace sprint2
 
 
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
-
+            return null;
 
         }
         public void Stop()
@@ -42,7 +42,7 @@ namespace sprint2
             curdir= 0;
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
 
             count++;
@@ -56,6 +56,8 @@ namespace sprint2
 
             BatSprite.Update(gametime, curdir);
             count = count % 16;
+
+            return null;
 
 
         }

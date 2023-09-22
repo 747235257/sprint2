@@ -48,7 +48,7 @@ namespace sprint2
             }
             else if (name == "Goriya")
             {
-                Texture = Content.Load<Texture2D>("banana");
+                Texture = Content.Load<Texture2D>("Banana");
                 currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
                 range = 150;
                 Velocity.X = Direction.X * 250;
@@ -67,6 +67,7 @@ namespace sprint2
                 Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 currentRange++;
                 currSprite.Update();
+                CheckRange();
             }
         }
         public void Draw(SpriteBatch spriteBatch)

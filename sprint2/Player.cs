@@ -61,11 +61,11 @@ namespace sprint2
             playerState.updateItem();
         }
         //returns PROJECTILE used
-        public int useItem()
+        public IProjectile useItem(string itemName)
         {
-            playerState.useItem();
+            return playerState.useItem(itemName);
             //playerState.drawCurrentSprite();
-            return 0;//return projectile
+
         }
         public void Draw()
         {
