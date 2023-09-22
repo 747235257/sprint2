@@ -17,11 +17,11 @@ public class MovingNonAnimatedSprite : ISprite
         this.pos = location;
     }
 
-    public void Update(GraphicsDeviceManager _graphics)
+    public void Update()
     {
-        this.pos.X += 3;
-        if (this.pos.X >= _graphics.PreferredBackBufferWidth)
-            this.pos.X = 1;
+        //this.pos.X += 3;
+        //if (this.pos.X >= _graphics.PreferredBackBufferWidth)
+        //    this.pos.X = 1;
 
 
     }

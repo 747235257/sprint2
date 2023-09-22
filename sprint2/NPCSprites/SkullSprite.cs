@@ -30,7 +30,7 @@ namespace sprint2
             source = new Rectangle(1, 59, width, height);
             flip= false;
         }
-        public void Update(GameTime gameTime, int curdir)
+        public Rectangle Update(GameTime gameTime, int curdir)
         {
             
             
@@ -57,6 +57,7 @@ namespace sprint2
                 }
                 flip = !flip;
              
+            return destination;
             
             
 

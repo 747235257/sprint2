@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using System;
+
 
 namespace sprint2
 {
@@ -21,11 +23,20 @@ namespace sprint2
             Direction = initialDirection;
             currentRange = 0;
             isActive = true;
+
             LoadProjectile(Content, name);      
         }
 
         public void LoadProjectile(ContentManager Content, string name) {
             
+
+            LoadProjectile(Content, name);
+        }
+
+        public void LoadProjectile(ContentManager Content, string name)
+        {
+
+
             if (name == "Nunchuks")
             {
                 Texture = Content.Load<Texture2D>("Nunchuks");
@@ -35,7 +46,7 @@ namespace sprint2
                 Velocity.Y = Direction.Y * 250;
 
             }
-            
+
             else if (name == "Dragon")
             {
                 Texture = Content.Load<Texture2D>("projectile");
@@ -45,16 +56,22 @@ namespace sprint2
                 Velocity.Y = Direction.Y * 250;
 
             }
+
             else if(name == "Goriya")
             {   
                 Texture = Content.Load<Texture2D>("banana");
+
+            else if (name == "Goriya")
+            {
+                Texture = Content.Load<Texture2D>("Banana");
+
                 currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
                 range = 150;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;
 
             }
-                  
+
 
         }
 
@@ -66,15 +83,24 @@ namespace sprint2
                 Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 currentRange++;
                 currSprite.Update();
+
+                CheckRange();
+
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (isActive)
             {
+
                
                 currSprite.Draw(spriteBatch, Position);
                 
+
+
+                currSprite.Draw(spriteBatch, Position);
+
+
             }
         }
 
@@ -87,5 +113,15 @@ namespace sprint2
             }
         }
 
+
     }
 }
+
+        public bool ReturnStatus()
+        {
+            return isActive;
+        }
+
+    }
+}
+

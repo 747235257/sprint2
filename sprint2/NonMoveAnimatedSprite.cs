@@ -25,7 +25,7 @@ public class NonMoveAnimatedSprite : ISprite
         pos = location;
     }
 
-    public void Update(GraphicsDeviceManager _graphics)
+    public void Update()
     {
 
         //Only goes to next frame every five updates

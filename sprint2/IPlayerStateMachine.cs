@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.ComponentModel;
+using Microsoft.Xna.Framework;
 
 namespace sprint2
 {
-    public interface IPlayer
+    public interface IPlayerStateMachine
     {
 
+        public void drawCurrentSprite();
         public void setIdle();
         public void moveLeft();
 
@@ -19,15 +22,15 @@ namespace sprint2
 
 
         public void moveUp();
-
         public void updateAttack();
-
         public void updateItem();
-        public void setDamaged();
+
+        public bool InAttack();
+        public bool InItem();
 
         public Vector2 attack();
 
         public IProjectile useItem(string itemName);
-        public void Draw();
+        public void setDamaged();
     }
 }

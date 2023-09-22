@@ -18,7 +18,9 @@ namespace sprint2
         private int curdir;
         private float duration;
         private bool attack;
-        public Dragon(Texture2D texture, SpriteBatch spriteBatch)
+        private Rectangle destination;
+        private Game1 game;
+        public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
@@ -26,14 +28,22 @@ namespace sprint2
             count = 0;
             duration = 0;
             attack = false;
+            this.game = game;
         }
         
         
 
         
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
+            List<IProjectile> projectiles = new List<IProjectile>();
+            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 1)));
+            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 0)));
+            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, -1)));
+
+            return projectiles;
+
 
 
         }
@@ -44,26 +54,28 @@ namespace sprint2
             DragonSprite = new DragonSprite(texture, spriteBatch);
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
 
+            List<IProjectile> projectiles = null;
             count++;
             if (attack)
             {   
-                duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (duration == 0)
                 {
-                    Attack();
+                    projectiles = Attack();
+                    duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                 }
                 else if (duration > 2)
                 {
                     duration = 0;
                     attack = false;
-                }
-                else
+                }else
                 {
-                    return;
+                    duration += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    return null;
                 }
+                
             }
             if (count % 16 == 0)
             {
@@ -75,8 +87,9 @@ namespace sprint2
                 
             } 
             
-            DragonSprite.Update(gametime, curdir);
+            destination = DragonSprite.Update(gametime, curdir);
             count = count % 16;
+            return projectiles;
             
             
         }

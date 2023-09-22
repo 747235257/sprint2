@@ -16,25 +16,51 @@ namespace sprint2
         private int count;
         private Random rnd = new Random();
         private int curdir;
+        private int attackDir;
         private float duration;
         private bool attack;
-        public Goriya(Texture2D texture, SpriteBatch spriteBatch)
+        private Rectangle destination;
+        private Game1 game;
+        public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
             GoriyaSprite = new GoriyaSprite(this.texture, this.spriteBatch);
             count = 0;
             duration = 0;
+            
             attack = false;
+            this.game = game;
         }
 
 
 
 
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
+            List<IProjectile> projectiles = new List<IProjectile>();
+            Vector2 dir = new Vector2();
+            switch (attackDir)
+            {
+                case 1:
+                    dir = new Vector2(0,-1);
+                    break;
+                case 2:
+                    dir = new Vector2(0,1);
+                    break ;
+                case 3:
+                    dir = new Vector2(-1,0);
+                    break;
+                case 4:
+                    dir = new Vector2(1,0);
+                    break;
+                default:
+                    break;
 
+            }
+            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Goriya", game.Content, dir));
+            return projectiles;
 
         }
         public void Stop()
@@ -44,16 +70,17 @@ namespace sprint2
             GoriyaSprite = new GoriyaSprite(texture, spriteBatch);
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
-
+            List<IProjectile> projectiles = null;
             count++;
             if (attack)
             {
-                duration += (float)gametime.ElapsedGameTime.TotalSeconds;
+                
                 if (duration == 0)
                 {
-                    Attack();
+                    projectiles = Attack();
+                    duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                 }
                 else if (duration > 2)
                 {
@@ -62,7 +89,8 @@ namespace sprint2
                 }
                 else
                 {
-                    return;
+                    duration += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    return projectiles;
                 }
             }
             if (count % 16 == 0)
@@ -70,13 +98,19 @@ namespace sprint2
                 curdir = rnd.Next(0, 5);
                 if (curdir == 0)
                 {
+                    
                     attack = true;
+                }
+                else
+                {
+                    attackDir = curdir;
                 }
 
             }
 
-            GoriyaSprite.Update(gametime, curdir);
+            destination = GoriyaSprite.Update(gametime, curdir);
             count = count % 16;
+            return projectiles;
 
 
         }
