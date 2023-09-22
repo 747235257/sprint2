@@ -10,5 +10,9 @@ public interface IController
     public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player);
     public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player);
 
+
     public void HandleSwitchEnemy(int currentNPC);
+
+    public void HandleItem(GraphicsDeviceManager _graphics, IItem item);
+
 }

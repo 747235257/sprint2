@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sprint2;
 using System;
+using System.Numerics;
 
 public class KeyboardCont : IController
 {
@@ -79,6 +80,19 @@ public class KeyboardCont : IController
 
         HandleNoPlayerInput(kstate, player);
 
+    }
+
+    public void HandleItem(GraphicsDeviceManager _graphics, IItem item)
+    { 
+        KeyboardState kstate = Keyboard.GetState();
+        if (kstate.IsKeyDown(Keys.U))
+        {
+            item.CurrentItemPlus();
+        }
+        else if (kstate.IsKeyDown(Keys.I))
+        {
+           item.CurrentItemMinus();
+        }
     }
 
     public void HandleNoPlayerInput(KeyboardState kstate, IPlayer player)
