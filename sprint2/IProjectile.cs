@@ -13,5 +13,9 @@ namespace sprint2
         void CheckRange();
 
         void Draw(SpriteBatch spriteBatch);
+
+        bool ReturnStatus();
+
+
     }
 }

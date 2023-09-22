@@ -29,9 +29,9 @@ namespace sprint2
 
 
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
-
+            return null;
 
         }
         public void Stop()
@@ -40,7 +40,7 @@ namespace sprint2
             GelSprite = new GelSprite(texture, spriteBatch);
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
 
             count++;
@@ -54,6 +54,8 @@ namespace sprint2
 
             GelSprite.Update(gametime, curdir);
             count = count % 16;
+
+            return null;
 
 
         }

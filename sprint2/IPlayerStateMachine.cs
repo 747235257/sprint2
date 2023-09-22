@@ -5,30 +5,32 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-public interface IPlayerStateMachine
+namespace sprint2
 {
+    public interface IPlayerStateMachine
+    {
 
-    public void drawCurrentSprite();
-    public void setIdle();
-    public void moveLeft();
-
-
-    public void moveRight();
-
-
-    public void moveDown();
+        public void drawCurrentSprite();
+        public void setIdle();
+        public void moveLeft();
 
 
-    public void moveUp();
-    public void updateAttack();
-    public void updateItem();
+        public void moveRight();
 
-    public bool InAttack();
-    public bool InItem();
 
-    public Vector2 attack();
+        public void moveDown();
 
-    public int useItem();
-    public void setDamaged();
 
+        public void moveUp();
+        public void updateAttack();
+        public void updateItem();
+
+        public bool InAttack();
+        public bool InItem();
+
+        public Vector2 attack();
+
+        public IProjectile useItem(string itemName);
+        public void setDamaged();
+    }
 }

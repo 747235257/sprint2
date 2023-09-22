@@ -38,7 +38,7 @@ namespace sprint2
             
             
         }
-        public void Update(GameTime gametime, int curdir)
+        public Rectangle Update(GameTime gametime, int curdir)
         {
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
            if(timer >0.1)
@@ -86,6 +86,8 @@ namespace sprint2
                 upDownflip = !upDownflip;
                 
             }
+
+           return destination;
             
             
         }

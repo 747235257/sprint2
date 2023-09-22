@@ -7,8 +7,11 @@ using System.Numerics;
 
 public class KeyboardCont : IController
 {
-    public KeyboardCont()
+
+    private Game1 game;
+    public KeyboardCont(Game1 game)
     {
+        this.game = game;
     }
 
     public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player)
@@ -34,17 +37,25 @@ public class KeyboardCont : IController
         HandleNoPlayerInput(kstate, player);
     }
     //return projectile class
-    public int HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+    public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
     {
         var kstate = Keyboard.GetState();
-
-        if (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3))
+        IProjectile proj = null;
+        if (kstate.IsKeyDown(Keys.D1))
         {
-            player.useItem();
+            proj = player.useItem("Nunchuks");
+        }
+        else if(kstate.IsKeyDown(Keys.D2))
+        {
+            proj = player.useItem("Goriya");
+        } 
+        else if (kstate.IsKeyDown(Keys.D3))
+        {
+            proj = player.useItem("Dragon");
         }
 
         HandleNoPlayerInput(kstate, player);
-        return 0;
+        return proj;
     }
 
     public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player)
@@ -92,9 +103,21 @@ public class KeyboardCont : IController
         {
             player.setIdle();
         }
+    }
 
+    public void HandleSwitchEnemy(int currentNPC)
+    {
+        KeyboardState kstate = Keyboard.GetState();
+        if (kstate.IsKeyDown(Keys.O))
+        {
+            currentNPC = (currentNPC + 1) % 6;
+            game.currentNPC = currentNPC;
+        }
+        else if (kstate.IsKeyDown(Keys.P))
+        {
+            currentNPC = (currentNPC + 5) % 6;
 
-
-
+            game.currentNPC = currentNPC;
+        }
     }
 }

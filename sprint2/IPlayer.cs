@@ -27,7 +27,7 @@ namespace sprint2
 
         public Vector2 attack();
 
-        public int useItem();
+        public IProjectile useItem(string itemName);
         public void Draw();
     }
 }

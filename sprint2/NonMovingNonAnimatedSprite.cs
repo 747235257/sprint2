@@ -18,7 +18,7 @@ public class NonMovingNonAnimatedSprite : ISprite
         this.pos = location;
     }
 
-    public void Update(GraphicsDeviceManager _graphics)
+    public void Update()
     {
         //to satisfy interface
     }
