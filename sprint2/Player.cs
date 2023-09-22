@@ -6,45 +6,71 @@ using System.Collections.Generic;
 
 namespace sprint2
 {
+
     public class Player : IPlayer
     {
-        private Vector2 currPos;
-        private ISprite currWalk;
-        List<ISprite> walkSprites;
-        int rows = 1;
-        int cols = 10;
-
-        public  Player(Vector2 startPos)
+        IPlayerStateMachine playerState;
+        Game game;
+        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
-            currPos = startPos;
-            walkSprites = new List<ISprite>();
+            this.game = game;
+            playerState = new PlayerStateMachine(game, graphics, spriteBatch);
         }
 
-        public void LoadSprite(Texture2D TrightWalk, Texture2D TleftWalk, Texture2D TupWalk, Texture2D TdownWalk, Texture2D TinitialStand)
+        public void setIdle()
         {
-            walkSprites.Add(new NonMoveAnimatedSprite(TrightWalk, rows, cols, currPos));
-            walkSprites.Add(new NonMoveAnimatedSprite(TleftWalk, rows, cols, currPos));
-            walkSprites.Add(new NonMoveAnimatedSprite(TdownWalk, rows, cols, currPos));
-            walkSprites.Add(new NonMoveAnimatedSprite(TupWalk, rows, cols, currPos));
-
-            currWalk = walkSprites[0];
+            playerState.setIdle();
+        }
+        public void moveLeft()
+        {
+            playerState.moveLeft();
+        }
+        public void moveRight()
+        {
+            playerState.moveRight();
+        }
+        public void moveUp()
+        {
+            playerState.moveUp();
+        }
+        public void moveDown()
+        {
+            playerState.moveDown();
         }
 
-        public void move(Vector2 adj, GraphicsDeviceManager graphics)
+        public Vector2 attack()
         {
-            currPos.X += adj.X;
-            currPos.Y += adj.Y;
-            currWalk.Update(graphics);
+            Vector2 range = playerState.attack();
+            //playerState.drawCurrentSprite();
+            //playerState.setIdle();
+
+            return range;
+        }
+        public void setDamaged()
+        {
+            playerState.setDamaged();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void updateAttack()
         {
-            currWalk.Draw(spriteBatch, currPos);
-        } 
-
-        public void setDirection(int dirCode)
-        {
-            currWalk = walkSprites[dirCode];
+            playerState.updateAttack();
         }
+
+        public void updateItem()
+        {
+            playerState.updateItem();
+        }
+        //returns PROJECTILE used
+        public int useItem()
+        {
+            playerState.useItem();
+            //playerState.drawCurrentSprite();
+            return 0;//return projectile
+        }
+        public void Draw()
+        {
+            playerState.drawCurrentSprite();
+        }
+
     }
 }

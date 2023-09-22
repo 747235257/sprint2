@@ -2,63 +2,85 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sprint2;
+using System;
 
 public class KeyboardCont : IController
 {
-
-    enum KeyboardBinds
+    public KeyboardCont()
     {
-        W = 3, A = 1, S = 2, D = 0
-    }
-    private Game1 game;
-    private int currentNPC;
-    KeyboardBinds _lastBind = KeyboardBinds.W;
-    public KeyboardCont(Game1 game, int currentNPC)
-    {
-        this.game = game;
-        this.currentNPC = currentNPC;
     }
 
-    public void Handle(GraphicsDeviceManager _graphics, IPlayer player)
+    public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player)
     {
         var kstate = Keyboard.GetState();
-        const int dist = 4;
+        Vector2 range = new Vector2(0, 0);
+        if (kstate.IsKeyDown(Keys.N) || kstate.IsKeyDown(Keys.Z))
+        {
+            range = player.attack();
+        }
+        HandleNoPlayerInput(kstate, player);
+        return range;
+    }
 
+    public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player)
+    {
+        var kstate = Keyboard.GetState();
+
+        if (kstate.IsKeyDown(Keys.E))
+        {
+            player.setDamaged();
+        }
+        HandleNoPlayerInput(kstate, player);
+    }
+    //return projectile class
+    public int HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+    {
+        var kstate = Keyboard.GetState();
+
+        if (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3))
+        {
+            player.useItem();
+        }
+
+        HandleNoPlayerInput(kstate, player);
+        return 0;
+    }
+
+    public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player)
+    {
+        KeyboardState kstate = Keyboard.GetState();
         if (kstate.IsKeyDown(Keys.W) || kstate.IsKeyDown(Keys.Up))
         {
-            if (_lastBind != KeyboardBinds.W) player.setDirection((int)KeyboardBinds.W);
-            player.move(new Vector2(0, -dist), _graphics);
-            _lastBind = KeyboardBinds.W;
+            player.moveUp();
         }
-        if (kstate.IsKeyDown(Keys.A) || kstate.IsKeyDown(Keys.Left))
+        else if (kstate.IsKeyDown(Keys.A) || kstate.IsKeyDown(Keys.Left))
         {
-            if (_lastBind != KeyboardBinds.A) player.setDirection((int)KeyboardBinds.A);
-            player.move(new Vector2(-dist, 0), _graphics);
-            _lastBind = KeyboardBinds.A;
+            player.moveLeft();
         }
-        if (kstate.IsKeyDown(Keys.S) || kstate.IsKeyDown(Keys.Down))
+        else if (kstate.IsKeyDown(Keys.S) || kstate.IsKeyDown(Keys.Down))
         {
-            if (_lastBind != KeyboardBinds.S) player.setDirection((int)KeyboardBinds.S);
-            player.move(new Vector2(0, dist), _graphics);
-            _lastBind = KeyboardBinds.S;
+            player.moveDown();
         }
-        if (kstate.IsKeyDown(Keys.D) || kstate.IsKeyDown(Keys.Right))
+        else if (kstate.IsKeyDown(Keys.D) || kstate.IsKeyDown(Keys.Right))
         {
-            if (_lastBind != KeyboardBinds.D) player.setDirection((int)KeyboardBinds.D);
-            player.move(new Vector2(dist, 0), _graphics);
-            _lastBind = KeyboardBinds.D;
+            player.moveRight();
         }
-        if(kstate.IsKeyDown(Keys.O))
+
+        HandleNoPlayerInput(kstate, player);
+
+    }
+
+    public void HandleNoPlayerInput(KeyboardState kstate, IPlayer player)
+    {
+        if (kstate.IsKeyUp(Keys.W) && kstate.IsKeyUp(Keys.Up) && kstate.IsKeyUp(Keys.A) && kstate.IsKeyUp(Keys.Left) && kstate.IsKeyUp(Keys.S)
+            && kstate.IsKeyUp(Keys.Down) && kstate.IsKeyUp(Keys.D) && kstate.IsKeyUp(Keys.Right) && kstate.IsKeyUp(Keys.N) && kstate.IsKeyUp(Keys.Z)
+            && kstate.IsKeyUp(Keys.E) && kstate.IsKeyUp(Keys.D1) && kstate.IsKeyUp(Keys.D2) && kstate.IsKeyUp(Keys.D3))
         {
-            currentNPC = (currentNPC + 1) % 6;
-            game.currentNPC = currentNPC;
+            player.setIdle();
         }
-        else if (kstate.IsKeyDown(Keys.P))
-        {
-            currentNPC = (currentNPC + 5) % 6;
-            
-            game.currentNPC = currentNPC;
-        }
+
+
+
 
     }
 }
