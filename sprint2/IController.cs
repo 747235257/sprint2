@@ -9,4 +9,5 @@ public interface IController
     public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player);
     public int HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player);
     public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player);
+    public void HandleItem(GraphicsDeviceManager _graphics, IItem item);
 }

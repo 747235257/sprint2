@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections;
-using System.ComponentModel;
 
 namespace sprint2
 {
@@ -12,7 +11,7 @@ namespace sprint2
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        
+
 
         private INPC Dragon;
         private INPC Skull;
@@ -27,9 +26,11 @@ namespace sprint2
         Texture2D Enemies;
         Texture2D Bosses;
         Texture2D NPCs;
+        Texture2D ItemSprite;
 
         private IPlayer player;
         private IController keyboard;
+        private IItem item;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -41,9 +42,10 @@ namespace sprint2
         {
             // TODO: Add your initialization logic here
             player = new Player(new Vector2(50, 50));
-            NPCList= new ArrayList();
+            NPCList = new ArrayList();
             //loads kb and mouse support
             keyboard = new KeyboardCont(this, currentNPC);
+            item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
             base.Initialize();
         }
 
@@ -51,7 +53,7 @@ namespace sprint2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
+
             Texture2D TRightWalk = Content.Load<Texture2D>("RightWalk");
             Texture2D TLeftWalk = Content.Load<Texture2D>("LeftWalk");
             Texture2D TUpWalk = Content.Load<Texture2D>("UpWalk");
@@ -60,15 +62,16 @@ namespace sprint2
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
+            ItemSprite = Content.Load<Texture2D>("Sheet");
 
             //Create NPCs
-            
+
             CreateNPCs();
-            
-            
+
+
             player.LoadSprite(TRightWalk, TLeftWalk, TUpWalk, TDownWalk, TInitialStand);
 
-            
+
 
         }
 
@@ -76,15 +79,15 @@ namespace sprint2
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D0) || Mouse.GetState().RightButton != 0)
                 Exit();
-            
+
             keyboard.Handle(_graphics, player);
-            
+
             cur = (INPC)NPCList[currentNPC];
             cur.Execute(gameTime);
             Dragon.Execute(gameTime);
 
             base.Update(gameTime);
-            
+
         }
 
         protected override void Draw(GameTime gameTime)
@@ -98,15 +101,17 @@ namespace sprint2
             player.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            
+            item.ItemProcess(_spriteBatch, new Vector2(1, 1));
+
+
             cur.Draw();
             base.Draw(gameTime);
         }
-        
+
         private void CreateNPCs()
         {
             Skull = new Skull(Enemies, _spriteBatch);
-            OldMan = new OldMan(NPCs, _spriteBatch); 
+            OldMan = new OldMan(NPCs, _spriteBatch);
             Goriya = new Goriya(Enemies, _spriteBatch);
             Gel = new Gel(Enemies, _spriteBatch);
             Bat = new Bat(Enemies, _spriteBatch);
@@ -118,7 +123,7 @@ namespace sprint2
             NPCList.Add(Gel);
             NPCList.Add(Bat);
             NPCList.Add(Dragon);
-            
+
         }
     }
 }
