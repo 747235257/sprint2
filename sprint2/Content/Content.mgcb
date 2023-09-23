@@ -364,7 +364,7 @@
 #begin projectile.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=116,116,116,255
+/processorParam:ColorKeyColor=117,117,117,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True

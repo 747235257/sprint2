@@ -23,7 +23,6 @@ namespace sprint2
             Direction = initialDirection;
             currentRange = 0;
             isActive = true;
-
             LoadProjectile(Content, name);
         }
 
@@ -44,16 +43,11 @@ namespace sprint2
             else if (name == "Dragon")
             {
                 Texture = Content.Load<Texture2D>("projectile");
-                currSprite = new NonMoveAnimatedSprite(Texture, 1, 6, Position);
+                currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
                 range = 100;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;
 
-            }
-
-            else if (name == "Goriya")
-            {
-                Texture = Content.Load<Texture2D>("banana");
             }
 
             else if (name == "Goriya")
@@ -88,10 +82,6 @@ namespace sprint2
             {
                 if (isActive)
                 {
-
-
-                    currSprite.Draw(spriteBatch, Position);
-
 
 
                     currSprite.Draw(spriteBatch, Position);
