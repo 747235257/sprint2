@@ -304,7 +304,7 @@ public class PlayerStateMachine : IPlayerStateMachine
 
     public  IProjectile useItem(string itemName)
     {
-        IProjectile proj = null;
+        //IProjectile proj = null;
         if (!InAttack() && !InItem())
         {
             Vector2 dir = new Vector2(0, 0);
@@ -314,7 +314,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
-                
+                return new Projectile(currPos, itemName, game.Content, dir);
+
             }
             else if (state == State.IDLE_UP)
             {
@@ -322,6 +323,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
+                return new Projectile(currPos, itemName, game.Content, dir);
             }
             else if (state == State.IDLE_LEFT)
             {
@@ -329,6 +331,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
+                return new Projectile(currPos, itemName, game.Content, dir);
             }
             else if (state == State.IDLE_RIGHT)
             {
@@ -336,13 +339,14 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
+                return new Projectile(currPos, itemName, game.Content, dir);
             }
 
-            proj = new Projectile(currPos, itemName, game.Content, dir);
+            //proj = new Projectile(currPos, itemName, game.Content, dir);
 
 
         }
-        return proj;
+        return null;
 
     }
 
