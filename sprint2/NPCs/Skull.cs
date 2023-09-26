@@ -22,7 +22,7 @@ namespace sprint2
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
-            SkullSprite = new BatSprite(this.texture, this.spriteBatch);
+            SkullSprite = new SkullSprite(this.texture, this.spriteBatch);
             count = 0;
             curdir = 0;
         }

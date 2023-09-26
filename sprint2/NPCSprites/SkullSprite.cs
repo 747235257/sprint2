@@ -16,11 +16,12 @@ namespace sprint2
         private const int width = 16;
         private const int height = 16;
         public Rectangle source;
-        public Rectangle destination = new Rectangle(200, 200, 32, 32);
+        public Rectangle destination;
         private SpriteBatch spriteBatch;
         private SpriteEffects spriteEffects;
         private enum dir { idle = 0,up = 1, down =2, left = 3, right =4}
         private bool flip;
+        private int count;
 
         public SkullSprite(Texture2D texture, SpriteBatch spriteBatch) 
         {
@@ -29,35 +30,42 @@ namespace sprint2
             spriteEffects = SpriteEffects.FlipHorizontally;
             source = new Rectangle(1, 59, width, height);
             flip= false;
-        }
+            destination = new Rectangle(200, 200, 32, 32);
+            count = 0;
+            
+    }
         public Rectangle Update(GameTime gameTime, int curdir)
         {
             
             
-            
+                count++;
                 switch(curdir)
                 {
                     case (int)dir.idle:
                         break;
                     case(int)dir.up:
-                        destination.Y -= 8;
+                        destination.Y -= 2;
                         break;
                     case (int)dir.down:
-                        destination.Y+= 8;
+                        destination.Y+= 2;
                         break;
                     case (int)dir.left:
-                        destination.X-= 8;
+                        destination.X-= 2;
                         break;
                     case(int)dir.right:
-                        destination.X+= 8;
+                        destination.X+= 2;
                         break;
                     default:
                         break;
 
                 }
-                flip = !flip;
+                if(count== 3)
+                {
+                 flip = !flip;
+                }
+                count %= 4;
              
-            return destination;
+                return destination;
             
             
 

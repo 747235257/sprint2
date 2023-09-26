@@ -14,7 +14,7 @@ namespace sprint2
         private const int width = 24;
         private const int height = 32;
         public Rectangle source;
-        public Rectangle destination = new Rectangle(200, 200, 48, 64);
+        public Rectangle destination;
         private SpriteBatch spriteBatch;
         
         private int frameCol;
@@ -29,6 +29,7 @@ namespace sprint2
             source = new Rectangle(1, 11, width, height);
             timer = 0;
             frameCol = 0;
+            destination = new Rectangle(200, 200, 48, 64);
         }
         public Rectangle Update(GameTime gameTime,int curdir)
         {

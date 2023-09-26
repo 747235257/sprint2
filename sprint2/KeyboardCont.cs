@@ -110,12 +110,14 @@ public class KeyboardCont : IController
         KeyboardState kstate = Keyboard.GetState();
         if (kstate.IsKeyDown(Keys.O))
         {
+            game.cur.Stop();
             currentNPC = (currentNPC + 1) % 6;
             game.currentNPC = currentNPC;
             return true;
         }
         else if (kstate.IsKeyDown(Keys.P))
         {
+            game.cur.Stop();
             currentNPC = (currentNPC + 5) % 6;
 
             game.currentNPC = currentNPC;

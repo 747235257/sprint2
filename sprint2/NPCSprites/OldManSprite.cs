@@ -15,13 +15,14 @@ namespace sprint2
         private const int width = 16;
         private const int height = 16;
         public Rectangle source;
-        public Rectangle destination = new Rectangle(200, 200, 32, 32);
+        public Rectangle destination;
         private SpriteBatch spriteBatch;
         public OldManSprite(Texture2D texture, SpriteBatch spriteBatch)
         {
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             source = new Rectangle(1, 11, width, height);
+            destination = new Rectangle(200, 200, 32, 32);
         }
         public Rectangle Update(GameTime gametime, int curdir)
         {

@@ -26,7 +26,7 @@ namespace sprint2
         private INPC Goriya;
         private INPC Gel;
         private INPC Bat;
-        private INPC cur;
+        public INPC cur;
         private ArrayList NPCList;
         public int currentNPC { get; set; }
 
