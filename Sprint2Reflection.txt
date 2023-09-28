@@ -1,0 +1,18 @@
+Sprint 2 Reflection (DZNT)
+
+Below are reflections from each member:
+
+1) Haikal: Overall, I think the team had to overcome a huge hurdle in figuring out how github worked as well as how to mesh together separately-worked-on components into one whole project. The team was able to
+implement the separate classes they were assigned in a timely manner. However, uploading them to github without major issues took longer. We were able to understand the workflow with github and we hope future 
+sprints are smoother. Our process was to work on classes separately, meet up in person, then figure out how to mesh them all. In the future, I think the team should meet up more often to more easily connect
+components.
+
+2)Akmal:
+
+3)Beal:
+
+4)Dengchen:
+
+5)Nathan:
+
+6)Kyrie;
