@@ -33,7 +33,7 @@ namespace sprint2
             if (name == "Nunchuks")
             {
                 Texture = Content.Load<Texture2D>("Nunchuks");
-                currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
+                currSprite = new NonMoveAnimatedSprite(Texture, 1, 6, Position);
                 range = 50;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;

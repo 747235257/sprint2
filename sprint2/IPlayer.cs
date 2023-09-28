@@ -20,14 +20,14 @@ namespace sprint2
 
         public void moveUp();
 
-        public void updateAttack();
+        public void updateAttack(); //To lock player in attack anim.
 
-        public void updateItem();
+        public void updateItem();//To lock player in item anim.
         public void setDamaged();
 
-        public Vector2 attack();
+        public Vector2 attack(); //returns attack hitbox range
 
-        public IProjectile useItem(string itemName);
+        public IProjectile useItem(string itemName); //returns the projectile shot
         public void Draw();
     }
 }

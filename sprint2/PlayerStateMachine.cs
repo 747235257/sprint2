@@ -17,8 +17,34 @@ public class PlayerStateMachine : IPlayerStateMachine
         ATTACK_DOWN, ATTACK_UP, ATTACK_LEFT, ATTACK_RIGHT,
         MOVE_DOWN, MOVE_UP, MOVE_LEFT, MOVE_RIGHT,
         ITEM_DOWN, ITEM_UP, ITEM_LEFT, ITEM_RIGHT,
-        DAMAGED_DOWN, DAMAGED_UP, DAMAGED_LEFT, DAMAGED_RIGHT 
+        DAMAGED_DOWN, DAMAGED_UP, DAMAGED_LEFT, DAMAGED_RIGHT
     }
+
+    private enum DirNums //differentiates directions in arrays
+    {
+        DOWN = 0, UP = 1, LEFT = 2, RIGHT = 3
+    }
+
+    private enum TextureDims //dimensions of textures
+    {
+        IDLE_R = 1, IDLE_C = 1,
+        ATTACK_R = 1, ATTACK_C = 3,
+        WALK_R = 1, WALK_C = 4,
+        DAMAGED_R = 1, DAMAGED_C = 1,
+        ITEM_R = 1, ITEM_C = 1,
+
+    }
+
+    private enum PosNums
+    {
+        START_X = 50, START_Y = 50, MOV_RANGE = 4
+    }
+
+    private enum MaxFrames
+    {
+        MAX_ATTACK = 25, MAX_ITEM = 25
+    }
+
     State state;
     private Vector2 currPos;
     private List<ISprite> walkSprites;
@@ -42,30 +68,30 @@ public class PlayerStateMachine : IPlayerStateMachine
         damagedSprites = new List<ISprite>();
         walkSprites = new List<ISprite>();  
         //idle sprites
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleDown"), 1, 1, this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleUp"), 1, 1, this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft"), 1, 1, this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight"), 1, 1, this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleDown"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleUp"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
         //attack sprites
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown"), 1, 3, this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp"), 1, 3, this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft"), 1, 3, this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight"), 1, 3, this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
         //walkSprites
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveDown"), 1, 4, this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveUp"), 1, 4, this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveLeft"), 1, 4, this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveRight"), 1, 4, this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveDown"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveUp"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveLeft"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveRight"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         //damagedSprites
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), 1, 1, this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), 1, 1, this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedLeft"), 1, 1, this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedRight"), 1, 1, this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedLeft"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedRight"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
         //itemSprites
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemDown"), 1, 1, this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemUp"), 1, 1, this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemLeft"), 1, 1, this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemRight"), 1, 1, this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemDown"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemUp"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemLeft"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemRight"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
     }
 
     public void drawCurrentSprite()
@@ -84,10 +110,10 @@ public class PlayerStateMachine : IPlayerStateMachine
         this.attackCounter = 0;
         this.itemCounter = 0;
 
-        currPos = new Vector2(50, 50); //initial pos
+        currPos = new Vector2((int)PosNums.START_X, (int)PosNums.START_Y); //initial pos
         LoadContent(game);
         state = State.IDLE_DOWN; //initial state
-        currSprite = idleSprites[0]; //initial current sprite
+        currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite
     }
 
     public bool InAttack()
@@ -108,41 +134,42 @@ public class PlayerStateMachine : IPlayerStateMachine
 
         if (!InAttack() && !InItem())
         {
+            //idle sprite is set depending on last dir
             if (state == State.MOVE_DOWN || state == State.ATTACK_DOWN || state == State.ITEM_DOWN || state == State.DAMAGED_DOWN)
             {
-                currSprite = idleSprites[0];
+                currSprite = idleSprites[(int)DirNums.DOWN];
                 state = State.IDLE_DOWN;
             }
             else if (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.DAMAGED_UP)
             {
-                currSprite = idleSprites[1];
+                currSprite = idleSprites[(int)DirNums.UP];
                 state = State.IDLE_UP;
             }
             else if (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.DAMAGED_RIGHT)
             {
-                currSprite = idleSprites[3];
+                currSprite = idleSprites[(int)DirNums.RIGHT];
                 state = State.IDLE_RIGHT;
             }
             else if (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.DAMAGED_LEFT)
             {
-                currSprite = idleSprites[2];
+                currSprite = idleSprites[(int)DirNums.LEFT];
                 state = State.IDLE_LEFT;
             }
         }
     }
-    public void moveLeft()
+    public void moveLeft() //reset the currsprite frame
     {
-
+        //if it's already moving left, animate. If not, restart left walking animation - same for other moves
         if (!InAttack() && !InItem())
         {
-            currPos.X -= 4; //updates the position
+            currPos.X -= (int)PosNums.MOV_RANGE; //updates the position
             if (state == State.MOVE_LEFT) //if alr left, updates animation
             {
                 currSprite.Update();
             }
             else //else gets left walk cycle
             {
-                currSprite = walkSprites[2];
+                currSprite = walkSprites[(int)DirNums.LEFT];
             }
 
             state = State.MOVE_LEFT;
@@ -153,14 +180,14 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InAttack() && !InItem())
         {
-            currPos.X += 4; //updates the position
+            currPos.X += (int)PosNums.MOV_RANGE; //updates the position
             if (state == State.MOVE_RIGHT) //if alr left, updates animation
             {
                 currSprite.Update();
             }
             else //else gets left walk cycle
             {
-                currSprite = walkSprites[3];
+                currSprite = walkSprites[(int)DirNums.RIGHT];
             }
 
             state = State.MOVE_RIGHT;
@@ -171,14 +198,14 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InAttack() && !InItem())
         {
-            currPos.Y += 4; //updates the position
+            currPos.Y += (int)PosNums.MOV_RANGE; //updates the position
             if (state == State.MOVE_DOWN) //if alr left, updates animation
             {
                 currSprite.Update();
             }
             else //else gets left walk cycle
             {
-                currSprite = walkSprites[0];
+                currSprite = walkSprites[(int)DirNums.DOWN];
             }
 
             state = State.MOVE_DOWN;
@@ -189,14 +216,14 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InAttack() && !InItem())
         {
-            currPos.Y -= 4; //updates the position
+            currPos.Y -= (int)PosNums.MOV_RANGE; //updates the position
             if (state == State.MOVE_UP) //if alr left, updates animation
             {
                 currSprite.Update();
             }
             else//else gets left walk cycle
             {
-                currSprite = walkSprites[1];
+                currSprite = walkSprites[(int)DirNums.UP];
             }
 
             state = State.MOVE_UP;
@@ -205,66 +232,61 @@ public class PlayerStateMachine : IPlayerStateMachine
 
     public void setDamaged()
     {
-
+        //damaged direction depends on last direction
         if (state == State.MOVE_DOWN || state == State.ATTACK_DOWN || state == State.ITEM_DOWN || state == State.IDLE_DOWN)
         {
-            currSprite = damagedSprites[0];
+            currSprite = damagedSprites[(int)DirNums.DOWN];
             state = State.DAMAGED_DOWN;
         }
         else if (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.IDLE_UP)
         {
-            currSprite = damagedSprites[1];
+            currSprite = damagedSprites[(int)DirNums.UP];
             state = State.DAMAGED_UP;
         }
         else if (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.IDLE_RIGHT)
         {
-            currSprite = damagedSprites[3];
+            currSprite = damagedSprites[(int)DirNums.RIGHT];
             state = State.DAMAGED_RIGHT;
         }
         else if (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.IDLE_LEFT)
         {
-            currSprite = damagedSprites[2];
+            currSprite = damagedSprites[(int)DirNums.LEFT];
             state = State.DAMAGED_LEFT;
         }
     }
 
     public Vector2 attack()
     {
-        Vector2 rangeAttack = currPos;
-
-        ////if not an idle state, returns an unusable range
-        //if(state != State.IDLE_DOWN && state != State.IDLE_UP && state != State.IDLE_LEFT && state != State.IDLE_RIGHT)
-        //{
-        //    return new Vector2(0, 0);
-        //}
+        Vector2 rangeAttack = currPos; //hitbox range
 
         if (!InAttack() && !InItem())
         {
+            //direction sprite and direction of attack hitbox depends on last dir.
             if (state == State.IDLE_DOWN)
             {
                 rangeAttack.Y += 1;
-                currSprite = attackSprites[0];
+                currSprite = attackSprites[(int)DirNums.DOWN];
                 state = State.ATTACK_DOWN;
                 attackCounter = 1;
             }
             else if (state == State.IDLE_UP)
             {
                 rangeAttack.Y -= 1;
-                currSprite = attackSprites[1];
+                currSprite = attackSprites[(int)DirNums.UP];
                 state = State.ATTACK_UP;
                 attackCounter = 1;
             }
             else if (state == State.IDLE_LEFT)
             {
                 rangeAttack.X -= 1;
-                currSprite = attackSprites[2];
+                currSprite = attackSprites[(int)DirNums.LEFT];
                 state = State.ATTACK_LEFT;
                 attackCounter = 1;
             }
             else if (state == State.IDLE_RIGHT)
             {
                 rangeAttack.X += 1;
-                currSprite = attackSprites[3];
+                currSprite = attackSprites[(int)DirNums.RIGHT];
                 state = State.ATTACK_RIGHT;
                 attackCounter = 1;
             }
@@ -277,12 +299,13 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void updateAttack()
     {
 
+        //locks player in attack anim.
         if (attackCounter > 0)
         {
             attackCounter++;
             currSprite.Update();
         }
-        if(attackCounter > 25)
+        if(attackCounter > (int)MaxFrames.MAX_ATTACK)
         {
             attackCounter = 0;
             setIdle();
@@ -292,9 +315,9 @@ public class PlayerStateMachine : IPlayerStateMachine
 
     public void updateItem()
     {
-
+        //locks player in item animation
         if (itemCounter > 0) itemCounter++;
-        if (itemCounter > 25)
+        if (itemCounter > (int)MaxFrames.MAX_ITEM)
         {
             itemCounter = 0;
             setIdle();
@@ -307,10 +330,11 @@ public class PlayerStateMachine : IPlayerStateMachine
         //IProjectile proj = null;
         if (!InAttack() && !InItem())
         {
+            //direction of item depends on last dir
             Vector2 dir = new Vector2(0, 0);
             if (state == State.IDLE_DOWN)
             {
-                currSprite = itemSprites[0];
+                currSprite = itemSprites[(int)DirNums.DOWN];
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
@@ -319,7 +343,7 @@ public class PlayerStateMachine : IPlayerStateMachine
             }
             else if (state == State.IDLE_UP)
             {
-                currSprite = itemSprites[1];
+                currSprite = itemSprites[(int)DirNums.UP];
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
@@ -327,7 +351,7 @@ public class PlayerStateMachine : IPlayerStateMachine
             }
             else if (state == State.IDLE_LEFT)
             {
-                currSprite = itemSprites[2];
+                currSprite = itemSprites[(int)DirNums.LEFT];
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
@@ -335,7 +359,7 @@ public class PlayerStateMachine : IPlayerStateMachine
             }
             else if (state == State.IDLE_RIGHT)
             {
-                currSprite = itemSprites[3];
+                currSprite = itemSprites[(int)DirNums.RIGHT];
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
