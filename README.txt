@@ -11,4 +11,5 @@ To fix/bugs/smells:
 1) Walk animation doesn't reset in PLAYER
 2) Make multiple different projectile classes, not just one PROJECTILE
 3) Remove magic numbers in ALL CLASSES
+4) Comments
 
