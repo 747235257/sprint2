@@ -12,4 +12,5 @@ To fix/bugs/smells:
 2) Make multiple different projectile classes, not just one PROJECTILE
 3) Remove magic numbers in ALL CLASSES
 4) Comments
+5) Switching for BLOCKS and ITEMS is too fast.
 
