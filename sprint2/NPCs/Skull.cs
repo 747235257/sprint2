@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 
 namespace sprint2
 {
@@ -21,7 +22,7 @@ namespace sprint2
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
-            SkullSprite = new BatSprite(this.texture, this.spriteBatch);
+            SkullSprite = new SkullSprite(this.texture, this.spriteBatch);
             count = 0;
             curdir = 0;
         }
@@ -30,9 +31,9 @@ namespace sprint2
 
 
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
-
+            return null;
 
         }
         public void Stop()
@@ -42,7 +43,7 @@ namespace sprint2
             curdir = 0;
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
 
             count++;
@@ -57,13 +58,14 @@ namespace sprint2
             SkullSprite.Update(gametime, curdir);
             count = count % 16;
 
-
+            return null;
         }
         public void Draw()
         {
             SkullSprite.Draw();
         }
 
+        
     }
 }
 

@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using System;
+
 
 namespace sprint2
 {
@@ -21,71 +23,89 @@ namespace sprint2
             Direction = initialDirection;
             currentRange = 0;
             isActive = true;
-            LoadProjectile(Content, name);      
+            LoadProjectile(Content, name);
         }
 
-        public void LoadProjectile(ContentManager Content, string name) {
-            
+        public void LoadProjectile(ContentManager Content, string name)
+        {
+
+
             if (name == "Nunchuks")
             {
                 Texture = Content.Load<Texture2D>("Nunchuks");
-                currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
+                currSprite = new NonMoveAnimatedSprite(Texture, 1, 6, Position);
                 range = 50;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;
 
             }
-            
+
             else if (name == "Dragon")
             {
                 Texture = Content.Load<Texture2D>("projectile");
-                currSprite = new NonMoveAnimatedSprite(Texture, 1, 6, Position);
+                currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
                 range = 100;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;
 
             }
-            else if(name == "Goriya")
-            {   
-                Texture = Content.Load<Texture2D>("banana");
+
+            else if (name == "Goriya")
+            {
+                Texture = Content.Load<Texture2D>("Banana");
+
                 currSprite = new NonMoveAnimatedSprite(Texture, 1, 4, Position);
                 range = 150;
                 Velocity.X = Direction.X * 250;
                 Velocity.Y = Direction.Y * 250;
 
             }
-                  
 
-        }
+
+            }
+        
 
         public void UpdatePosition(GameTime gameTime)
-        {
+            {
             if (isActive)
-            {
-                Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                currentRange++;
-                currSprite.Update();
-            }
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (isActive)
-            {
-               
-                currSprite.Draw(spriteBatch, Position);
-                
-            }
-        }
+                {
+                    Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    currentRange++;
+                    currSprite.Update();
 
-        public void CheckRange()
-        {
-            if (currentRange > range)
-            {
-                isActive = false;
-                //DeadAnimation();
-            }
-        }
+                    CheckRange();
 
+                }
+            }
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                if (isActive)
+                {
+
+
+                    currSprite.Draw(spriteBatch, Position);
+
+
+                }
+            }
+
+            public void CheckRange()
+            {
+                if (currentRange > range)
+                {
+                    isActive = false;
+                    //DeadAnimation();
+                }
+            }
+
+            public bool ReturnStatus()
+            {
+                return isActive;
+            }
+
+
+        }
     }
-}
+
+

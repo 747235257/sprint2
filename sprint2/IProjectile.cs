@@ -6,12 +6,19 @@ namespace sprint2
 {
     public interface IProjectile
     {
-        void UpdatePosition(GameTime gameTime);
+        public void UpdatePosition(GameTime gameTime);
 
-        void LoadProjectile(ContentManager content, string name);
+        public void LoadProjectile(ContentManager content, string name);
 
-        void CheckRange();
+        public void CheckRange();
 
-        void Draw(SpriteBatch spriteBatch);
+        public void Draw(SpriteBatch spriteBatch);
+
+
+
+        public bool ReturnStatus();
+
+
+
     }
 }

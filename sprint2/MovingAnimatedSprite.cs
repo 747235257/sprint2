@@ -26,7 +26,7 @@ public class MovingAnimatedSprite : ISprite
         pos = location;
     }
 
-    public void Update(GraphicsDeviceManager _graphics)
+    public void Update()
     {
 
         //frame updates every five updates
@@ -41,8 +41,8 @@ public class MovingAnimatedSprite : ISprite
 
         this.pos.X += 3;
         //resets position of sprite when it moves too far
-        if (this.pos.X > _graphics.PreferredBackBufferWidth)
-            this.pos.X = 1;
+        //if (this.pos.X > _graphics.PreferredBackBufferWidth)
+        //    this.pos.X = 1;
     }
 
     public void Draw(SpriteBatch spriteBatch, Vector2 loc)

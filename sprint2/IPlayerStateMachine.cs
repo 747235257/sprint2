@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.ComponentModel;
+using Microsoft.Xna.Framework;
 
 namespace sprint2
 {
-    public interface IPlayer
+    public interface IPlayerStateMachine
     {
 
+        public void drawCurrentSprite();
         public void setIdle();
         public void moveLeft();
 
@@ -28,6 +31,12 @@ namespace sprint2
         public Vector2 attack(); //returns attack hitbox range
 
         public IProjectile useItem(string itemName); //returns the projectile shot
-        public void Draw();
+        public bool InAttack();
+        public bool InItem();
+
+
+
+
+
     }
 }

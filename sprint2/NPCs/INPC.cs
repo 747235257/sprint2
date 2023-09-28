@@ -13,10 +13,10 @@ namespace sprint2
         
         
 
-        public void Attack();
+        public List<IProjectile> Attack();
         public void Stop();
 
-        public void Execute(GameTime gametime);
+        public List<IProjectile> Execute(GameTime gametime);
         public void Draw();
     }
 }

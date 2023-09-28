@@ -15,7 +15,7 @@ namespace sprint2
         private const int width = 8;
         private const int height = 16;
         public Rectangle source;
-        public Rectangle destination = new Rectangle(200, 200, 16, 32);
+        public Rectangle destination;
         private SpriteBatch spriteBatch;
         private int frameCol;
         private enum dir { idle = 0, up = 1, down = 2, left = 3, right = 4 }
@@ -28,8 +28,9 @@ namespace sprint2
             source = new Rectangle(1, 11, width, height);
             timer = 0;
             frameCol= 0;
+            destination = new Rectangle(200, 200, 16, 32);
         }
-        public void Update(GameTime gameTime, int curdir)
+        public Rectangle Update(GameTime gameTime, int curdir)
         {
             
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -61,6 +62,8 @@ namespace sprint2
                 frameCol %= 2;
                 
             }
+
+            return destination;
 
 
 

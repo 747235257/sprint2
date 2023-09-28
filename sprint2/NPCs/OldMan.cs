@@ -25,9 +25,9 @@ namespace sprint2
 
 
 
-        public void Attack()
+        public List<IProjectile> Attack()
         {
-
+            return null;
 
         }
         public void Stop()
@@ -36,12 +36,13 @@ namespace sprint2
             OldManSprite = new OldManSprite(texture, spriteBatch);
         }
 
-        public void Execute(GameTime gametime)
+        public List<IProjectile> Execute(GameTime gametime)
         {
 
            
 
             OldManSprite.Update(gametime, 0);
+            return null;
             
 
 
