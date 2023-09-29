@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace sprint2
 {
@@ -21,10 +19,13 @@ namespace sprint2
         private bool attack;
         private Rectangle destination;
         private Game1 game;
+        private string Name;
+        private ProjectileFactory factory = new ProjectileCreator();   
         public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
+            this.Name = "Goriya";
             GoriyaSprite = new GoriyaSprite(this.texture, this.spriteBatch);
             count = 0;
             duration = 0;
@@ -59,7 +60,8 @@ namespace sprint2
                     break;
 
             }
-            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Goriya", game.Content, dir));
+            
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, dir));
             return projectiles;
 
         }

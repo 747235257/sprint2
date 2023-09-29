@@ -43,7 +43,7 @@ public class KeyboardCont : IController
         IProjectile proj = null;
         if (kstate.IsKeyDown(Keys.D1))
         {
-            proj = player.useItem("Nunchuks");
+            proj = player.useItem("Nunchucks");
         }
         else if(kstate.IsKeyDown(Keys.D2))
         {

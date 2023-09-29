@@ -58,6 +58,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     private SpriteBatch spriteBatch;
     private int attackCounter;
     private int itemCounter;
+    private ProjectileFactory factory = new ProjectileCreator();
 
     private void LoadContent(Game game)
     {
@@ -338,7 +339,19 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                //if (itemName == "Nunchucks")
+                //{
+                //    return new Nunchucks(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Goriya")
+                //{
+                //    return new Banana(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Dragon")
+                //{
+                //    return new DragonProjectile(currPos, game.Content, dir);
+                //}
+                return (factory.GetProjectile(itemName, currPos, game.Content, dir));
 
             }
             else if (state == State.IDLE_UP)
@@ -347,7 +360,20 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                //if (itemName == "Nunchucks")
+                //{
+                //    return new Nunchucks(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Goriya")
+                //{
+                //    return new Banana(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Dragon")
+                //{
+                //    return new DragonProjectile(currPos, game.Content, dir);
+                //}
+                return (factory.GetProjectile(itemName, currPos, game.Content, dir));
+
             }
             else if (state == State.IDLE_LEFT)
             {
@@ -355,7 +381,19 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                //if (itemName == "Nunchucks")
+                //{
+                //    return new Nunchucks(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Goriya")
+                //{
+                //    return new Banana(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Dragon")
+                //{
+                //    return new DragonProjectile(currPos, game.Content, dir);
+                //}
+                return (factory.GetProjectile(itemName, currPos, game.Content, dir));
             }
             else if (state == State.IDLE_RIGHT)
             {
@@ -363,10 +401,22 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                //if (itemName == "Nunchucks")
+                //{
+                //    return new Nunchucks(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Goriya")
+                //{
+                //    return new Banana(currPos, game.Content, dir);
+                //}
+                //else if (itemName == "Dragon")
+                //{
+                //    return new DragonProjectile(currPos, game.Content, dir);
+                //}
+                return (factory.GetProjectile(itemName, currPos, game.Content, dir));
             }
 
-            //proj = new Projectile(currPos, itemName, game.Content, dir);
+            //proj = new Projectile(currPos, game.Content, dir);
 
 
         }

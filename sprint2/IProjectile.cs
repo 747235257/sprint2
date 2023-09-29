@@ -8,13 +8,9 @@ namespace sprint2
     {
         public void UpdatePosition(GameTime gameTime);
 
-        public void LoadProjectile(ContentManager content, string name);
-
-        public void CheckRange();
-
         public void Draw(SpriteBatch spriteBatch);
 
-
+        public void CheckRange();
 
         public bool ReturnStatus();
 

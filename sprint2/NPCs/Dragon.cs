@@ -20,6 +20,9 @@ namespace sprint2
         private bool attack;
         private Rectangle destination;
         private Game1 game;
+        private ProjectileFactory factory = new ProjectileCreator();
+        private readonly Vector2 DIAGONAL_DOWNLEFT = new Vector2(-1, 1), LEFT = new Vector2(-1, 0), DIAGONAL_UPLEFT = new Vector2(-1, -1);
+        private string Name;
         public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
@@ -29,6 +32,7 @@ namespace sprint2
             duration = 0;
             attack = false;
             this.game = game;
+            this.Name = "Dragon";
         }
         
         
@@ -38,9 +42,11 @@ namespace sprint2
         public List<IProjectile> Attack()
         {
             List<IProjectile> projectiles = new List<IProjectile>();
-            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 1)));
-            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 0)));
-            projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, -1)));
+            
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_DOWNLEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, LEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_UPLEFT));
+
 
             return projectiles;
 
