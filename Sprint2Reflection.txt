@@ -14,7 +14,7 @@ Working alongside Dengchen and Haikal while making projectiles for enemies and p
 
 3)Beal: I love how this group communicates with each other and makes sure that our work is synchronized and up to date. Everyone knows what they are doing and most of them finished their parts early, making fixing the bugs and errors easy. We bonded well with each other and I am looking forward to working for the next sprints. We might have some trouble using GitHub but we figured it out at last and got everything done.
 
-4)Dengchen:
+4)Dengchen: We spent a lot time on how to deal with the github pulling, pushing and so on, but finally we get uesd to it. It is really nice to work with these energetic people. We always first work individually and then meet together in person to do the finishing touches, which is very efficient. We still have some functions for our game to change after we viewing the result of our work so far, but we are very confidence that we can make it. Let's go DZNT!!!!!!!!!!!!!!!!!!!!
 
 5)Nathan: I think every one on this team is great. They all are smart guys who know how to socialize and communicate when we need help with anything. Everyone is willing to help anyone with a question or struggle 
 and it feels we are all working well together because of this. We all struggled with github for the most part I believe and everything else has been at least good or ok.
