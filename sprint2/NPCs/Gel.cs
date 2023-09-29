@@ -26,9 +26,6 @@ namespace sprint2
         }
 
 
-
-
-
         public List<IProjectile> Attack()
         {
             return null;
@@ -36,6 +33,7 @@ namespace sprint2
         }
         public void Stop()
         {
+            //Reset the npc
             count = 0;
             GelSprite = new GelSprite(texture, spriteBatch);
         }
@@ -45,7 +43,7 @@ namespace sprint2
 
             count++;
             
-            if (count % 16 == 0)
+            if (count % 16 == 0)//Interval of a diraction generator.
             {
                 curdir = rnd.Next(0, 5);
                 
@@ -53,7 +51,7 @@ namespace sprint2
             }
 
             GelSprite.Update(gametime, curdir);
-            count = count % 16;
+            count = count % 16;//Reset the count to prevent unnecessary storage usage.
 
             return null;
 

@@ -28,7 +28,6 @@ namespace sprint2
             GoriyaSprite = new GoriyaSprite(this.texture, this.spriteBatch);
             count = 0;
             duration = 0;
-            
             attack = false;
             this.game = game;
         }
@@ -65,6 +64,7 @@ namespace sprint2
         }
         public void Stop()
         {
+            //Reset the npc.
             count = 0;
             duration = 0;
             GoriyaSprite = new GoriyaSprite(texture, spriteBatch);
@@ -82,7 +82,7 @@ namespace sprint2
                     projectiles = Attack();
                     duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                 }
-                else if (duration > 2)
+                else if (duration > 2)//The cool down duration for an attack is 2 seconds.
                 {
                     duration = 0;
                     attack = false;
@@ -93,7 +93,7 @@ namespace sprint2
                     return projectiles;
                 }
             }
-            if (count % 16 == 0)
+            if (count % 16 == 0)//Interval of a diraction generator.
             {
                 curdir = rnd.Next(0, 5);
                 if (curdir == 0)
@@ -109,7 +109,7 @@ namespace sprint2
             }
 
             destination = GoriyaSprite.Update(gametime, curdir);
-            count = count % 16;
+            count = count % 16;//Reset the count to prevent unnecessary storage usage.
             return projectiles;
 
 

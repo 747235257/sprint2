@@ -28,8 +28,8 @@ namespace sprint2
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             spriteEffects = SpriteEffects.FlipHorizontally;
-            source = new Rectangle(1, 59, width, height);
-            flip= false;
+            source = new Rectangle(1, 59, width, height);//The origin sprite frame.
+            flip = false;
             destination = new Rectangle(200, 200, 32, 32);
             count = 0;
             
@@ -44,8 +44,8 @@ namespace sprint2
                     case (int)dir.idle:
                         break;
                     case(int)dir.up:
-                        destination.Y -= 2;
-                        break;
+                        destination.Y -= 2;//Speed is 2;
+                    break;
                     case (int)dir.down:
                         destination.Y+= 2;
                         break;
@@ -59,11 +59,11 @@ namespace sprint2
                         break;
 
                 }
-                if(count== 3)
+                if(count== 4)//Flip cool down.
                 {
                  flip = !flip;
                 }
-                count %= 4;
+                count %= 4;//Avoid too much use of storage.
              
                 return destination;
             
@@ -73,7 +73,7 @@ namespace sprint2
         public void Draw() {
 
             spriteBatch.Begin();
-            if (!flip)
+            if (!flip)//Draw flip.
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
             }

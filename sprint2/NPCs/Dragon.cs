@@ -37,6 +37,7 @@ namespace sprint2
 
         public List<IProjectile> Attack()
         {
+            //The dragon gonna fire 3 fireballs.
             List<IProjectile> projectiles = new List<IProjectile>();
             projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 1)));
             projectiles.Add(new Projectile(new Vector2(destination.X, destination.Y), "Dragon", game.Content, new Vector2(-1, 0)));
@@ -49,6 +50,7 @@ namespace sprint2
         }
         public void Stop()
         {
+            //Reset the npc.
             count = 0;
             duration = 0;
             DragonSprite = new DragonSprite(texture, spriteBatch);
@@ -66,7 +68,7 @@ namespace sprint2
                     projectiles = Attack();
                     duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                 }
-                else if (duration > 2)
+                else if (duration > 2)//The cool down duration for an attack is 2 seconds.
                 {
                     duration = 0;
                     attack = false;
@@ -77,7 +79,7 @@ namespace sprint2
                 }
                 
             }
-            if (count % 16 == 0)
+            if (count % 16 == 0)//Interval of a diraction generator.
             {
                 curdir = rnd.Next(0, 3);
                 if(curdir == 0)
@@ -88,7 +90,7 @@ namespace sprint2
             } 
             
             destination = DragonSprite.Update(gametime, curdir);
-            count = count % 16;
+            count = count % 16;//Reset the count to prevent unnecessary storage usage.
             return projectiles;
             
             
