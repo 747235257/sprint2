@@ -111,7 +111,7 @@ public class KeyboardCont : IController
         if (kstate.IsKeyDown(Keys.O))
         {
             game.cur.Stop();
-            currentNPC = (currentNPC + 1) % 6;
+            currentNPC = (currentNPC + 1) % 6;//6 is the total types of enemies.
             game.currentNPC = currentNPC;
             return true;
         }

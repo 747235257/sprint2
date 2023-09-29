@@ -30,8 +30,8 @@ namespace sprint2
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             spriteEffects = SpriteEffects.FlipHorizontally;
-            source = new Rectangle(222, 11, width, height);
-            upDownflip= false;
+            source = new Rectangle(222, 11, width, height);//The origin sprite frame.
+            upDownflip = false;
             speed = 2;
             timer = 0;
             frameCol = 0;
@@ -42,11 +42,12 @@ namespace sprint2
         public Rectangle Update(GameTime gametime, int curdir)
         {
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
-           if(timer >0.1)
+           if(timer >0.1)//The cd of position update is 0.1 second.
             {
                 timer= 0;
                 switch (curdir)
                 {
+                    //Change the position and frame positions.
                     case (int)dir.idle:
                         if(source.X == 256||source.X == 273)
                         {
@@ -96,21 +97,23 @@ namespace sprint2
         public void Draw()
         {
             spriteBatch.Begin();
-            if ((source.X == 256 || source.X == 273) && leftRightflip)
+            //Draw different sprites.
+            
+            if ((source.X == 256 || source.X == 273) && leftRightflip)//Left
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
             }
-            else if((source.X == 256 || source.X == 273) && !leftRightflip)
+            else if((source.X == 256 || source.X == 273) && !leftRightflip)//Right
             {
                 spriteBatch.Draw(texture, destination, source, Color.White);
             }
             else if (upDownflip)
             {
-                spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
+                spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);//Up or down flip.
             }
             else
             {
-                spriteBatch.Draw(texture, destination, source, Color.White);
+                spriteBatch.Draw(texture, destination, source, Color.White);// Up or down.
             }
 
             spriteBatch.End();

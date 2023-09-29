@@ -26,7 +26,7 @@ namespace sprint2
         {
             this.texture = texture;
             this.spriteBatch = spriteBatch;
-            source = new Rectangle(1, 11, width, height);
+            source = new Rectangle(1, 11, width, height);//The origin sprite frame.
             timer = 0;
             frameCol = 0;
             destination = new Rectangle(200, 200, 48, 64);
@@ -35,7 +35,7 @@ namespace sprint2
         {
             
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-             if (timer > 0.1)
+             if (timer > 0.1)//The cd of position update is 0.1 second.
             {
                 timer = 0;
                 frameCol += 1;
@@ -45,7 +45,7 @@ namespace sprint2
                         break;
                     
                     case (int)dir.left:
-                        destination.X -= 2;
+                        destination.X -= 2;//Speed is 2;
                         break;
                     case (int)dir.right:
                         destination.X += 2;
@@ -54,8 +54,8 @@ namespace sprint2
                         break;
 
                 }
-                source.X = 1 + 25 * (frameCol % 4);
-                frameCol %= 4;
+                source.X = 1 + 25 * (frameCol % 4);//Change the sprite source position in a spritesheet.
+                frameCol %= 4;//Total frame number is 4.
 
             }
             return destination;

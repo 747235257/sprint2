@@ -109,7 +109,7 @@ namespace sprint2
 
          
             ItemSprite = Content.Load<Texture2D>("Sheet");
-            item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
+            item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
 
             //Create NPCs
 
@@ -119,10 +119,14 @@ namespace sprint2
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D0) || Mouse.GetState().RightButton != 0)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                this.Initialize();
+            }
 
-            
+
             keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
@@ -186,8 +190,8 @@ namespace sprint2
 
             block.drawBlock(_spriteBatch);
 
-            player.Draw();
             drawAllProjectiles();
+            player.Draw();
 
             _spriteBatch.End();
 

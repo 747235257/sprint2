@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace sprint2
 {
@@ -34,7 +35,7 @@ namespace sprint2
         {
             
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-             if (timer > 0.1)
+             if (timer > 0.1)//The cd of position update is 0.1 second.
             {
                 timer = 0;
                 frameCol += 1;
@@ -43,7 +44,7 @@ namespace sprint2
                     case (int)dir.idle:
                         break;
                     case (int)dir.up:
-                        destination.Y -= 2;
+                        destination.Y -= 2;//Speed is 2;
                         break;
                     case (int)dir.down:
                         destination.Y += 2;
@@ -58,9 +59,9 @@ namespace sprint2
                         break;
 
                 }
-                source.X = 1 + 9 * (frameCol % 2);
-                frameCol %= 2;
-                
+                source.X = 1 + 9 * (frameCol % 2);//Change the sprite source position in a spritesheet.
+                frameCol %= 2;//Total frame number is 2.
+
             }
 
             return destination;
