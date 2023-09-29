@@ -31,12 +31,6 @@ namespace sprint2
         public Vector2 attack(); //returns attack hitbox range
 
         public IProjectile useItem(string itemName); //returns the projectile shot
-        public bool InAttack();
-        public bool InItem();
-
-
-
-
-
+       
     }
 }

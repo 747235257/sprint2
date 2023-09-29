@@ -116,12 +116,12 @@ public class PlayerStateMachine : IPlayerStateMachine
         currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite
     }
 
-    public bool InAttack()
+    private bool InAttack()
     {
         return attackCounter > 0;
     }
 
-    public bool InItem()
+    private bool InItem()
     {
         return itemCounter > 0;
     }
@@ -129,28 +129,47 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         return (state == State.IDLE_DOWN || state == State.IDLE_UP || state == State.IDLE_DOWN || state == State.IDLE_DOWN);
     }
+
+    private bool isDown()
+    {
+        return (state == State.MOVE_DOWN || state == State.ATTACK_DOWN || state == State.ITEM_DOWN || state == State.DAMAGED_DOWN);
+    }
+
+    private bool isUp()
+    {
+        return (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.DAMAGED_UP);
+    }
+
+    private bool isRight()
+    {
+        return (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.DAMAGED_RIGHT);
+    }
+    private bool isLeft()
+    {
+        return (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.DAMAGED_LEFT);
+    }
     public void setIdle()
     {
 
         if (!InAttack() && !InItem())
         {
             //idle sprite is set depending on last dir
-            if (state == State.MOVE_DOWN || state == State.ATTACK_DOWN || state == State.ITEM_DOWN || state == State.DAMAGED_DOWN)
+            if (isDown())
             {
                 currSprite = idleSprites[(int)DirNums.DOWN];
                 state = State.IDLE_DOWN;
             }
-            else if (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.DAMAGED_UP)
+            else if (isUp())
             {
                 currSprite = idleSprites[(int)DirNums.UP];
                 state = State.IDLE_UP;
             }
-            else if (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.DAMAGED_RIGHT)
+            else if (isRight())
             {
                 currSprite = idleSprites[(int)DirNums.RIGHT];
                 state = State.IDLE_RIGHT;
             }
-            else if (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.DAMAGED_LEFT)
+            else if (isLeft())
             {
                 currSprite = idleSprites[(int)DirNums.LEFT];
                 state = State.IDLE_LEFT;
@@ -233,22 +252,22 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void setDamaged()
     {
         //damaged direction depends on last direction
-        if (state == State.MOVE_DOWN || state == State.ATTACK_DOWN || state == State.ITEM_DOWN || state == State.IDLE_DOWN)
+        if (isDown())
         {
             currSprite = damagedSprites[(int)DirNums.DOWN];
             state = State.DAMAGED_DOWN;
         }
-        else if (state == State.MOVE_UP || state == State.ATTACK_UP || state == State.ITEM_UP || state == State.IDLE_UP)
+        else if (isUp())
         {
             currSprite = damagedSprites[(int)DirNums.UP];
             state = State.DAMAGED_UP;
         }
-        else if (state == State.MOVE_RIGHT || state == State.ATTACK_RIGHT || state == State.ITEM_RIGHT || state == State.IDLE_RIGHT)
+        else if (isRight())
         {
             currSprite = damagedSprites[(int)DirNums.RIGHT];
             state = State.DAMAGED_RIGHT;
         }
-        else if (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.IDLE_LEFT)
+        else if (isLeft())
         {
             currSprite = damagedSprites[(int)DirNums.LEFT];
             state = State.DAMAGED_LEFT;
@@ -332,7 +351,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         {
             //direction of item depends on last dir
             Vector2 dir = new Vector2(0, 0);
-            if (state == State.IDLE_DOWN)
+            if (state == State.IDLE_DOWN )
             {
                 currSprite = itemSprites[(int)DirNums.DOWN];
                 state = State.ITEM_DOWN;
