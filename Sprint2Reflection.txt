@@ -19,4 +19,4 @@ Working alongside Dengchen and Haikal while making projectiles for enemies and p
 5)Nathan: I think every one on this team is great. They all are smart guys who know how to socialize and communicate when we need help with anything. Everyone is willing to help anyone with a question or struggle 
 and it feels we are all working well together because of this. We all struggled with github for the most part I believe and everything else has been at least good or ok.
 
-6)Kyrie;
+6)Kyrie; Great team chemistry and they all cooperate really well. The only problem is no one have experience on using github so there's problem on merging all the code together. They had done pretty good works on the code and project overall and we communicate really well on what should be done next. The thing that we should look to imporve more is to have a better understanding on using github as there were several confusion caused by terms like merge,rebase etc. 
