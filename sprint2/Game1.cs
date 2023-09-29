@@ -119,10 +119,14 @@ namespace sprint2
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.D0) || Mouse.GetState().RightButton != 0)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                this.Initialize();
+            }
 
-            
+
             keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
