@@ -8,7 +8,7 @@ namespace sprint2
     public class DragonProjectile : Projectile
     {
         //constants
-        private readonly float time = 250;
+        private readonly Vector2 velocity =  new Vector2(250, 250); //the projectile will travel 250 pixels per sec
         private readonly int rangeValue = 100;
         private readonly int row = 1;
         private readonly int column = 4;
@@ -23,8 +23,8 @@ namespace sprint2
             isActive = true;
             Texture = Content.Load<Texture2D>("projectile");
             currSprite = new NonMoveAnimatedSprite(Texture, row, column, Position);
-            Velocity.X = Direction.X * time;
-            Velocity.Y = Direction.Y * time;
+            Velocity.X = Direction.X * velocity.X;
+            Velocity.Y = Direction.Y * velocity.Y;
             range = rangeValue;
         }
 
