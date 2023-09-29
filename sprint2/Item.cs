@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace sprint2
 {
+
     public class Item : IItem
     {
         public Texture2D Texture { get; set; }
@@ -15,7 +16,8 @@ namespace sprint2
         public int Columns { get; set; }
         private int currentFrame;
         private int totalFrames;
-        private int updateCounter = 0;
+        private int updateCounter;
+        private const int updateMax = 5;
         private Vector2 pos;
 
         public Item(Texture2D texture, int rows, int columns, Vector2 location)
@@ -28,18 +30,40 @@ namespace sprint2
             pos = location;
         }
 
+        private bool updateCheck() //updates the updateCounter and resets as needed
+        {
+            bool result = updateCounter < updateMax;
+            updateCounter++;
+
+            if(updateCounter > updateMax)
+            {
+                updateCounter = 0;
+            }
+            return !result;
+        }
         public void CurrentItemPlus()
         {
-            if (currentFrame < totalFrames)
+            if (updateCheck()) //only switches after a time
             {
-                currentFrame++;
+                if (currentFrame < totalFrames)
+                {
+                    currentFrame++;
+                }
+                else
+                {
+                    currentFrame = 0;
+                }
             }
         }
         public void CurrentItemMinus()
         {
-            if(currentFrame != 0)
+            if (updateCheck())
             {
-                currentFrame--;
+                if (currentFrame != 0)
+                {
+                    currentFrame--;
+                }
+                else { currentFrame = totalFrames; }
             }
         }
 
