@@ -4,13 +4,12 @@ Authors: Haikal Bin Rozaidi, Akmal Hasrudin, Beal Norazilan, Kyrie Iswandy, Deng
 
 Program: 2D top down zelda-like game.
 
-Description: Currently, the program supports the player class, the enemy class, projectiles, blocks and items. The player is controlled through keyboard input and switching enemies/blocks/items are also handled through
-the keyboard
+Description: Currently, the program supports the player class, the enemy class, projectiles, blocks and items. The player is controlled through keyboard input and switching enemies/blocks/items are also handled through the keyboard
 
 To fix/bugs/smells: 
-1) Walk animation doesn't reset in PLAYER
-2) Make multiple different projectile classes, not just one PROJECTILE
-3) Remove magic numbers in ALL CLASSES
-4) Comments
-5) Switching for BLOCKS and ITEMS is too fast.
+1) Walk animation doesn't reset in PLAYER 
+2) Make multiple different projectile classes, not just one PROJECTILE (DONE)
+3) Remove magic numbers in ALL CLASSES (DONE)
+4) Comments (INSYAALLAH)
+5) Switching for BLOCKS and ITEMS is too fast. (DONE)
 
