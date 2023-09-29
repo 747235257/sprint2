@@ -109,7 +109,7 @@ namespace sprint2
 
          
             ItemSprite = Content.Load<Texture2D>("Sheet");
-            item = new Item(ItemSprite, 9, 8, new Vector2(300, 200));
+            item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
 
             //Create NPCs
 
@@ -190,8 +190,8 @@ namespace sprint2
 
             block.drawBlock(_spriteBatch);
 
-            player.Draw();
             drawAllProjectiles();
+            player.Draw();
 
             _spriteBatch.End();
 

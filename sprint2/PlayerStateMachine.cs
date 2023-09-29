@@ -45,6 +45,11 @@ public class PlayerStateMachine : IPlayerStateMachine
         MAX_ATTACK = 25, MAX_ITEM = 25
     }
 
+    private enum PlayerTextureDims
+    {
+        WIDTH = 87, HEIGHT = 99
+    }
+
     State state;
     private Vector2 currPos;
     private List<ISprite> walkSprites;
@@ -346,18 +351,22 @@ public class PlayerStateMachine : IPlayerStateMachine
 
     public  IProjectile useItem(string itemName)
     {
-        //IProjectile proj = null;
+        
         if (!InAttack() && !InItem())
         {
             //direction of item depends on last dir
             Vector2 dir = new Vector2(0, 0);
-            if (state == State.IDLE_DOWN )
+            Vector2 shootPos = currPos;
+            shootPos.X += (float)PlayerTextureDims.WIDTH / 3;
+            shootPos.Y += (float)PlayerTextureDims.HEIGHT / 3;
+
+            if (state == State.IDLE_DOWN)
             {
                 currSprite = itemSprites[(int)DirNums.DOWN];
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                return new Projectile(shootPos, itemName, game.Content, dir);
 
             }
             else if (state == State.IDLE_UP)
@@ -366,7 +375,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                return new Projectile(shootPos, itemName, game.Content, dir);
             }
             else if (state == State.IDLE_LEFT)
             {
@@ -374,7 +383,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                return new Projectile(shootPos, itemName, game.Content, dir);
             }
             else if (state == State.IDLE_RIGHT)
             {
@@ -382,11 +391,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
-                return new Projectile(currPos, itemName, game.Content, dir);
+                return new Projectile(shootPos, itemName, game.Content, dir);
             }
-
-            //proj = new Projectile(currPos, itemName, game.Content, dir);
-
 
         }
         return null;
