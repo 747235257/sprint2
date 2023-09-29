@@ -7,9 +7,12 @@ implement the separate classes they were assigned in a timely manner. However, u
 sprints are smoother. Our process was to work on classes separately, meet up in person, then figure out how to mesh them all. In the future, I think the team should meet up more often to more easily connect
 components.
 
-2)Akmal:
+2)Akmal: It was very confusing for us to use GitHub at first. A lot of problems occurred while trying to push the branch. 
+However, we got it done eventually. My groupmates definitely helped me a lot by giving feedback, ideas, and solutions to 
+an issue I was facing. I love how we held a group every Friday evening to finalize everything before submitting the work. 
+Working alongside Dengchen and Haikal while making projectiles for enemies and players is like a smooth sail for me. I am able to synchronize accordingly with them.
 
-3)Beal: I love how this group communicate with each other and make sure that our work is synchronized and up to date. Everyone knows what they are doing and most of them finished their parts early, making it easy to fix the bugs and errors. We bonded well with each other and I am looking forward to working for the next sprints. We might have some trouble using GitHub but we figured it out at last and get everything done.
+3)Beal: I love how this group communicates with each other and makes sure that our work is synchronized and up to date. Everyone knows what they are doing and most of them finished their parts early, making fixing the bugs and errors easy. We bonded well with each other and I am looking forward to working for the next sprints. We might have some trouble using GitHub but we figured it out at last and got everything done.
 
 4)Dengchen:
 
