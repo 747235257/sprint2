@@ -1,4 +1,4 @@
-README FOR SPRINT 2 (DZNT)
+README FOR SPRINT 2 (DZNT) - Sept 22 to Sept 29
 
 Authors: Haikal Bin Rozaidi, Akmal Hasrudin, Beal Norazilan, Kyrie Iswandy, Dengchen Mei, Nathan Sprott.
 
