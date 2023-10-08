@@ -60,4 +60,9 @@ public class MovingAnimatedSprite : ISprite
 
     }
 
+    public void DrawHitbox(SpriteBatch spriteBatch, Vector2 loc, Rectangle hitbox)
+    {
+        spriteBatch.Draw(Texture, hitbox, Color.AliceBlue);
+    }
+
 }

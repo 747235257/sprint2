@@ -41,9 +41,6 @@ namespace sprint2
         public Vector2 attack()
         {
             Vector2 range = playerState.attack();
-            //playerState.drawCurrentSprite();
-            //playerState.setIdle();
-
             return range;
         }
         public void setDamaged()
@@ -64,7 +61,6 @@ namespace sprint2
         public IProjectile useItem(string itemName)
         {
             return playerState.useItem(itemName);
-            //playerState.drawCurrentSprite();
 
         }
         public void Draw()
