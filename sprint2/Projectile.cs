@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Security.Cryptography;
 
 
 namespace sprint2
@@ -14,7 +15,10 @@ namespace sprint2
         protected bool isActive;
         protected int range, currentRange;
         protected ISprite currSprite;
-
+        protected ISprite hitboxSprite;
+        protected Rectangle hitbox;
+        protected Texture2D hitboxTexture;
+        
         //base constructor for projectile
         public Projectile(Vector2 position, ContentManager Content, Vector2 initialDirection) // pass game
         {
@@ -23,8 +27,8 @@ namespace sprint2
             currentRange = 0;
             isActive = true;
         }
-
         
+
         public void UpdatePosition(GameTime gameTime)
         {
             //only updates position if the current projectile is active
@@ -32,6 +36,8 @@ namespace sprint2
             {
                 Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                hitbox.X += (int)(Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                hitbox.Y += (int)(Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);
                 currentRange++;
                 currSprite.Update();
                 CheckRange();
@@ -45,12 +51,14 @@ namespace sprint2
         {
             if (isActive)
             {
-
-
+                drawHitbox(spriteBatch,new Vector2(hitbox.X, hitbox.Y), hitbox);
                 currSprite.Draw(spriteBatch, Position);
-
-
             }
+        }
+
+        public void drawHitbox(SpriteBatch spriteBatch, Vector2 loc, Rectangle hitbox)
+        {
+            hitboxSprite.DrawHitbox(spriteBatch, loc, hitbox);
         }
 
         //check the current range of projectile if exceeds the maximum range
@@ -66,6 +74,11 @@ namespace sprint2
         public bool ReturnStatus()
         {
             return isActive;
+        }
+
+        public Rectangle getHitbox()
+        { 
+            return hitbox; 
         }
 
     }

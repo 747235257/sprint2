@@ -14,6 +14,10 @@ namespace sprint2
 
         public bool ReturnStatus();
 
+        public void drawHitbox(SpriteBatch spriteBatch, Vector2 loc, Rectangle hitbox);
+
+        public Rectangle getHitbox();
+
 
 
     }
