@@ -42,7 +42,6 @@ namespace sprint2
         Texture2D ItemSprite;
 
         private IPlayer player;
-        private IBlock block;
         private IController keyboard;
 
 
@@ -52,9 +51,12 @@ namespace sprint2
 
         private List<IProjectile> playerProjectiles;
         private List<IProjectile> enemyProjectiles;
+        private List<IBlock> blocks;
 
 
         private IItem item;
+
+        private CollisionHandler collision;
 
 
         public Game1()
@@ -73,12 +75,13 @@ namespace sprint2
 
 
 
-
+            collision = new CollisionHandler();
             NPCList= new ArrayList();
             //loads kb and mouse support
             keyboard = new KeyboardCont(this);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
+            blocks = new List<IBlock>();
 
             // TODO: Add your initialization logic here
             NPCList = new ArrayList();
@@ -101,7 +104,7 @@ namespace sprint2
             NPCs = Content.Load<Texture2D>("NPCs");
 
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
-            block = new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this);
+            blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
 
             CreateNPCs();
@@ -132,8 +135,7 @@ namespace sprint2
             Vector2 range = keyboard.HandleAttack(_graphics, player);
             keyboard.HandleDamaged(_graphics, player);
 
-            player.updateAttack();
-            player.updateItem();
+            player.updatePlayer();
 
             removePlayerProjectileList();
             //projectile return by keyboard is added to the list
@@ -159,11 +161,6 @@ namespace sprint2
             
             
 
-            
-            block = keyboard.blockHandle(_graphics, Blocks, blockRow, blockCol, initPosition, block);
-
-            
-
             removeEnemyProjectileList();
 
 
@@ -173,6 +170,10 @@ namespace sprint2
 
             addEnemyProjectileList(projectiles);
             updateEnemyProjectileList(gameTime);
+
+            collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
+            collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
+            collision.HandlePlayerBlockCollision(player, blocks);
 
 
             base.Update(gameTime);
@@ -188,8 +189,7 @@ namespace sprint2
             //TUTORIAL
             _spriteBatch.Begin();
 
-            block.drawBlock();
-
+            drawAllBlocks();
             drawAllProjectiles();
             player.Draw();
 
@@ -230,6 +230,14 @@ namespace sprint2
             foreach (IProjectile projectile in playerProjectiles)
             {
                 if(projectile != null) projectile.Draw(_spriteBatch);
+            }
+        }
+
+        private void drawAllBlocks()
+        {
+            foreach (IBlock block in blocks)
+            {
+                if (block != null) block.drawBlock();
             }
         }
         private void addEnemyProjectileList(List<IProjectile> projectiles)

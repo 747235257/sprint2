@@ -71,6 +71,10 @@ namespace sprint2
             }
         }
 
+        public void setToInactive()
+        {
+            isActive = false;
+        }
         public bool ReturnStatus()
         {
             return isActive;
