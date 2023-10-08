@@ -20,7 +20,8 @@ namespace sprint2
         private Rectangle destination;
         private Game1 game;
         private string Name;
-        private ProjectileFactory factory = new ProjectileCreator();   
+        private ProjectileFactory factory = new ProjectileCreator();
+
         public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
