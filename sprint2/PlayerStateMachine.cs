@@ -50,8 +50,16 @@ public class PlayerStateMachine : IPlayerStateMachine
         WIDTH = 87, HEIGHT = 99
     }
 
+    //COLLISION SPRINT3
+    private enum HitboxDims
+    {
+        WIDTH = 45, HEIGHT = 40, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
+    }
+
     State state;
     private Vector2 currPos;
+    private Rectangle hitbox; //COLLISION SPRINT3
+    private ISprite hitboxSprite; //COLLISION SPRINT3
     private List<ISprite> walkSprites;
     private List<ISprite> idleSprites;
     private List<ISprite> attackSprites;
@@ -98,14 +106,31 @@ public class PlayerStateMachine : IPlayerStateMachine
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemUp"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemLeft"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemRight"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+
+        //COLLISION SPRINT3
+        hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
     }
 
     public void drawCurrentSprite()
     {
-        //spriteBatch.Begin();
+        //spriteBatch.Begin
+        drawHitbox(); //COLLISION SPRINT3
         currSprite.Draw(spriteBatch, currPos); //draws current sprite
         //spriteBatch.End();
     }
+
+    //COLLISION SPRINT3
+    public void drawHitbox()
+    {
+        hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+    }
+
+    //COLLISION SPRINT3
+    public Rectangle getHitbox()
+    {
+        return hitbox;
+    }
+
     public PlayerStateMachine(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
 	{
         //graphics and game are set
@@ -117,6 +142,8 @@ public class PlayerStateMachine : IPlayerStateMachine
         this.itemCounter = 0;
 
         currPos = new Vector2((int)PosNums.START_X, (int)PosNums.START_Y); //initial pos
+        //COLLISION SPRINT3
+        hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
         LoadContent(game);
         state = State.IDLE_DOWN; //initial state
         currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite
@@ -188,6 +215,8 @@ public class PlayerStateMachine : IPlayerStateMachine
         if (!InAttack() && !InItem())
         {
             currPos.X -= (int)PosNums.MOV_RANGE; //updates the position
+            //COLLISION SPRINT3
+            hitbox.X -= (int)PosNums.MOV_RANGE; //updates the hitbox
             if (state == State.MOVE_LEFT) //if alr left, updates animation
             {
                 currSprite.Update();
@@ -206,6 +235,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         if (!InAttack() && !InItem())
         {
             currPos.X += (int)PosNums.MOV_RANGE; //updates the position
+            hitbox.X += (int)PosNums.MOV_RANGE; //updates the hitbox
             if (state == State.MOVE_RIGHT) //if alr left, updates animation
             {
                 currSprite.Update();
@@ -224,6 +254,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         if (!InAttack() && !InItem())
         {
             currPos.Y += (int)PosNums.MOV_RANGE; //updates the position
+            hitbox.Y += (int)PosNums.MOV_RANGE; //updates the hitbox
             if (state == State.MOVE_DOWN) //if alr left, updates animation
             {
                 currSprite.Update();
@@ -242,6 +273,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         if (!InAttack() && !InItem())
         {
             currPos.Y -= (int)PosNums.MOV_RANGE; //updates the position
+            hitbox.Y -= (int)PosNums.MOV_RANGE; //updates the hitbox
             if (state == State.MOVE_UP) //if alr left, updates animation
             {
                 currSprite.Update();

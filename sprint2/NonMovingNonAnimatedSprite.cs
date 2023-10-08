@@ -31,4 +31,9 @@ public class NonMovingNonAnimatedSprite : ISprite
         spriteBatch.Draw(texture, loc, Color.White);
 
     }
+
+    public void DrawHitbox(SpriteBatch spriteBatch, Vector2 loc, Rectangle hitbox)
+    {
+        spriteBatch.Draw(texture, hitbox, Color.AliceBlue);
+    }
 }
