@@ -53,7 +53,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     //COLLISION SPRINT3
     private enum HitboxDims
     {
-        WIDTH = 45, HEIGHT = 40, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
+        WIDTH = 45, HEIGHT = 45, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
     }
 
     State state;

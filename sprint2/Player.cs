@@ -43,6 +43,11 @@ namespace sprint2
             Vector2 range = playerState.attack();
             return range;
         }
+
+        public Rectangle getHitbox()
+        {
+            return playerState.getHitbox();
+        }
         public void setDamaged()
         {
             playerState.setDamaged();

@@ -101,7 +101,7 @@ namespace sprint2
             NPCs = Content.Load<Texture2D>("NPCs");
 
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
-            block = new Block(Blocks, blockRow, blockCol, initPosition);
+            block = new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this);
             //Create NPCs
 
             CreateNPCs();
@@ -188,7 +188,7 @@ namespace sprint2
             //TUTORIAL
             _spriteBatch.Begin();
 
-            block.drawBlock(_spriteBatch);
+            block.drawBlock();
 
             drawAllProjectiles();
             player.Draw();

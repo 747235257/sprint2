@@ -28,6 +28,8 @@ namespace sprint2
         public void updateItem();//To lock player in item anim.
         public void setDamaged();
 
+        public Rectangle getHitbox();
+
         public Vector2 attack(); //returns attack hitbox range
 
         public IProjectile useItem(string itemName); //returns the projectile shot
