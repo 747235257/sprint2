@@ -69,10 +69,6 @@ namespace sprint2
 
             // TODO: Add your initialization logic here
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            
-
-
-
 
             NPCList= new ArrayList();
             //loads kb and mouse support
