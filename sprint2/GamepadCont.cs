@@ -20,7 +20,6 @@ namespace sprint2
 
         //public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player)
 
-        //return projectile class
         //public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
 
 
@@ -61,7 +60,17 @@ namespace sprint2
             }
         }
 
-        //public void HandleNoPlayerInput(KeyboardState kstate, IPlayer player)
+        public void HandleNoPlayerInput(GamePadState gstate, IPlayer player)
+        {
+            if (gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadDown) 
+                && gstate.IsButtonDown(Buttons.DPadDown) && gstate.IsButtonDown(Buttons.DPadLeft) && gstate.IsButtonDown(Buttons.DPadLeft)
+                && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.DPadUp) 
+                && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) 
+                && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp))
+            {
+                player.setIdle();
+            }
+        }
 
         //public bool HandleSwitchEnemy(int currentNPC)
 
