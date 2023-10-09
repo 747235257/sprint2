@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Numerics;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace sprint2
 {
@@ -16,11 +18,50 @@ namespace sprint2
             this.index = index;
         }
 
-        //public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player)
+        public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player)
+        {
+            var gstate = GamePad.GetState(PlayerIndex.One);
+            Vector2 range = new Vector2(0, 0);
+            if (gstate.IsButtonDown(Buttons.A))
+            {
+                range = player.attack();
+            }
+            HandleNoPlayerInput(gstate, player);
+            return range;
+        }
 
-        //public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player)
+        public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player)
+        {
+            var gstate = GamePad.GetState(PlayerIndex.One);
+            
+            if (gstate.IsButtonDown(Buttons.X))
+            {
+                player.setDamaged();
+            }
+            HandleNoPlayerInput(gstate, player);
+            
+        }
 
-        //public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+        public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+        {
+            var gstate = GamePad.GetState(PlayerIndex.One);
+            IProjectile proj = null;
+            if (gstate.IsButtonDown(Buttons.RightShoulder))
+            {
+                proj = player.useItem("Nunchucks");
+            }
+            else if(gstate.IsButtonDown(Buttons.LeftShoulder))
+            {
+                proj = player.useItem("Nunchucks");
+            }
+            else if (gstate.IsButtonDown(Buttons.LeftTrigger))
+            {
+                proj = player.useItem("Nunchucks");
+            }
+
+            HandleNoPlayerInput(gstate, player);
+            return proj;
+        }
 
 
         public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player)
@@ -43,18 +84,18 @@ namespace sprint2
                 player.moveRight();
             }
 
-            //HandleNoPlayerInput(gstate, player);
+            HandleNoPlayerInput(gstate, player);
 
         }
 
         public void HandleItem(GraphicsDeviceManager _graphics, IItem item)
         {
-            KeyboardState kstate = Keyboard.GetState();
-            if (kstate.IsKeyDown(Keys.U))
+            var gstate = GamePad.GetState(PlayerIndex.One);
+            if (gstate.IsButtonDown(Buttons.LeftThumbstickDown))
             {
                 item.CurrentItemPlus();
             }
-            else if (kstate.IsKeyDown(Keys.I))
+            else if (gstate.IsButtonDown(Buttons.LeftThumbstickUp))
             {
                 item.CurrentItemMinus();
             }
@@ -64,17 +105,51 @@ namespace sprint2
         {
             if (gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadDown) 
                 && gstate.IsButtonDown(Buttons.DPadDown) && gstate.IsButtonDown(Buttons.DPadLeft) && gstate.IsButtonDown(Buttons.DPadLeft)
-                && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.DPadUp) 
-                && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) 
+                && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.DPadRight) && gstate.IsButtonDown(Buttons.A) 
+                && gstate.IsButtonDown(Buttons.A) && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp) 
                 && gstate.IsButtonDown(Buttons.DPadUp) && gstate.IsButtonDown(Buttons.DPadUp))
             {
                 player.setIdle();
             }
         }
 
-        //public bool HandleSwitchEnemy(int currentNPC)
+        public bool HandleSwitchEnemy(int currentNPC)
+        {
+            var gstate = GamePad.GetState(PlayerIndex.One);
+            if (gstate.IsButtonDown(Buttons.LeftStick))
+            {
+                game.cur.Stop();
+                currentNPC = (currentNPC + 1) % 6;//6 is the total types of enemies.
+                game.currentNPC = currentNPC;
+                return true;
+            }
+            else if (gstate.IsButtonDown(Buttons.RightStick))
+            {
+                game.cur.Stop();
+                currentNPC = (currentNPC + 5) % 6;
 
-        //public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky)
+                game.currentNPC = currentNPC;
+                return true;
+            }
+            return false;
+        }
+
+        public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky)
+        {
+            var gstate = GamePad.GetState(PlayerIndex.One);
+
+            if (gstate.IsButtonDown(Buttons.RightThumbstickUp))
+            {
+                //blocky = new Block(block, spriteRow, spriteCol, initPosition);
+                blocky.switchBlock(_graphics, Block.FrameDirection.Forward);
+            }
+            if (gstate.IsButtonDown(Buttons.RightThumbstickDown))
+            {
+                //blocky = new Block(block, spriteRow, spriteCol, initPosition);
+                blocky.switchBlock(_graphics, Block.FrameDirection.Backward);
+            }
+            return blocky;
+        }
 
     }
 }
