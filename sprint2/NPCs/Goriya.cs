@@ -26,6 +26,7 @@ namespace sprint2
         private Rectangle hitbox;      //COLLISION SPRINT 3
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
+        private bool isAlive;
 
         private enum HitboxDims
         {
@@ -41,6 +42,7 @@ namespace sprint2
             duration = 0;
             attack = false;
             this.game = game;
+            isAlive = true;
 
             //gets position of the dragon
             currPos = GoriyaSprite.GetPos();
@@ -163,6 +165,22 @@ namespace sprint2
         public Rectangle getHitbox()
         {
             return hitbox;
+        }
+
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
         }
     }
 }

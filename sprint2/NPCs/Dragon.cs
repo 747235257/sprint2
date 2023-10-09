@@ -28,6 +28,7 @@ namespace sprint2
         private ProjectileFactory factory = new ProjectileCreator();
         private readonly Vector2 DIAGONAL_DOWNLEFT = new Vector2(-1, 1), LEFT = new Vector2(-1, 0), DIAGONAL_UPLEFT = new Vector2(-1, -1);
         private string Name;
+        private bool isAlive;
 
         private enum HitboxDims
         {
@@ -43,6 +44,7 @@ namespace sprint2
             attack = false;
             this.game = game;
             this.Name = "Dragon";
+            isAlive = true;
 
             //gets position of the dragon
             currPos = DragonSprite.GetPos();
@@ -152,6 +154,22 @@ namespace sprint2
         public Rectangle getHitbox()
         {
             return hitbox;
+        }
+
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
         }
 
     }

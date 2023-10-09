@@ -24,7 +24,14 @@ public class CollisionHandler
 			{
 				if(projectile != null && npc != null)
 				{
+					Rectangle eHitbox = npc.getHitbox();
+					Rectangle pHitbox = projectile.getHitbox();
 
+					if(eHitbox.Intersects(pHitbox))
+					{
+						projectile.setToInactive();
+						npc.giveDamage();
+                    }
 				}
 			}
 		}
@@ -108,6 +115,26 @@ public class CollisionHandler
 	}
 
     //Enemy vs Block
+	public void HandleEnemyBlockCollision(List<INPC> enemies, List<IBlock> blocks)
+	{
+		foreach(INPC enemy in enemies)
+		{
+			foreach(IBlock block in blocks)
+			{
+				if(enemy != null && block != null) 
+				{
+					Rectangle bHitbox = block.getHitbox();
+					Rectangle eHitbox = enemy.getHitbox();
+
+					if (bHitbox.Intersects(eHitbox))
+					{
+						enemy.setLastPos();
+					}
+				}
+			}
+
+		}
+	}
 
     //PlayerProj vs Block
     public void HandleProjectileBlockCollision(List<IBlock> blocks, List<IProjectile> enemyProj, List<IProjectile> playerProj)
