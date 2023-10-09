@@ -31,6 +31,12 @@ namespace sprint2
             frameCol = 0;
             destination = new Rectangle(200, 200, 48, 64);
         }
+
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
+        {
+            return new Vector2(destination.X, destination.Y);
+        }
         public Rectangle Update(GameTime gameTime,int curdir)
         {
             

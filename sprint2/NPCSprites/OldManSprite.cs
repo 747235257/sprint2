@@ -29,6 +29,11 @@ namespace sprint2
             return destination;
         }
 
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
+        {
+            return new Vector2(destination.X, destination.Y);
+        }
         public void Draw()
         {
             spriteBatch.Begin();

@@ -21,7 +21,16 @@ namespace sprint2
         private Game1 game;
         private string Name;
         private ProjectileFactory factory = new ProjectileCreator();
+        private Vector2 currPos;
+        private Vector2 prevPos;
+        private Rectangle hitbox;      //COLLISION SPRINT 3
+        private Rectangle prevHitbox;
+        private ISprite hitboxSprite;
 
+        private enum HitboxDims
+        {
+            WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+        }
         public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
         {
             this.spriteBatch = spriteBatch;
@@ -32,6 +41,17 @@ namespace sprint2
             duration = 0;
             attack = false;
             this.game = game;
+
+            //gets position of the dragon
+            currPos = GoriyaSprite.GetPos();
+            prevPos = currPos;
+
+            //hitbox allocations
+            hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
+            prevHitbox = hitbox;
+
+            //hitboxsprite
+            hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
         }
 
 
@@ -113,13 +133,36 @@ namespace sprint2
 
             destination = GoriyaSprite.Update(gametime, curdir);
             count = count % 16;//Reset the count to prevent unnecessary storage usage.
+
+            //UPDATES positions and hitboxes
+            prevPos = currPos;
+            currPos = GoriyaSprite.GetPos();
+
+            prevHitbox = hitbox;
+            hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+            hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
             return projectiles;
 
 
         }
         public void Draw()
         {
+            drawHitbox();
             GoriyaSprite.Draw();
+        }
+
+        //COLLISION SPRINT3
+        public void drawHitbox()
+        {
+            spriteBatch.Begin();
+            hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+            spriteBatch.End();
+        }
+
+        //COLLISION SPRINT3
+        public Rectangle getHitbox()
+        {
+            return hitbox;
         }
     }
 }

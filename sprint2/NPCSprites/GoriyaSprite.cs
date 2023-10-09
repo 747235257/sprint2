@@ -39,6 +39,12 @@ namespace sprint2
 
 
         }
+
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
+        {
+            return new Vector2(destination.X, destination.Y);
+        }
         public Rectangle Update(GameTime gametime, int curdir)
         {
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;

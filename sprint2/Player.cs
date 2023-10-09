@@ -53,14 +53,16 @@ namespace sprint2
             playerState.setDamaged();
         }
 
-        public void updateAttack()
+        public void updatePlayer()
         {
             playerState.updateAttack();
+            playerState.updateItem();
+            playerState.updateDamaged();
         }
 
-        public void updateItem()
+        public void setLastPos()
         {
-            playerState.updateItem();
+            playerState.setLastPos();
         }
         //returns PROJECTILE used
         public IProjectile useItem(string itemName)

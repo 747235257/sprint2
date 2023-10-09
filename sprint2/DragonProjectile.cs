@@ -15,7 +15,7 @@ namespace sprint2
 
         private enum HitboxDims
         {
-            WIDTH = 32, HEIGHT = 35, X_ADJ = 3, Y_ADJ = 15, ROW = 1, COL = 1
+            WIDTH = 32, HEIGHT = 35, X_ADJ = 1, Y_ADJ = 8, ROW = 1, COL = 1
         }
 
         //constructor that accepts current user's position and direction of the projectile
@@ -34,6 +34,11 @@ namespace sprint2
             Velocity.X = Direction.X * velocity.X;
             Velocity.Y = Direction.Y * velocity.Y;
             range = rangeValue;
+
+            hit_width = (int)HitboxDims.WIDTH;
+            hit_height = (int)HitboxDims.HEIGHT;
+            x_adj = (int)HitboxDims.X_ADJ;
+            y_adj = (int)HitboxDims.Y_ADJ;
         }
 
     }
