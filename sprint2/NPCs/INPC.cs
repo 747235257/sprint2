@@ -23,5 +23,12 @@ namespace sprint2
 
         public Rectangle getHitbox();
 
+        public void giveDamage();
+
+        public bool isStillAlive();
+
+        public void setLastPos();
+
+
     }
 }

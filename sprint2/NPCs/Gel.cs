@@ -23,6 +23,7 @@ namespace sprint2
         private Rectangle hitbox;      //COLLISION SPRINT 3
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
+        private bool isAlive;
 
         private enum HitboxDims
         {
@@ -35,6 +36,7 @@ namespace sprint2
             this.texture = texture;
             GelSprite = new GelSprite(this.texture, this.spriteBatch);
             count = 0;
+            isAlive = true;
 
             //gets position of the dragon
             currPos = GelSprite.GetPos();
@@ -106,6 +108,22 @@ namespace sprint2
         public Rectangle getHitbox()
         {
             return hitbox;
+        }
+
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
         }
 
     }

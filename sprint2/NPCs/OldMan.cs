@@ -20,6 +20,7 @@ namespace sprint2
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
         private Game game;
+        private bool isAlive;
 
         private enum HitboxDims
         {
@@ -31,6 +32,7 @@ namespace sprint2
             this.spriteBatch = spriteBatch;
             this.texture = texture;
             OldManSprite = new OldManSprite(this.texture, this.spriteBatch);
+            isAlive = true;
 
             //gets position of the dragon
             currPos = OldManSprite.GetPos();
@@ -99,6 +101,21 @@ namespace sprint2
             return hitbox;
         }
 
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
+        }
     }
 }
 
