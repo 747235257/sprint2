@@ -77,8 +77,6 @@ namespace sprint2
 
         }
         public void Draw() {
-
-            spriteBatch.Begin();
             if (!flip)//Draw flip.
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
@@ -87,8 +85,6 @@ namespace sprint2
             {
                 spriteBatch.Draw(texture, destination, source, Color.White);
             }
-
-            spriteBatch.End();
 
         }
         

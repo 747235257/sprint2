@@ -36,9 +36,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(texture, destination, source, Color.White);
-            spriteBatch.End();
         }
     }
 }

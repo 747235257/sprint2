@@ -156,9 +156,7 @@ namespace sprint2
         //COLLISION SPRINT3
         public void drawHitbox()
         {
-            spriteBatch.Begin();
             hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
-            spriteBatch.End();
         }
 
         //COLLISION SPRINT3

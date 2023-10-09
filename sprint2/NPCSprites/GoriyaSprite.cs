@@ -102,7 +102,6 @@ namespace sprint2
 
         public void Draw()
         {
-            spriteBatch.Begin();
             //Draw different sprites.
             
             if ((source.X == 256 || source.X == 273) && leftRightflip)//Left
@@ -121,8 +120,6 @@ namespace sprint2
             {
                 spriteBatch.Draw(texture, destination, source, Color.White);// Up or down.
             }
-
-            spriteBatch.End();
         }
     }
 }

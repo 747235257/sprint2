@@ -27,7 +27,6 @@ namespace sprint2
         private INPC Gel;
         private INPC Bat;
         public INPC cur;
-        private ArrayList NPCList;
         public int currentNPC { get; set; }
 
 
@@ -52,6 +51,7 @@ namespace sprint2
         private List<IProjectile> playerProjectiles;
         private List<IProjectile> enemyProjectiles;
         private List<IBlock> blocks;
+        private List<INPC> NPCList;
 
 
         private IItem item;
@@ -76,7 +76,7 @@ namespace sprint2
 
 
             collision = new CollisionHandler();
-            NPCList= new ArrayList();
+
             //loads kb and mouse support
             keyboard = new KeyboardCont(this);
             playerProjectiles = new List<IProjectile>();
@@ -84,7 +84,7 @@ namespace sprint2
             blocks = new List<IBlock>();
 
             // TODO: Add your initialization logic here
-            NPCList = new ArrayList();
+            NPCList = new List<INPC>();
             //loads kb and mouse support
             timer = 0;
             keyEn = false;
@@ -106,18 +106,12 @@ namespace sprint2
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
-
             CreateNPCs();
        
 
          
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
-
-            //Create NPCs
-
-
-            CreateNPCs();
         }
 
         protected override void Update(GameTime gameTime)
@@ -138,6 +132,7 @@ namespace sprint2
             player.updatePlayer();
 
             removePlayerProjectileList();
+            removeEnemyList();
             //projectile return by keyboard is added to the list
             IProjectile plProj = keyboard.HandlePlayerItem(_graphics, player);
 
@@ -146,34 +141,33 @@ namespace sprint2
             UpdatePlayerProjectileList(gameTime);
 
 
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(timer > 0.5 && !keyEn)
-            {
-                keyEn = keyboard.HandleSwitchEnemy(currentNPC);
-                if(keyEn)
-                {
-                    timer = 0;
-                }
-            }else if(timer > 0.5 && keyEn)
-            {
-                keyEn = false;
-            }
+            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if(timer > 0.5 && !keyEn)
+            //{
+            //    keyEn = keyboard.HandleSwitchEnemy(currentNPC);
+            //    if(keyEn)
+            //    {
+            //        timer = 0;
+            //    }
+            //}else if(timer > 0.5 && keyEn)
+            //{
+            //    keyEn = false;
+            //}
             
             
 
             removeEnemyProjectileList();
-
-
-            cur = (INPC)NPCList[currentNPC];
-
-            List<IProjectile> projectiles = cur.Execute(gameTime);
-
-            addEnemyProjectileList(projectiles);
             updateEnemyProjectileList(gameTime);
+            updateEnemyList(gameTime);
 
             collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
             collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerBlockCollision(player, blocks);
+            collision.HandlePlayerEnemyCollision(player, NPCList);
+            collision.HandleEnemyEnemyCollision(NPCList);
+            collision.HandleEnemyBlockCollision(NPCList, blocks);
+            collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+            collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
 
 
             base.Update(gameTime);
@@ -191,20 +185,40 @@ namespace sprint2
 
             drawAllBlocks();
             drawAllProjectiles();
+            drawAllEnemies();
             player.Draw();
 
             _spriteBatch.End();
 
             item.ItemProcess(_spriteBatch);
 
-
-            cur.Draw();
             base.Draw(gameTime);
         }
 
 
 
+        private void updateEnemyList(GameTime gameTime)
+        {
+            foreach(INPC enemy in NPCList)
+            {
+                if(enemy != null) 
+                {
+                    List<IProjectile> proj = enemy.Execute(gameTime);
 
+                    if (proj != null) enemyProjectiles.AddRange(proj);
+                }
+            }
+        }
+
+        private void removeEnemyList()
+        {
+
+            for (int i = 0; i < NPCList.Count; i++)
+            {
+                if (NPCList[i] != null && !NPCList[i].isStillAlive()) NPCList[i] = null;
+            }
+
+        }
         private void removePlayerProjectileList()
         {
             for (int i = 0; i < playerProjectiles.Count; i++)
@@ -240,13 +254,13 @@ namespace sprint2
                 if (block != null) block.drawBlock();
             }
         }
-        private void addEnemyProjectileList(List<IProjectile> projectiles)
-        {
-            if(projectiles != null)
-            {
-                enemyProjectiles.AddRange(projectiles);
-            }
 
+        private void drawAllEnemies()
+        {
+            foreach (INPC enemy in NPCList)
+            {
+                if (enemy != null) enemy.Draw();
+            }
         }
 
         private void updateEnemyProjectileList(GameTime gameTime)
@@ -270,19 +284,17 @@ namespace sprint2
         private void CreateNPCs()
         {
             Skull = new Skull(Enemies, _spriteBatch, this);
-            OldMan = new OldMan(NPCs, _spriteBatch, this);
+            //OldMan = new OldMan(NPCs, _spriteBatch, this);
             Goriya = new Goriya(Enemies, _spriteBatch, this);
 
-            Gel = new Gel(Enemies, _spriteBatch, this);
+            //Gel = new Gel(Enemies, _spriteBatch, this);
             Bat = new Bat(Enemies, _spriteBatch, this);
             Dragon = new Dragon(Bosses, _spriteBatch, this);
 
-            NPCList.Add(Skull);
-            NPCList.Add(OldMan);
             NPCList.Add(Goriya);
-            NPCList.Add(Gel);
-            NPCList.Add(Bat);
             NPCList.Add(Dragon);
+            NPCList.Add(Bat);
+            NPCList.Add(Skull);
 
         }
     }

@@ -37,6 +37,29 @@ public class CollisionHandler
 		}
 	}
 
+    //PlayerProj vs Enemy
+
+	//(IN PROGRESS)
+    //public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
+    //{
+    //    foreach (INPC npc in enemies)
+    //    {
+    //        foreach (IProjectile projectile in enemyProj)
+    //        {
+    //            if (projectile != null && npc != null)
+    //            {
+    //                Rectangle eHitbox = npc.getHitbox();
+    //                Rectangle pHitbox = projectile.getHitbox();
+
+    //                if (eHitbox.Intersects(pHitbox))
+    //                {
+    //                    projectile.setToInactive();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
 
 
     //EnemyProj vs Player
@@ -63,12 +86,15 @@ public class CollisionHandler
 	{
 		foreach(INPC enemy in enemies)
 		{
-			Rectangle playerHitbox = player.getHitbox();
-			Rectangle enemyHitbox = enemy.getHitbox();
-
-			if(playerHitbox.Intersects(enemyHitbox))
+			if (enemy != null)
 			{
-				player.setDamaged();
+				Rectangle playerHitbox = player.getHitbox();
+				Rectangle enemyHitbox = enemy.getHitbox();
+
+				if (playerHitbox.Intersects(enemyHitbox))
+				{
+					player.setDamaged();
+				}
 			}
 		}
 	}
