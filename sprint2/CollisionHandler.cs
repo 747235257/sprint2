@@ -52,8 +52,42 @@ public class CollisionHandler
         
     }
     //Player vs Enemy
+	public void HandlePlayerEnemyCollision(IPlayer player, List<INPC> enemies)
+	{
+		foreach(INPC enemy in enemies)
+		{
+			Rectangle playerHitbox = player.getHitbox();
+			Rectangle enemyHitbox = enemy.getHitbox();
+
+			if(playerHitbox.Intersects(enemyHitbox))
+			{
+				player.setDamaged();
+			}
+		}
+	}
 
     //Enemy vs Enemy
+	public void HandleEnemyEnemyCollision(List<INPC> enemies)
+	{
+		foreach(INPC enemy1 in enemies)
+		{
+			foreach(INPC enemy2 in enemies)
+			{
+				
+				if(enemy1 != null && enemy2 != null && enemy1 != enemy2)
+				{
+                    Rectangle enemy1Hitbox = enemy1.getHitbox();
+                    Rectangle enemy2Hitbox = enemy2.getHitbox();
+					if (enemy1Hitbox.Intersects(enemy2Hitbox))
+					{
+						enemy1.setLastPos();
+						enemy2.setLastPos();
+					}
+
+                }
+			}
+		}
+	}
 
     //Player vs Block
 	public void HandlePlayerBlockCollision(IPlayer player, List<IBlock> blocks)
