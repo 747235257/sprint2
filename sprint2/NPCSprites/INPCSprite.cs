@@ -10,7 +10,7 @@ namespace sprint2
     public interface INPCSprite
     {
         public Rectangle Update(GameTime gametime,int curdir);
-
+        public Vector2 GetPos();
         public void Draw();
     }
 }
