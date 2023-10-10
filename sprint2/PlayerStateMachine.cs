@@ -134,7 +134,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         return hitbox;
     }
 
-    public PlayerStateMachine(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
+    public PlayerStateMachine(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
 	{
         //graphics and game are set
         this.graphics = graphics;
@@ -144,7 +144,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         this.attackCounter = 0;
         this.itemCounter = 0;
 
-        currPos = new Vector2((int)PosNums.START_X, (int)PosNums.START_Y); //initial pos
+        currPos = startPos;
         prevPos = currPos;
         //COLLISION SPRINT3
         hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);

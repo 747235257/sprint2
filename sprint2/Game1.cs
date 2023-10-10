@@ -97,7 +97,7 @@ namespace sprint2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            player = new Player(this, _graphics, _spriteBatch);
+            player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");

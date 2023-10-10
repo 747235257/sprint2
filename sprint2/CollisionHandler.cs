@@ -37,33 +37,32 @@ public class CollisionHandler
 		}
 	}
 
-    //PlayerProj vs Enemy
+	//PlayerProj vs Enemy
 
-	//(IN PROGRESS)
-    //public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
-    //{
-    //    foreach (INPC npc in enemies)
-    //    {
-    //        foreach (IProjectile projectile in enemyProj)
-    //        {
-    //            if (projectile != null && npc != null)
-    //            {
-    //                Rectangle eHitbox = npc.getHitbox();
-    //                Rectangle pHitbox = projectile.getHitbox();
+	public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
+	{
+		foreach (INPC npc in enemies)
+		{
+			foreach (IProjectile projectile in enemyProj)
+			{
+				if (projectile != null && npc != null)
+				{
+					Rectangle eHitbox = npc.getHitbox();
+					Rectangle pHitbox = projectile.getHitbox();
 
-    //                if (eHitbox.Intersects(pHitbox))
-    //                {
-    //                    projectile.setToInactive();
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
+					if (eHitbox.Intersects(pHitbox))
+					{
+						projectile.setToInactive();
+					}
+				}
+			}
+		}
+	}
 
 
-    //EnemyProj vs Player
-    public void HandlePlayerProjectileCollision(IPlayer player, List<IProjectile> enemyProj)
+
+	//EnemyProj vs Player
+	public void HandlePlayerProjectileCollision(IPlayer player, List<IProjectile> enemyProj)
     {
 		foreach(IProjectile proj in enemyProj)
 		{

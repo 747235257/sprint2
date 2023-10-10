@@ -11,10 +11,10 @@ namespace sprint2
     {
         IPlayerStateMachine playerState;
         Game game;
-        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
+        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
         {
             this.game = game;
-            playerState = new PlayerStateMachine(game, graphics, spriteBatch);
+            playerState = new PlayerStateMachine(game, graphics, spriteBatch, startPos);
         }
 
         public void setIdle()
