@@ -99,7 +99,7 @@ namespace sprint2
         public void Draw()
         {
             drawHitbox();
-            BatSprite.Draw();
+            BatSprite.Draw(currPos);
         }
 
         //COLLISION SPRINT3

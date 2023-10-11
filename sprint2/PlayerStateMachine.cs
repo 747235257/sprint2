@@ -148,10 +148,12 @@ public class PlayerStateMachine : IPlayerStateMachine
         prevPos = currPos;
         //COLLISION SPRINT3
         hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
+
         prevHitbox = hitbox;
         LoadContent(game);
         state = State.IDLE_DOWN; //initial state
         currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite
+
     }
 
     private bool InAttack()
