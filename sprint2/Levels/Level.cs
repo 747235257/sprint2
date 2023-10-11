@@ -11,11 +11,13 @@ public class Level
 {
     public string Name { get; set; }
     public List<Obstacle> Obstacles { get; set; }
+    public List<WallHitbox> WallHitboxs { get; set; }
     // Add other properties as needed
 
     public Level()
     {
         Obstacles = new List<Obstacle>();
+        WallHitboxs = new List<WallHitbox>();
     }
 }
 
@@ -26,5 +28,13 @@ public class Obstacle
     public float X { get; set; }
     public float Y { get; set; }
     // Add other properties as needed
+}
+
+public class WallHitbox
+{
+    public float X { get; set; }
+    public float Y { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
 }
 

@@ -14,7 +14,7 @@ namespace sprint2
 
     public class ObstacleHandler
     {
-        IPlayer player;
+        
         List<IBlock> blocks;
         List<INPC> enemies;
         Level level;
