@@ -100,10 +100,12 @@ namespace sprint2
             
         }
 
-        public void Draw()
+        public void Draw(Vector2 pos)
         {
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             //Draw different sprites.
-            
+
             if ((source.X == 256 || source.X == 273) && leftRightflip)//Left
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);

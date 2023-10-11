@@ -76,7 +76,9 @@ namespace sprint2
             
 
         }
-        public void Draw() {
+        public void Draw(Vector2 pos) {
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             if (!flip)//Draw flip.
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);

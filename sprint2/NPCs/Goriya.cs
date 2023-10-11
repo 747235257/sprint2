@@ -150,7 +150,7 @@ namespace sprint2
         public void Draw()
         {
             drawHitbox();
-            GoriyaSprite.Draw();
+            GoriyaSprite.Draw(currPos);
         }
 
         //COLLISION SPRINT3

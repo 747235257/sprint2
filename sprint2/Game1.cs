@@ -177,7 +177,7 @@ namespace sprint2
             collision.HandleEnemyEnemyCollision(NPCList);
             collision.HandleEnemyBlockCollision(NPCList, blocks);
             collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
-            collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+            //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
 
 
             base.Update(gameTime);

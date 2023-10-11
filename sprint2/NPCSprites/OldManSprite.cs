@@ -34,8 +34,10 @@ namespace sprint2
         {
             return new Vector2(destination.X, destination.Y);
         }
-        public void Draw()
+        public void Draw(Vector2 pos)
         {
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             spriteBatch.Draw(texture, destination, source, Color.White);
         }
     }

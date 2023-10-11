@@ -40,8 +40,8 @@ public class CollisionHandler
 	//PlayerProj vs Enemy
 
 	//(IN PROGRESS)
-	public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
-	{
+	//public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
+	//{
 		//foreach (INPC npc in enemies)
 		//{
 		//	foreach (IProjectile projectile in enemyProj)
