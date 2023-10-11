@@ -35,7 +35,7 @@ namespace sprint2
             speed = 2;
             timer = 0;
             frameCol = 0;
-            destination = new Rectangle(200, 200, 32, 32);
+            destination = new Rectangle(50, 200, 32, 32);
 
 
         }
