@@ -9,14 +9,18 @@ namespace sprint2
 
     public class Player : IPlayer
     {
-        IPlayerStateMachine playerState;
+        public IPlayerStateMachine playerState;
         Game game;
-        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
+        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
         {
             this.game = game;
-            playerState = new PlayerStateMachine(game, graphics, spriteBatch);
+            playerState = new PlayerStateMachine(game, graphics, spriteBatch, startPos);
         }
 
+        public void setLocation(Vector2 pos)
+        {
+            playerState.setLocation(pos);
+        }
         public void setIdle()
         {
             playerState.setIdle();
@@ -70,6 +74,8 @@ namespace sprint2
             return playerState.useItem(itemName);
 
         }
+
+        
         public void Draw()
         {
             playerState.drawCurrentSprite();

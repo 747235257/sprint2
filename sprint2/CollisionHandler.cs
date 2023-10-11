@@ -51,14 +51,14 @@ public class CollisionHandler
 		//			Rectangle eHitbox = npc.getHitbox();
 		//			Rectangle pHitbox = projectile.getHitbox();
 
-		//			if (eHitbox.Intersects(pHitbox))
-		//			{
-		//				projectile.setToInactive();
-		//			}
-		//		}
-		//	}
-		//}
-	}
+    //                if (eHitbox.Intersects(pHitbox))
+    //                {
+    //                    projectile.setToInactive();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
 
 

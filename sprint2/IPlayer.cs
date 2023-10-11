@@ -9,6 +9,7 @@ namespace sprint2
     {
 
         public void setIdle();
+        public void setLocation(Vector2 pos);
         public void moveLeft();
 
 
