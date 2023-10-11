@@ -39,7 +39,7 @@ namespace sprint2
                 switch (level.Obstacles[i].Type)
                 {
                     case "Player":
-                        player = new Player(game, game1._graphics, game1._spriteBatch, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y));
+                        game1.player.setLocation(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y));
                         break;
                     case "Block":
                         blocks.Add(new Block(Blocks, game1.blockRow, game1.blockCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game));
@@ -50,7 +50,7 @@ namespace sprint2
 
                 }
             }
-            game1.player = player;
+            
             game1.blocks = blocks;
             LoadBack(level.Name);
         }

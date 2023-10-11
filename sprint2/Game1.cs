@@ -78,7 +78,7 @@ namespace sprint2
             levelManager.LoadLevels("Content/levels/level1.json");
             curLevel = levelManager.Levels[0];
             
-            curLevel = levelManager.Levels[0];
+          
 
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
@@ -192,7 +192,8 @@ namespace sprint2
 
             //TUTORIAL
             _spriteBatch.Begin();
-            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,512,352), Color.White); 
+            //256, 176
+            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,768,528), Color.White); 
             drawAllBlocks();
             drawAllProjectiles();
             drawAllEnemies();
@@ -301,10 +302,10 @@ namespace sprint2
             Bat = new Bat(Enemies, _spriteBatch, this);
             Dragon = new Dragon(Bosses, _spriteBatch, this);
 
-            NPCList.Add(Goriya);
-            NPCList.Add(Dragon);
-            NPCList.Add(Bat);
-            NPCList.Add(Skull);
+            //NPCList.Add(Goriya);
+            //NPCList.Add(Dragon);
+            //NPCList.Add(Bat);
+            //NPCList.Add(Skull);
 
         }
     }

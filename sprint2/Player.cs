@@ -17,6 +17,10 @@ namespace sprint2
             playerState = new PlayerStateMachine(game, graphics, spriteBatch, startPos);
         }
 
+        public void setLocation(Vector2 pos)
+        {
+            playerState.setLocation(pos);
+        }
         public void setIdle()
         {
             playerState.setIdle();

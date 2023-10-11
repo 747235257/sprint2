@@ -191,6 +191,17 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         return (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.DAMAGED_LEFT || state == State.IDLE_LEFT);
     }
+
+    public void setLocation(Vector2 pos)
+    {
+        this.currPos = pos;
+        this.prevPos = pos;
+
+        this.hitbox.X = (int)pos.X + (int)HitboxDims.X_ADJ;
+        this.hitbox.Y = (int)pos.Y + (int)HitboxDims.Y_ADJ;
+
+        this.prevHitbox = this.hitbox;
+    }
     public void setIdle()
     {
 
