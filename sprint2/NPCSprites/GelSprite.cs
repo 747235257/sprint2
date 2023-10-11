@@ -29,7 +29,7 @@ namespace sprint2
             source = new Rectangle(1, 11, width, height);
             timer = 0;
             frameCol= 0;
-            destination = new Rectangle(200, 200, 16, 32);
+            destination = new Rectangle(100, 100, 16, 32);
         }
 
         //returns the current position of the enemy on screen
