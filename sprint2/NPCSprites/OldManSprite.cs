@@ -24,9 +24,9 @@ namespace sprint2
             source = new Rectangle(1, 11, width, height);//The origin sprite frame.
             destination = new Rectangle(100, 200, 32, 32);
         }
-        public Rectangle Update(GameTime gametime, int curdir)
+        public Vector2 Update(GameTime gametime, int curdir)
         {
-            return destination;
+            return new Vector2(0, 0);
         }
 
         //returns the current position of the enemy on screen

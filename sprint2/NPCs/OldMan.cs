@@ -26,7 +26,7 @@ namespace sprint2
         {
             WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public OldMan(Texture2D texture, SpriteBatch spriteBatch, Game game)
+        public OldMan(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
@@ -35,7 +35,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = OldManSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -67,11 +67,12 @@ namespace sprint2
 
            
 
-            OldManSprite.Update(gametime, 0);
+            Vector2 updateMove = OldManSprite.Update(gametime, 0);
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
 
             //UPDATES positions and hitboxes
             prevPos = currPos;
-            currPos = OldManSprite.GetPos();
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;

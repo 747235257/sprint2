@@ -37,9 +37,9 @@ namespace sprint2
         {
             return new Vector2(destination.X, destination.Y);
         }
-        public Rectangle Update(GameTime gameTime,int curdir)
+        public Vector2 Update(GameTime gameTime,int curdir)
         {
-            
+            Vector2 updateMove = new Vector2(0, 0);
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
              if (timer > 0.1)//The cd of position update is 0.1 second.
             {
@@ -51,10 +51,10 @@ namespace sprint2
                         break;
                     
                     case (int)dir.left:
-                        destination.X -= 2;//Speed is 2;
+                        updateMove.X =  -2;//Speed is 2;
                         break;
                     case (int)dir.right:
-                        destination.X += 2;
+                        updateMove.X =  2;
                         break;
                     default:
                         break;
@@ -64,10 +64,7 @@ namespace sprint2
                 frameCol %= 4;//Total frame number is 4.
 
             }
-            return destination;
-
-
-
+            return updateMove;
         }
         public void Draw(Vector2 pos)
         {

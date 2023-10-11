@@ -31,7 +31,7 @@ namespace sprint2
             WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
 
-        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game game)
+        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
@@ -41,7 +41,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = SkullSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -80,13 +80,13 @@ namespace sprint2
 
 
             }
-
-            SkullSprite.Update(gametime, curdir);
-            count = count % 16;//Reset the count to prevent unnecessary storage usage.
-
-            //UPDATES positions and hitboxes
+ 
             prevPos = currPos;
-            currPos = SkullSprite.GetPos();
+            Vector2 updateMove = SkullSprite.Update(gametime, curdir);
+            count = count % 16;//Reset the count to prevent unnecessary storage usage.
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;  
+            //UPDATES positions and hitboxes
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;

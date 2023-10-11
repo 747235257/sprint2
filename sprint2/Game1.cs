@@ -294,13 +294,13 @@ namespace sprint2
 
         private void CreateNPCs()
         {
-            Skull = new Skull(Enemies, _spriteBatch, this);
-            //OldMan = new OldMan(NPCs, _spriteBatch, this);
-            Goriya = new Goriya(Enemies, _spriteBatch, this);
+            Skull = new Skull(Enemies, _spriteBatch, this, new Vector2(150, 250));
+            OldMan = new OldMan(NPCs, _spriteBatch, this, new Vector2(200, 200));
+            Goriya = new Goriya(Enemies, _spriteBatch, this, new Vector2(250, 250));
 
-            //Gel = new Gel(Enemies, _spriteBatch, this);
-            Bat = new Bat(Enemies, _spriteBatch, this);
-            Dragon = new Dragon(Bosses, _spriteBatch, this);
+            Gel = new Gel(Enemies, _spriteBatch, this, new Vector2(300, 300));
+            Bat = new Bat(Enemies, _spriteBatch, this, new Vector2(110, 140));
+            Dragon = new Dragon(Bosses, _spriteBatch, this, new Vector2(150, 150));
 
             NPCList.Add(Goriya);
             NPCList.Add(Dragon);
