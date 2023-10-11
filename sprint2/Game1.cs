@@ -177,7 +177,7 @@ namespace sprint2
             collision.HandleEnemyEnemyCollision(NPCList);
             collision.HandleEnemyBlockCollision(NPCList, blocks);
             collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
-            collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+            //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
 
 
             base.Update(gameTime);
@@ -302,10 +302,10 @@ namespace sprint2
             Bat = new Bat(Enemies, _spriteBatch, this);
             Dragon = new Dragon(Bosses, _spriteBatch, this);
 
-            //NPCList.Add(Goriya);
-            //NPCList.Add(Dragon);
-            //NPCList.Add(Bat);
-            //NPCList.Add(Skull);
+            NPCList.Add(Goriya);
+            NPCList.Add(Dragon);
+            NPCList.Add(Bat);
+            NPCList.Add(Skull);
 
         }
     }

@@ -34,7 +34,7 @@ namespace sprint2
         {
             WIDTH = 50, HEIGHT = 65, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
+        public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
@@ -47,7 +47,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = DragonSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -138,7 +138,7 @@ namespace sprint2
         public void Draw()
         {
             drawHitbox();
-            DragonSprite.Draw();
+            DragonSprite.Draw(currPos);
 
         }
 

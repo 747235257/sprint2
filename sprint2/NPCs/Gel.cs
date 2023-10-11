@@ -93,7 +93,7 @@ namespace sprint2
         public void Draw()
         {
             drawHitbox();
-            GelSprite.Draw();
+            GelSprite.Draw(currPos);
         }
 
         //COLLISION SPRINT3

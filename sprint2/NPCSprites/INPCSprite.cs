@@ -11,6 +11,6 @@ namespace sprint2
     {
         public Rectangle Update(GameTime gametime,int curdir);
         public Vector2 GetPos();
-        public void Draw();
+        public void Draw(Vector2 pos);
     }
 }
