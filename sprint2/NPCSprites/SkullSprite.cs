@@ -30,7 +30,7 @@ namespace sprint2
             spriteEffects = SpriteEffects.FlipHorizontally;
             source = new Rectangle(1, 59, width, height);//The origin sprite frame.
             flip = false;
-            destination = new Rectangle(200, 200, 32, 32);
+            destination = new Rectangle(50, 200, 32, 32);
             count = 0;
             
     }
