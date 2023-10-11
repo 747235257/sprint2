@@ -13,8 +13,8 @@ namespace sprint2
     public class Game1 : Game
     {
 
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public GraphicsDeviceManager _graphics;
+        public SpriteBatch _spriteBatch;
 
 
         private Vector2 initPosition;
@@ -30,7 +30,7 @@ namespace sprint2
         public int currentNPC { get; set; }
 
 
-        Texture2D Blocks;
+        public Texture2D Blocks;
 
         private float timer;
         private bool keyEn;
@@ -39,24 +39,28 @@ namespace sprint2
         Texture2D Bosses;
         Texture2D NPCs;
         Texture2D ItemSprite;
+        public Texture2D LevelBack;
 
-        private IPlayer player;
+        public IPlayer player;
         private IController keyboard;
 
 
-        private int blockRow = 3;
-        private int blockCol = 4;
+        public int blockRow = 3;
+        public int blockCol = 4;
 
 
         private List<IProjectile> playerProjectiles;
         private List<IProjectile> enemyProjectiles;
-        private List<IBlock> blocks;
+        public List<IBlock> blocks;
         private List<INPC> NPCList;
 
 
         private IItem item;
 
         private CollisionHandler collision;
+        public LevelManager levelManager;
+        public Level curLevel;
+        public ObstacleHandler obstacleHandler;
 
 
         public Game1()
@@ -70,6 +74,12 @@ namespace sprint2
         {
 
             // TODO: Add your initialization logic here
+            levelManager = new LevelManager();
+            levelManager.LoadLevels("Content/levels/level1.json");
+            curLevel = levelManager.Levels[0];
+            
+            curLevel = levelManager.Levels[0];
+
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
 
@@ -102,14 +112,14 @@ namespace sprint2
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
-
+            LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
-       
 
-         
+            obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            obstacleHandler.Update();
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
         }
@@ -123,7 +133,7 @@ namespace sprint2
                 this.Initialize();
             }
 
-
+            keyboard.handleLevelSwitch(this);
             keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
@@ -182,7 +192,7 @@ namespace sprint2
 
             //TUTORIAL
             _spriteBatch.Begin();
-
+            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,512,352), Color.White); 
             drawAllBlocks();
             drawAllProjectiles();
             drawAllEnemies();

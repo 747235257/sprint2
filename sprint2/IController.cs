@@ -19,5 +19,6 @@ public interface IController
 
     public void HandleItem(GraphicsDeviceManager _graphics, IItem item);
 
+    public void handleLevelSwitch(Game1 game);
 
 }
