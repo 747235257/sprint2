@@ -40,7 +40,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = BatSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -81,12 +81,15 @@ namespace sprint2
 
             }
 
-            BatSprite.Update(gametime, curdir);
+            //UPDATES positions and hitboxes
+
+            prevPos = currPos;
+            Vector2 updateMove = BatSprite.Update(gametime, curdir);
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
             count = count % 16;//Reset the count to prevent unnecessary storage usage.
             
             //UPDATES positions and hitboxes
-            prevPos = currPos;
-            currPos = BatSprite.GetPos();
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;

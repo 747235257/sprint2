@@ -40,26 +40,26 @@ namespace sprint2
         {
             return new Vector2(destination.X, destination.Y);
         }
-        public Rectangle Update(GameTime gameTime, int curdir)
+        public Vector2 Update(GameTime gameTime, int curdir)
         {
             
-            
+            Vector2 updateMove = new Vector2(0, 0);
                 count++;
                 switch(curdir)
                 {
                     case (int)dir.idle:
                         break;
                     case(int)dir.up:
-                        destination.Y -= 2;//Speed is 2;
+                    updateMove.Y = -2;//Speed is 2;
                     break;
                     case (int)dir.down:
-                        destination.Y+= 2;
+                        updateMove.Y = 2;
                         break;
                     case (int)dir.left:
-                        destination.X-= 2;
+                    updateMove.X = -2;
                         break;
                     case(int)dir.right:
-                        destination.X+= 2;
+                    updateMove.X = 2;
                         break;
                     default:
                         break;
@@ -71,7 +71,7 @@ namespace sprint2
                 }
                 count %= 4;//Avoid too much use of storage.
              
-                return destination;
+                return updateMove;
             
             
 

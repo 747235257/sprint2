@@ -29,7 +29,7 @@ namespace sprint2
         {
             WIDTH = 15, HEIGHT = 22, X_ADJ = 0, Y_ADJ = 7, ROW = 1, COL = 1
         }
-        public Gel(Texture2D texture, SpriteBatch spriteBatch, Game game)
+        public Gel(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
@@ -39,7 +39,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = GelSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -76,11 +76,11 @@ namespace sprint2
 
             }
 
-            GelSprite.Update(gametime, curdir);
-            count = count % 16;//Reset the count to prevent unnecessary storage usage.
-                               //UPDATES positions and hitboxes
+            //UPDATES positions and hitboxes
             prevPos = currPos;
-            currPos = GelSprite.GetPos();
+            Vector2 updateMove = GelSprite.Update(gametime, curdir);
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;

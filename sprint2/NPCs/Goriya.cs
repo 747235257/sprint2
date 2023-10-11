@@ -45,7 +45,7 @@ namespace sprint2
             isAlive = true;
 
             //gets position of the dragon
-            currPos = GoriyaSprite.GetPos();
+            currPos = startPos;
             prevPos = currPos;
 
             //hitbox allocations
@@ -83,7 +83,7 @@ namespace sprint2
 
             }
             
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, dir));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, dir));
             return projectiles;
 
         }
@@ -132,13 +132,14 @@ namespace sprint2
                 }
 
             }
-
-            destination = GoriyaSprite.Update(gametime, curdir);
+ 
+            prevPos = currPos;
+            Vector2 updateMove = GoriyaSprite.Update(gametime, curdir);
             count = count % 16;//Reset the count to prevent unnecessary storage usage.
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
 
             //UPDATES positions and hitboxes
-            prevPos = currPos;
-            currPos = GoriyaSprite.GetPos();
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;

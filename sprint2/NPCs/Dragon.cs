@@ -69,9 +69,9 @@ namespace sprint2
             //The dragon gonna fire 3 fireballs.
             List<IProjectile> projectiles = new List<IProjectile>();
             
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_DOWNLEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, LEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_UPLEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_DOWNLEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_UPLEFT));
 
 
             return projectiles;
@@ -118,14 +118,15 @@ namespace sprint2
                     attack= true;
                 }
                 
-            } 
-            
-            destination = DragonSprite.Update(gametime, curdir);
-            count = count % 16;//Reset the count to prevent unnecessary storage usage.
+            }
 
             //UPDATES positions and hitboxes
             prevPos = currPos;
-            currPos = DragonSprite.GetPos();
+
+            Vector2 updateMove = DragonSprite.Update(gametime, curdir);
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
+            count = count % 16;//Reset the count to prevent unnecessary storage usage.
 
             prevHitbox = hitbox;
             hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
