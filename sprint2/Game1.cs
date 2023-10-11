@@ -35,10 +35,10 @@ namespace sprint2
         private float timer;
         private bool keyEn;
 
-        Texture2D Enemies;
-        Texture2D Bosses;
-        Texture2D NPCs;
-        Texture2D ItemSprite;
+        public Texture2D Enemies;
+        public Texture2D Bosses;
+        public Texture2D NPCs;
+        public Texture2D ItemSprite;
         public Texture2D LevelBack;
 
         public IPlayer player;
@@ -52,7 +52,7 @@ namespace sprint2
         private List<IProjectile> playerProjectiles;
         private List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
-        private List<INPC> NPCList;
+        public List<INPC> NPCList;
 
 
         private IItem item;
@@ -294,18 +294,18 @@ namespace sprint2
 
         private void CreateNPCs()
         {
-            Skull = new Skull(Enemies, _spriteBatch, this);
+            //Skull = new Skull(Enemies, _spriteBatch, this);
             //OldMan = new OldMan(NPCs, _spriteBatch, this);
-            Goriya = new Goriya(Enemies, _spriteBatch, this);
+            //Goriya = new Goriya(Enemies, _spriteBatch, this);
 
             //Gel = new Gel(Enemies, _spriteBatch, this);
-            Bat = new Bat(Enemies, _spriteBatch, this);
-            Dragon = new Dragon(Bosses, _spriteBatch, this);
+            //Bat = new Bat(Enemies, _spriteBatch, this);
+            //Dragon = new Dragon(Bosses, _spriteBatch, this);
 
-            NPCList.Add(Goriya);
-            NPCList.Add(Dragon);
-            NPCList.Add(Bat);
-            NPCList.Add(Skull);
+            //NPCList.Add(Goriya);
+            //NPCList.Add(Dragon);
+            //NPCList.Add(Bat);
+            //NPCList.Add(Skull);
 
         }
     }

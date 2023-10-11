@@ -32,7 +32,7 @@ namespace sprint2
         {
             WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
+        public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;

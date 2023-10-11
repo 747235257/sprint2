@@ -31,7 +31,7 @@ namespace sprint2
             WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
 
-        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game game)
+        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;

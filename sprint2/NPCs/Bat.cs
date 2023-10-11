@@ -29,7 +29,7 @@ namespace sprint2
         {
             WIDTH = 32, HEIGHT = 30, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public Bat(Texture2D texture, SpriteBatch spriteBatch, Game game)
+        public Bat(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;

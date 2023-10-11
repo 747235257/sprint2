@@ -16,6 +16,7 @@ namespace sprint2
     {
         IPlayer player;
         List<IBlock> blocks;
+        List<INPC> enemies;
         Level level;
         Game1 game1;
         Game game;
@@ -26,6 +27,7 @@ namespace sprint2
             this.Blocks = Blocks;
             level = game1.curLevel;
             blocks = new List<IBlock>();
+            enemies= new List<INPC>();
             this.game1 = game1;
             this.game = game;
             
@@ -44,13 +46,25 @@ namespace sprint2
                     case "Block":
                         blocks.Add(new Block(Blocks, game1.blockRow, game1.blockCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game));
                         break;
+                    case "Dragon":
+                        enemies.Add(new Dragon(game1.Bosses, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
+                    case "Skull":
+                        enemies.Add(new Skull(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
+                    case "Goriya":
+                        enemies.Add(new Goriya(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
+                    case "Bat":
+                        enemies.Add(new Bat(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
                     default:
                         break;
 
 
                 }
             }
-            
+            game1.NPCList = enemies;
             game1.blocks = blocks;
             LoadBack(level.Name);
         }
