@@ -61,7 +61,7 @@ namespace sprint2
         public LevelManager levelManager;
         public Level curLevel;
         public ObstacleHandler obstacleHandler;
-
+        public List<Rectangle> wallHitboxes;
 
         public Game1()
         {
@@ -92,7 +92,7 @@ namespace sprint2
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
-
+            wallHitboxes= new List<Rectangle>();
             // TODO: Add your initialization logic here
             NPCList = new List<INPC>();
             //loads kb and mouse support
@@ -119,6 +119,7 @@ namespace sprint2
             CreateNPCs();
 
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            wallHitboxes = WallHitboxHandler();
             obstacleHandler.Update();
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
@@ -177,6 +178,9 @@ namespace sprint2
             collision.HandleEnemyEnemyCollision(NPCList);
             collision.HandleEnemyBlockCollision(NPCList, blocks);
             collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+            collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
+            collision.HandlePlayerWallCollision(player, wallHitboxes);
+            collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
             //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
 
 
@@ -307,6 +311,16 @@ namespace sprint2
             //NPCList.Add(Bat);
             //NPCList.Add(Skull);
 
+        }
+
+        public List<Rectangle> WallHitboxHandler()
+        {
+            List<Rectangle> list = new List<Rectangle>();
+            for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
+            {
+                list.Add(new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height));
+            }
+            return list;
         }
     }
 }

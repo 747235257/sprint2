@@ -191,5 +191,73 @@ public class CollisionHandler
         }
 
     }
+	//Enemy vs Wall
+    public void HandleEnemyWallCollision(List<INPC> enemies, List<Rectangle> walls)
+    {
+        foreach (INPC enemy in enemies)
+        {
+            foreach (Rectangle wall in walls)
+            {
+                if (enemy != null && walls != null)
+                {
+                    
+                    Rectangle eHitbox = enemy.getHitbox();
+
+                    if (wall.Intersects(eHitbox))
+                    {
+                        enemy.setLastPos();
+                    }
+                }
+            }
+
+        }
+    }
+
+    //PlayerProj vs Wall
+    public void HandleProjectileWallCollision(List<Rectangle> walls, List<IProjectile> enemyProj, List<IProjectile> playerProj)
+    {
+        foreach (Rectangle wall in walls)
+        {
+            
+                
+                foreach (IProjectile proj in enemyProj) //untested - enemies don't have hitboxes
+                {
+                    if (proj != null)
+                    {
+                        Rectangle projHitbox = proj.getHitbox();
+                        if (wall.Intersects(projHitbox)) proj.setToInactive();
+                    }
+                }
+
+                foreach (IProjectile proj in playerProj)
+                {
+                    if (proj != null)
+                    {
+                        Rectangle projHitbox = proj.getHitbox();
+                        if (wall.Intersects(projHitbox)) proj.setToInactive();
+                    }
+                }
+            }
+        
+
+    }
+    //Player vs Block
+    public void HandlePlayerWallCollision(IPlayer player, List<Rectangle> walls)
+    {
+        Rectangle playerHitbox = player.getHitbox();
+
+        foreach (Rectangle wall in walls)
+        {
+            
+                
+                if (wall.Intersects(playerHitbox))
+                {
+                    player.setLastPos();
+                }
+            
+        }
+    }
+
+
 }
 

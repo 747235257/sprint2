@@ -150,11 +150,13 @@ public class KeyboardCont : IController
             game.curLevel = game.levelManager.Levels[0];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
             game.obstacleHandler.Update();
+            game.WallHitboxHandler();
         } else if(mouseState.RightButton == ButtonState.Pressed)
         {
             game.curLevel = game.levelManager.Levels[1];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
             game.obstacleHandler.Update();
+            game.WallHitboxHandler();
         }
     }
 }
