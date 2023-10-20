@@ -4,16 +4,16 @@ Authors: Haikal Bin Rozaidi, Akmal Hasrudin, Beal Norazilan, Kyrie Iswandy, Deng
 
 Program: 2D top down zelda-like game.
 
-Description: Now, the program supports collision handling and level changing through JSON files.
+Description for sprint3: Now, the program supports collision handling and level changing through JSON files.
 
-Code Metric Analysis: 
+Code Metric Analysis: Data can be found attached in the excel file.
 
 Controls: 
 (WASD/ARROWS): Move
 (1), (2), (3): Shoot items
 (mouse1/mouse2): change level
 
-To fix/bugs/smells: 
+To fix/bugs/smells (sprint 2): 
 1) Walk animation doesn't reset in PLAYER 
 2) Make multiple different projectile classes, not just one PROJECTILE (DONE)
 3) Remove magic numbers in ALL CLASSES (DONE)
