@@ -28,7 +28,7 @@ namespace sprint2
             level = game1.curLevel;
             blocks = new List<IBlock>();
             enemies= new List<INPC>();
-            this.game1 = game1;
+            this.game1 = game1; //TO CHECK
             this.game = game;
             
              
