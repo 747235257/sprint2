@@ -258,6 +258,74 @@ public class CollisionHandler
         }
     }
 
+    public void HandleEnemyDoorCollision(List<INPC> enemies, List<Rectangle> doors)
+    {
+        foreach (INPC enemy in enemies)
+        {
+            foreach (Rectangle door in doors)
+            {
+                if (enemy != null)
+                {
+
+                    Rectangle eHitbox = enemy.getHitbox();
+
+                    if (door.Intersects(eHitbox))
+                    {
+                        enemy.setLastPos();
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void HandlePlayerDoorCollision(IPlayer player, List<Rectangle> doorHitboxes, List<DoorHitbox> doors, Game1 game)
+    {
+        Rectangle playerHitbox = player.getHitbox();
+
+		for(int i = 0; i < doors.Count; i++)
+		{
+			if (doorHitboxes[i].Intersects(playerHitbox))
+			{
+                game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+                game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                game.obstacleHandler.Update(); //resets lists in game with new objects
+                player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
+				
+				game.doors = game.DoorHitboxHandler();//doorlists is reset
+            }
+		}
+    }
+
+    //PlayerProj vs Wall
+    public void HandleProjectileDoorCollision(List<Rectangle> doors, List<IProjectile> enemyProj, List<IProjectile> playerProj)
+    {
+        foreach (Rectangle door in doors)
+        {
+
+
+            foreach (IProjectile proj in enemyProj) //untested - enemies don't have hitboxes
+            {
+                if (proj != null)
+                {
+                    Rectangle projHitbox = proj.getHitbox();
+                    if (door.Intersects(projHitbox)) proj.setToInactive();
+                }
+            }
+
+            foreach (IProjectile proj in playerProj)
+            {
+                if (proj != null)
+                {
+                    Rectangle projHitbox = proj.getHitbox();
+                    if (door.Intersects(projHitbox)) proj.setToInactive();
+                }
+            }
+        }
+
+
+    }
+
 
 }
 

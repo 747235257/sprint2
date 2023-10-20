@@ -62,6 +62,9 @@ namespace sprint2
         public Level curLevel;
         public ObstacleHandler obstacleHandler;
         public List<Rectangle> wallHitboxes;
+        public List<DoorHitbox> doors;
+        public List<Rectangle> doorHitboxes; 
+        
 
         public Game1()
         {
@@ -93,6 +96,8 @@ namespace sprint2
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
             wallHitboxes= new List<Rectangle>();
+            doorHitboxes= new List<Rectangle>();
+            doors= new List<DoorHitbox>();
             // TODO: Add your initialization logic here
             NPCList = new List<INPC>();
             //loads kb and mouse support
@@ -120,6 +125,7 @@ namespace sprint2
 
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
             wallHitboxes = WallHitboxHandler();
+            doors = DoorHitboxHandler();
             obstacleHandler.Update();
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
@@ -181,7 +187,10 @@ namespace sprint2
             collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
             collision.HandlePlayerWallCollision(player, wallHitboxes);
             collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+            collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
             //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+            collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
+            collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
 
 
             base.Update(gameTime);
@@ -322,5 +331,18 @@ namespace sprint2
             }
             return list;
         }
+
+
+        public List<DoorHitbox> DoorHitboxHandler()
+        {
+            List<Rectangle> list = new List<Rectangle>();
+            for (int i = 0; i < curLevel.DoorHitboxs.Count; i++)
+            {
+                list.Add(new Rectangle((int)curLevel.DoorHitboxs[i].X, (int)curLevel.DoorHitboxs[i].Y, curLevel.DoorHitboxs[i].Width, curLevel.DoorHitboxs[i].Height));
+            }
+            doorHitboxes = list;
+            return curLevel.DoorHitboxs;
+        }
+
     }
 }

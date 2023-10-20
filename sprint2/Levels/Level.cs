@@ -12,12 +12,15 @@ public class Level
     public string Name { get; set; }
     public List<Obstacle> Obstacles { get; set; }
     public List<WallHitbox> WallHitboxs { get; set; }
+
+    public List<DoorHitbox> DoorHitboxs { get; set; }
     // Add other properties as needed
 
     public Level()
     {
         Obstacles = new List<Obstacle>(); //enemies, player, blocks
         WallHitboxs = new List<WallHitbox>(); //walls
+        DoorHitboxs = new List<DoorHitbox>(); //Doors
     }
 }
 
@@ -37,5 +40,19 @@ public class WallHitbox
     public float Y { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
+}
+
+public class DoorHitbox
+{
+    public float X { get; set; }
+    public float Y { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+
+    public float NextX {  get; set; }
+
+    public float NextY { get; set; }
+
+    public int NextLevel { get; set; }
 }
 
