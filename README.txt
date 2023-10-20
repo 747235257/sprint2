@@ -4,7 +4,7 @@ Authors: Haikal Bin Rozaidi, Akmal Hasrudin, Beal Norazilan, Kyrie Iswandy, Deng
 
 Program: 2D top down zelda-like game.
 
-Description for sprint3: Now, the program supports collision handling and level changing through JSON files.
+Description for sprint3: Now, the program supports collision handling, level transitions through doors and level changing through JSON files.
 
 Code Metric Analysis: Data can be found attached in the excel file.
 
