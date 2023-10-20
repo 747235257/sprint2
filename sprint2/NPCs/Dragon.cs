@@ -19,11 +19,22 @@ namespace sprint2
         private float duration;
         private bool attack;
         private Rectangle destination;
+        private Vector2 currPos;
+        private Vector2 prevPos;
+        private Rectangle hitbox;      //COLLISION SPRINT 3
+        private Rectangle prevHitbox;
+        private ISprite hitboxSprite;
         private Game1 game;
         private ProjectileFactory factory = new ProjectileCreator();
         private readonly Vector2 DIAGONAL_DOWNLEFT = new Vector2(-1, 1), LEFT = new Vector2(-1, 0), DIAGONAL_UPLEFT = new Vector2(-1, -1);
         private string Name;
-        public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
+        private bool isAlive;
+
+        private enum HitboxDims
+        {
+            WIDTH = 50, HEIGHT = 65, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+        }
+        public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
@@ -33,20 +44,34 @@ namespace sprint2
             attack = false;
             this.game = game;
             this.Name = "Dragon";
-        }
-        
-        
+            isAlive = true;
 
-        
+            //gets position of the dragon
+            currPos = startPos;
+            prevPos = currPos;
+
+            //hitbox allocations
+            hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
+            prevHitbox = hitbox;
+
+            //hitboxsprite
+            hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
+
+
+        }
+
+
+
+
 
         public List<IProjectile> Attack()
         {
             //The dragon gonna fire 3 fireballs.
             List<IProjectile> projectiles = new List<IProjectile>();
             
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_DOWNLEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, LEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, DIAGONAL_UPLEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_DOWNLEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_UPLEFT));
 
 
             return projectiles;
@@ -93,18 +118,58 @@ namespace sprint2
                     attack= true;
                 }
                 
-            } 
-            
-            destination = DragonSprite.Update(gametime, curdir);
+            }
+
+            //UPDATES positions and hitboxes
+            prevPos = currPos;
+
+            Vector2 updateMove = DragonSprite.Update(gametime, curdir);
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
             count = count % 16;//Reset the count to prevent unnecessary storage usage.
+
+            prevHitbox = hitbox;
+            hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+            hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
+
             return projectiles;
             
             
         }
         public void Draw()
         {
-            DragonSprite.Draw();
+            drawHitbox();
+            DragonSprite.Draw(currPos);
+
         }
-        
+
+        //COLLISION SPRINT3
+        public void drawHitbox()
+        {
+            hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+        }
+
+        //COLLISION SPRINT3
+        public Rectangle getHitbox()
+        {
+            return hitbox;
+        }
+
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
+        }
+
     }
 }

@@ -1,14 +1,29 @@
-README FOR SPRINT 2 (DZNT) - Sept 22 to Sept 29
+README FOR SPRINT 3 (DZNT) - Oct 11 to Oct 20
 
 Authors: Haikal Bin Rozaidi, Akmal Hasrudin, Beal Norazilan, Kyrie Iswandy, Dengchen Mei, Nathan Sprott.
 
 Program: 2D top down zelda-like game.
 
-Description: Currently, the program supports the player class, the enemy class, projectiles, blocks and items. The player is controlled through keyboard input and switching enemies/blocks/items are also handled through the keyboard
+Description for sprint3: Now, the program supports collision handling, level transitions through doors and level changing through JSON files.
 
-Code Metric Analysis: The maintainability of the code remains the same. The complexity also remained the same. So was Inheritance. Coupling between classes saw a slight increase, maybe due to adding the factory class to make new projectiles in the PlayerState. The lines of source code increased. We expected this because we added more features/fixes in classes such as the Projectile class, the factory class and the player class. The lines of executable code also increased.
+Code Metric Analysis: Data can be found attached in the excel file.
 
-To fix/bugs/smells: 
+During Sprint 3,
+
+In General: only # of lines of source code and exec code were changed heavily. Due to added features. Complexities remained the same.
+
+CollisionHandler: Coupling increased, so did complexity. Mainly due to added Collision handling methods with Wall hitboxes and door hitboxes - also having to handle level changes.
+
+Level: Barely any changes to complexity and lines of code. Changes are mainly due to newly added door hitboxes.
+
+LevelManager: The same
+
+Controls: 
+(WASD/ARROWS): Move
+(1), (2), (3): Shoot items
+(mouse1/mouse2): change level
+
+To fix/bugs/smells (sprint 2): 
 1) Walk animation doesn't reset in PLAYER 
 2) Make multiple different projectile classes, not just one PROJECTILE (DONE)
 3) Remove magic numbers in ALL CLASSES (DONE)

@@ -13,8 +13,8 @@ namespace sprint2
     public class Game1 : Game
     {
 
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public GraphicsDeviceManager _graphics;
+        public SpriteBatch _spriteBatch;
 
 
         private Vector2 initPosition;
@@ -27,61 +27,79 @@ namespace sprint2
         private INPC Gel;
         private INPC Bat;
         public INPC cur;
-        private ArrayList NPCList;
         public int currentNPC { get; set; }
 
 
-        Texture2D Blocks;
+        public Texture2D Blocks;
 
         private float timer;
         private bool keyEn;
 
-        Texture2D Enemies;
-        Texture2D Bosses;
-        Texture2D NPCs;
-        Texture2D ItemSprite;
+        public Texture2D Enemies;
+        public Texture2D Bosses;
+        public Texture2D NPCs;
+        public Texture2D ItemSprite;
+        public Texture2D LevelBack;
 
-        private IPlayer player;
-        private IBlock block;
+        public IPlayer player;
         private IController keyboard;
 
 
-        private int blockRow = 3;
-        private int blockCol = 4;
+        public int blockRow = 3;
+        public int blockCol = 4;
 
 
-        private List<IProjectile> playerProjectiles;
-        private List<IProjectile> enemyProjectiles;
+        public List<IProjectile> playerProjectiles;
+        public List<IProjectile> enemyProjectiles;
+        public List<IBlock> blocks;
+        public List<INPC> NPCList;
 
 
         private IItem item;
 
+        private CollisionHandler collision;
+        public LevelManager levelManager;
+        public Level curLevel;
+        public ObstacleHandler obstacleHandler;
+        public List<Rectangle> wallHitboxes;
+        public List<DoorHitbox> doors;
+        public List<Rectangle> doorHitboxes; 
+        
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            //window size
+            _graphics.PreferredBackBufferHeight = 528; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
+            _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-
             // TODO: Add your initialization logic here
+            levelManager = new LevelManager();
+            levelManager.LoadLevels("Content/levels/level1.json");
+            curLevel = levelManager.Levels[0];
+
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
 
 
 
+            collision = new CollisionHandler();
 
-            NPCList= new ArrayList();
             //loads kb and mouse support
             keyboard = new KeyboardCont(this);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
-
+            blocks = new List<IBlock>();
+            wallHitboxes= new List<Rectangle>();
+            doorHitboxes= new List<Rectangle>();
+            doors= new List<DoorHitbox>();
             // TODO: Add your initialization logic here
-            NPCList = new ArrayList();
+            NPCList = new List<INPC>();
             //loads kb and mouse support
             timer = 0;
             keyEn = false;
@@ -94,27 +112,23 @@ namespace sprint2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            player = new Player(this, _graphics, _spriteBatch);
+            player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
-
+            LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
-            block = new Block(Blocks, blockRow, blockCol, initPosition);
+            blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
-
             CreateNPCs();
-       
 
-         
+            obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            wallHitboxes = WallHitboxHandler();
+            doors = DoorHitboxHandler();
+            obstacleHandler.Update();
             ItemSprite = Content.Load<Texture2D>("Sheet");
             item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
-
-            //Create NPCs
-
-
-            CreateNPCs();
         }
 
         protected override void Update(GameTime gameTime)
@@ -126,16 +140,16 @@ namespace sprint2
                 this.Initialize();
             }
 
-
+            keyboard.handleLevelSwitch(this);
             keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
             keyboard.HandleDamaged(_graphics, player);
 
-            player.updateAttack();
-            player.updateItem();
+            player.updatePlayer();
 
             removePlayerProjectileList();
+            removeEnemyList();
             //projectile return by keyboard is added to the list
             IProjectile plProj = keyboard.HandlePlayerItem(_graphics, player);
 
@@ -144,35 +158,39 @@ namespace sprint2
             UpdatePlayerProjectileList(gameTime);
 
 
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(timer > 0.5 && !keyEn)
-            {
-                keyEn = keyboard.HandleSwitchEnemy(currentNPC);
-                if(keyEn)
-                {
-                    timer = 0;
-                }
-            }else if(timer > 0.5 && keyEn)
-            {
-                keyEn = false;
-            }
+            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if(timer > 0.5 && !keyEn)
+            //{
+            //    keyEn = keyboard.HandleSwitchEnemy(currentNPC);
+            //    if(keyEn)
+            //    {
+            //        timer = 0;
+            //    }
+            //}else if(timer > 0.5 && keyEn)
+            //{
+            //    keyEn = false;
+            //}
             
-            
-
-            
-            block = keyboard.blockHandle(_graphics, Blocks, blockRow, blockCol, initPosition, block);
-
             
 
             removeEnemyProjectileList();
-
-
-            cur = (INPC)NPCList[currentNPC];
-
-            List<IProjectile> projectiles = cur.Execute(gameTime);
-
-            addEnemyProjectileList(projectiles);
             updateEnemyProjectileList(gameTime);
+            updateEnemyList(gameTime);
+
+            collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
+            collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
+            collision.HandlePlayerBlockCollision(player, blocks);
+            collision.HandlePlayerEnemyCollision(player, NPCList);
+            collision.HandleEnemyEnemyCollision(NPCList);
+            collision.HandleEnemyBlockCollision(NPCList, blocks);
+            collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+            collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
+            collision.HandlePlayerWallCollision(player, wallHitboxes);
+            collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+            collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
+            //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+            collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
+            collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
 
 
             base.Update(gameTime);
@@ -187,24 +205,44 @@ namespace sprint2
 
             //TUTORIAL
             _spriteBatch.Begin();
-
-            block.drawBlock(_spriteBatch);
-
+            //256, 176
+            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,768,528), Color.White); 
+            drawAllBlocks();
             drawAllProjectiles();
+            drawAllEnemies();
             player.Draw();
 
             _spriteBatch.End();
 
             item.ItemProcess(_spriteBatch);
 
-
-            cur.Draw();
             base.Draw(gameTime);
         }
 
 
 
+        private void updateEnemyList(GameTime gameTime)
+        {
+            foreach(INPC enemy in NPCList)
+            {
+                if(enemy != null) 
+                {
+                    List<IProjectile> proj = enemy.Execute(gameTime);
 
+                    if (proj != null) enemyProjectiles.AddRange(proj);
+                }
+            }
+        }
+
+        private void removeEnemyList()
+        {
+
+            for (int i = 0; i < NPCList.Count; i++)
+            {
+                if (NPCList[i] != null && !NPCList[i].isStillAlive()) NPCList[i] = null;
+            }
+
+        }
         private void removePlayerProjectileList()
         {
             for (int i = 0; i < playerProjectiles.Count; i++)
@@ -232,13 +270,21 @@ namespace sprint2
                 if(projectile != null) projectile.Draw(_spriteBatch);
             }
         }
-        private void addEnemyProjectileList(List<IProjectile> projectiles)
-        {
-            if(projectiles != null)
-            {
-                enemyProjectiles.AddRange(projectiles);
-            }
 
+        private void drawAllBlocks()
+        {
+            foreach (IBlock block in blocks)
+            {
+                if (block != null) block.drawBlock();
+            }
+        }
+
+        private void drawAllEnemies()
+        {
+            foreach (INPC enemy in NPCList)
+            {
+                if (enemy != null) enemy.Draw();
+            }
         }
 
         private void updateEnemyProjectileList(GameTime gameTime)
@@ -261,21 +307,42 @@ namespace sprint2
 
         private void CreateNPCs()
         {
-            Skull = new Skull(Enemies, _spriteBatch);
-            OldMan = new OldMan(NPCs, _spriteBatch);
-            Goriya = new Goriya(Enemies, _spriteBatch, this);
+            //Skull = new Skull(Enemies, _spriteBatch, this);
+            //OldMan = new OldMan(NPCs, _spriteBatch, this);
+            //Goriya = new Goriya(Enemies, _spriteBatch, this);
 
-            Gel = new Gel(Enemies, _spriteBatch);
-            Bat = new Bat(Enemies, _spriteBatch);
-            Dragon = new Dragon(Bosses, _spriteBatch, this);
+            //Gel = new Gel(Enemies, _spriteBatch, this);
+            //Bat = new Bat(Enemies, _spriteBatch, this);
+            //Dragon = new Dragon(Bosses, _spriteBatch, this);
 
-            NPCList.Add(Skull);
-            NPCList.Add(OldMan);
-            NPCList.Add(Goriya);
-            NPCList.Add(Gel);
-            NPCList.Add(Bat);
-            NPCList.Add(Dragon);
+            //NPCList.Add(Goriya);
+            //NPCList.Add(Dragon);
+            //NPCList.Add(Bat);
+            //NPCList.Add(Skull);
 
         }
+
+        public List<Rectangle> WallHitboxHandler()
+        {
+            List<Rectangle> list = new List<Rectangle>();
+            for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
+            {
+                list.Add(new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height));
+            }
+            return list;
+        }
+
+
+        public List<DoorHitbox> DoorHitboxHandler()
+        {
+            List<Rectangle> list = new List<Rectangle>();
+            for (int i = 0; i < curLevel.DoorHitboxs.Count; i++)
+            {
+                list.Add(new Rectangle((int)curLevel.DoorHitboxs[i].X, (int)curLevel.DoorHitboxs[i].Y, curLevel.DoorHitboxs[i].Width, curLevel.DoorHitboxs[i].Height));
+            }
+            doorHitboxes = list;
+            return curLevel.DoorHitboxs;
+        }
+
     }
 }

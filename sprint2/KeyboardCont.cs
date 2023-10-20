@@ -141,4 +141,22 @@ public class KeyboardCont : IController
         }
         return blocky;
     }
+    public void handleLevelSwitch(Game1 game)
+    {
+        var mouseState = Mouse.GetState();
+
+        if (mouseState.LeftButton == ButtonState.Pressed)
+        {
+            game.curLevel = game.levelManager.Levels[0];
+            game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+            game.obstacleHandler.Update();
+            game.WallHitboxHandler();
+        } else if(mouseState.RightButton == ButtonState.Pressed)
+        {
+            game.curLevel = game.levelManager.Levels[1];
+            game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+            game.obstacleHandler.Update();
+            game.WallHitboxHandler();
+        }
+    }
 }

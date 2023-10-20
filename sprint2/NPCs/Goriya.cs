@@ -21,8 +21,18 @@ namespace sprint2
         private Game1 game;
         private string Name;
         private ProjectileFactory factory = new ProjectileCreator();
+        private Vector2 currPos;
+        private Vector2 prevPos;
+        private Rectangle hitbox;      //COLLISION SPRINT 3
+        private Rectangle prevHitbox;
+        private ISprite hitboxSprite;
+        private bool isAlive;
 
-        public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game)
+        private enum HitboxDims
+        {
+            WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+        }
+        public Goriya(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
@@ -32,6 +42,18 @@ namespace sprint2
             duration = 0;
             attack = false;
             this.game = game;
+            isAlive = true;
+
+            //gets position of the dragon
+            currPos = startPos;
+            prevPos = currPos;
+
+            //hitbox allocations
+            hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
+            prevHitbox = hitbox;
+
+            //hitboxsprite
+            hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
         }
 
 
@@ -61,7 +83,7 @@ namespace sprint2
 
             }
             
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(destination.X, destination.Y), game.Content, dir));
+            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, dir));
             return projectiles;
 
         }
@@ -110,16 +132,54 @@ namespace sprint2
                 }
 
             }
-
-            destination = GoriyaSprite.Update(gametime, curdir);
+ 
+            prevPos = currPos;
+            Vector2 updateMove = GoriyaSprite.Update(gametime, curdir);
             count = count % 16;//Reset the count to prevent unnecessary storage usage.
+            currPos.X += updateMove.X;
+            currPos.Y += updateMove.Y;
+
+            //UPDATES positions and hitboxes
+
+            prevHitbox = hitbox;
+            hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+            hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
             return projectiles;
 
 
         }
         public void Draw()
         {
-            GoriyaSprite.Draw();
+            drawHitbox();
+            GoriyaSprite.Draw(currPos);
+        }
+
+        //COLLISION SPRINT3
+        public void drawHitbox()
+        {
+            hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+        }
+
+        //COLLISION SPRINT3
+        public Rectangle getHitbox()
+        {
+            return hitbox;
+        }
+
+        public void giveDamage()
+        {
+            isAlive = false;
+        }
+
+        public bool isStillAlive()
+        {
+            return isAlive;
+        }
+
+        public void setLastPos()
+        {
+            currPos = prevPos;
+            hitbox = prevHitbox;
         }
     }
 }

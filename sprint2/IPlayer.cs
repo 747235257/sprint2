@@ -9,6 +9,7 @@ namespace sprint2
     {
 
         public void setIdle();
+        public void setLocation(Vector2 pos);
         public void moveLeft();
 
 
@@ -20,10 +21,11 @@ namespace sprint2
 
         public void moveUp();
 
-        public void updateAttack(); //To lock player in attack anim.
-
-        public void updateItem();//To lock player in item anim.
+        public void updatePlayer();
         public void setDamaged();
+        public Rectangle getHitbox();
+
+        public void setLastPos();
 
         public Vector2 attack(); //returns attack hitbox range
 

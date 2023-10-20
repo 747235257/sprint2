@@ -30,30 +30,36 @@ namespace sprint2
             spriteEffects = SpriteEffects.FlipHorizontally;
             source = new Rectangle(1, 59, width, height);//The origin sprite frame.
             flip = false;
-            destination = new Rectangle(200, 200, 32, 32);
+            destination = new Rectangle(50, 200, 32, 32);
             count = 0;
             
     }
-        public Rectangle Update(GameTime gameTime, int curdir)
+
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
+        {
+            return new Vector2(destination.X, destination.Y);
+        }
+        public Vector2 Update(GameTime gameTime, int curdir)
         {
             
-            
+            Vector2 updateMove = new Vector2(0, 0);
                 count++;
                 switch(curdir)
                 {
                     case (int)dir.idle:
                         break;
                     case(int)dir.up:
-                        destination.Y -= 2;//Speed is 2;
+                    updateMove.Y = -2;//Speed is 2;
                     break;
                     case (int)dir.down:
-                        destination.Y+= 2;
+                        updateMove.Y = 2;
                         break;
                     case (int)dir.left:
-                        destination.X-= 2;
+                    updateMove.X = -2;
                         break;
                     case(int)dir.right:
-                        destination.X+= 2;
+                    updateMove.X = 2;
                         break;
                     default:
                         break;
@@ -65,14 +71,14 @@ namespace sprint2
                 }
                 count %= 4;//Avoid too much use of storage.
              
-                return destination;
+                return updateMove;
             
             
 
         }
-        public void Draw() {
-
-            spriteBatch.Begin();
+        public void Draw(Vector2 pos) {
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             if (!flip)//Draw flip.
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
@@ -81,8 +87,6 @@ namespace sprint2
             {
                 spriteBatch.Draw(texture, destination, source, Color.White);
             }
-
-            spriteBatch.End();
 
         }
         

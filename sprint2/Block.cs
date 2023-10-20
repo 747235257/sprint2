@@ -15,11 +15,19 @@ public class Block : IBlock
     private int totalFrames;
     //private int updateCounter = 0;
     private Vector2 pos;
+    private Rectangle hitbox; //COLLISION SPRINT3
+    private ISprite hitboxSprite; //COLLISION SPRINT3
     private const int updateMax = 4;
     private int updateCounter;
     private const int sizeScale = 3;
+    private SpriteBatch spriteBatch;
+    private Game game;
 
-    public Block(Texture2D texture, int rows, int columns, Vector2 location)
+    private enum HitboxDims
+    {
+        WIDTH = 50, HEIGHT = 50, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+    }
+    public Block(Texture2D texture, int rows, int columns, Vector2 location, SpriteBatch spriteBatch, Game game)
     {
         this.Texture = texture;
         this.Rows = rows;
@@ -28,6 +36,11 @@ public class Block : IBlock
         totalFrames = (rows * columns) - 2;
         pos = location;
         updateCounter = 0;
+        hitbox = new Rectangle((int)pos.X + (int)HitboxDims.X_ADJ, (int)pos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
+        hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
+
+        this.spriteBatch = spriteBatch;
+        this.game = game;
     }
     public enum FrameDirection
     {
@@ -76,22 +89,33 @@ public class Block : IBlock
             }
         }
     } 
-    public void blockPosition(Vector2 position)
+    public Vector2 blockPosition(Vector2 position)
     {
-
+        return pos;
     }
     
 
-    public void drawBlock(SpriteBatch spriteBatch)
+    public void drawBlock()
     {
         int row = currentFrame / (int)SpriteDims.COLS ;
         int col = currentFrame % (int)SpriteDims.COLS;
         
 
         Rectangle sourceRectangle = new Rectangle(0+17*col, 0+17*row, (int)TextureDims.WIDTH, (int)TextureDims.HEIGHT);
-        Rectangle destinationRectangle = new Rectangle((int)pos.X - 70, (int)pos.Y - 100, (int)TextureDims.WIDTH * sizeScale, (int)TextureDims.HEIGHT * sizeScale);
+        Rectangle destinationRectangle = new Rectangle((int)pos.X, (int)pos.Y, (int)TextureDims.WIDTH * sizeScale, (int)TextureDims.HEIGHT * sizeScale);
 
+        drawHitbox();//for debugging
         //draws a portion of the texture into a portion of the screen
         spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
     }
+
+    public void drawHitbox()
+    {
+        hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+    }
+    public Rectangle getHitbox()
+    {
+        return hitbox;
+    }
+
 }

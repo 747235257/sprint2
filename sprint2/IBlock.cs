@@ -11,6 +11,8 @@ public interface IBlock
 {
     void switchBlock(GraphicsDeviceManager _graphics, FrameDirection direction);
 
-    void blockPosition(Vector2 position);
-    public void drawBlock(SpriteBatch spriteBatch);
+    Vector2 blockPosition(Vector2 position);
+    public void drawBlock();
+
+    Rectangle getHitbox();
 }

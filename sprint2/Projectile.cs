@@ -18,7 +18,12 @@ namespace sprint2
         protected ISprite hitboxSprite;
         protected Rectangle hitbox;
         protected Texture2D hitboxTexture;
-        
+        protected int hit_width;
+        protected int hit_height;
+        protected int x_adj;
+        protected int y_adj;
+
+
         //base constructor for projectile
         public Projectile(Vector2 position, ContentManager Content, Vector2 initialDirection) // pass game
         {
@@ -27,17 +32,16 @@ namespace sprint2
             currentRange = 0;
             isActive = true;
         }
-        
 
         public void UpdatePosition(GameTime gameTime)
         {
             //only updates position if the current projectile is active
             if (isActive)
             {
-                Position.X += Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                Position.Y += Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                hitbox.X += (int)(Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                hitbox.Y += (int)(Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                Position.X += (int)(Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                Position.Y += (int)(Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                hitbox.X = (int)Position.X + x_adj;
+                hitbox.Y = (int)Position.Y + y_adj;
                 currentRange++;
                 currSprite.Update();
                 CheckRange();
@@ -71,6 +75,10 @@ namespace sprint2
             }
         }
 
+        public void setToInactive()
+        {
+            isActive = false;
+        }
         public bool ReturnStatus()
         {
             return isActive;

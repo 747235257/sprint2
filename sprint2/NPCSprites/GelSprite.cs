@@ -29,11 +29,17 @@ namespace sprint2
             source = new Rectangle(1, 11, width, height);
             timer = 0;
             frameCol= 0;
-            destination = new Rectangle(200, 200, 16, 32);
+            destination = new Rectangle(100, 100, 16, 32);
         }
-        public Rectangle Update(GameTime gameTime, int curdir)
+
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
         {
-            
+            return new Vector2(destination.X, destination.Y);
+        }
+        public Vector2 Update(GameTime gameTime, int curdir)
+        {
+            Vector2 updateMove = new Vector2(0, 0);
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
              if (timer > 0.1)//The cd of position update is 0.1 second.
             {
@@ -44,16 +50,16 @@ namespace sprint2
                     case (int)dir.idle:
                         break;
                     case (int)dir.up:
-                        destination.Y -= 2;//Speed is 2;
+                        updateMove.Y = -2;//Speed is 2;
                         break;
                     case (int)dir.down:
-                        destination.Y += 2;
+                        updateMove.Y = 2;
                         break;
                     case (int)dir.left:
-                        destination.X -= 2;
+                        updateMove.X = -2;
                         break;
                     case (int)dir.right:
-                        destination.X += 2;
+                        updateMove.X = 2;
                         break;
                     default:
                         break;
@@ -64,19 +70,18 @@ namespace sprint2
 
             }
 
-            return destination;
+            return updateMove;
 
 
 
         }
-        public void Draw()
+        public void Draw(Vector2 pos)
         {
 
-            spriteBatch.Begin();
-            
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             spriteBatch.Draw(texture, destination, source, Color.White);
             
-            spriteBatch.End();
 
         }
 

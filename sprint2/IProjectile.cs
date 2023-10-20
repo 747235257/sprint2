@@ -16,6 +16,8 @@ namespace sprint2
 
         public void drawHitbox(SpriteBatch spriteBatch, Vector2 loc, Rectangle hitbox);
 
+        public void setToInactive();
+
         public Rectangle getHitbox();
 
 

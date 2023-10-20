@@ -22,18 +22,23 @@ namespace sprint2
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             source = new Rectangle(1, 11, width, height);//The origin sprite frame.
-            destination = new Rectangle(200, 200, 32, 32);
+            destination = new Rectangle(100, 200, 32, 32);
         }
-        public Rectangle Update(GameTime gametime, int curdir)
+        public Vector2 Update(GameTime gametime, int curdir)
         {
-            return destination;
+            return new Vector2(0, 0);
         }
 
-        public void Draw()
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
         {
-            spriteBatch.Begin();
+            return new Vector2(destination.X, destination.Y);
+        }
+        public void Draw(Vector2 pos)
+        {
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             spriteBatch.Draw(texture, destination, source, Color.White);
-            spriteBatch.End();
         }
     }
 }

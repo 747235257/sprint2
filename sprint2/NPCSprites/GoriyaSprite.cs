@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,12 +36,19 @@ namespace sprint2
             speed = 2;
             timer = 0;
             frameCol = 0;
-            destination = new Rectangle(200, 200, 32, 32);
+            destination = new Rectangle(50, 200, 32, 32);
 
 
         }
-        public Rectangle Update(GameTime gametime, int curdir)
+
+        //returns the current position of the enemy on screen
+        public Vector2 GetPos()
         {
+            return new Vector2(destination.X, destination.Y);
+        }
+        public Vector2 Update(GameTime gametime, int curdir)
+        {
+            Vector2 updateMove = new Vector2(0, 0);
             timer += (float)gametime.ElapsedGameTime.TotalSeconds;
            if(timer >0.1)//The cd of position update is 0.1 second.
             {
@@ -58,24 +66,24 @@ namespace sprint2
 
                     case (int)dir.up:
 
-                        destination.Y -= speed;
+                        updateMove.Y = -speed;
                         source.X = 239; 
                         break;
                     case (int)dir.down:
 
-                        destination.Y += speed;
+                        updateMove.Y = speed;
                         source.X = 222;
                         break;
                     case (int)dir.left:
 
-                        destination.X -= speed;
+                        updateMove.X = -speed;
                         source.X = 256 + 17 * (frameCol % 2);
                         frameCol = (frameCol + 1) % 2;
                         leftRightflip = true;
                         break;
                     case (int)dir.right:
 
-                        destination.X += speed;
+                        updateMove.X = +speed;
                         source.X = 256 + 17 * (frameCol % 2);
                         frameCol = (frameCol + 1) % 2;
                         leftRightflip = false;
@@ -89,16 +97,17 @@ namespace sprint2
                 
             }
 
-           return destination;
+           return updateMove;
             
             
         }
 
-        public void Draw()
+        public void Draw(Vector2 pos)
         {
-            spriteBatch.Begin();
+            destination.X = (int)pos.X;
+            destination.Y = (int)pos.Y;
             //Draw different sprites.
-            
+
             if ((source.X == 256 || source.X == 273) && leftRightflip)//Left
             {
                 spriteBatch.Draw(texture, destination, source, Color.White, 0f, new Vector2(), spriteEffects, 1f);
@@ -115,8 +124,6 @@ namespace sprint2
             {
                 spriteBatch.Draw(texture, destination, source, Color.White);// Up or down.
             }
-
-            spriteBatch.End();
         }
     }
 }

@@ -18,5 +18,17 @@ namespace sprint2
 
         public List<IProjectile> Execute(GameTime gametime);
         public void Draw();
+
+        public void drawHitbox();
+
+        public Rectangle getHitbox();
+
+        public void giveDamage();
+
+        public bool isStillAlive();
+
+        public void setLastPos();
+
+
     }
 }
