@@ -1,4 +1,4 @@
-Sprint 2 Reflection (DZNT)
+Sprint 3 Reflection (DZNT)
 
 Below are reflections from each member:
 
@@ -12,7 +12,7 @@ However, we got it done eventually. My groupmates definitely helped me a lot by 
 an issue I was facing. I love how we held a group every Friday evening to finalize everything before submitting the work. 
 Working alongside Dengchen and Haikal while making projectiles for enemies and players is like a smooth sail for me. I am able to synchronize accordingly with them.
 
-3)Beal: I love how this group communicates with each other and makes sure that our work is synchronized and up to date. Everyone knows what they are doing and most of them finished their parts early, making fixing the bugs and errors easy. We bonded well with each other and I am looking forward to working for the next sprints. We might have some trouble using GitHub but we figured it out at last and got everything done.
+3)Beal: We continued our previous work smoothly as all the members have gotten used to using GitHub. All of us finished the work quikcly and spent the rest of the time to combine and fixed the bugs or wrong implemenatation. All group members are responsive and easy to have a meeting.
 
 4)Dengchen: We spent a lot time on how to deal with the github pulling, pushing and so on, but finally we get uesd to it. It is really nice to work with these energetic people. We always first work individually and then meet together in person to do the finishing touches, which is very efficient. We still have some functions for our game to change after we viewing the result of our work so far, but we are very confidence that we can make it. Let's go DZNT!!!!!!!!!!!!!!!!!!!!
 
