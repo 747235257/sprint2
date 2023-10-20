@@ -16,8 +16,8 @@ public class Level
 
     public Level()
     {
-        Obstacles = new List<Obstacle>();
-        WallHitboxs = new List<WallHitbox>();
+        Obstacles = new List<Obstacle>(); //enemies, player, blocks
+        WallHitboxs = new List<WallHitbox>(); //walls
     }
 }
 
@@ -30,6 +30,7 @@ public class Obstacle
     // Add other properties as needed
 }
 
+//dimensions and position of walls around room
 public class WallHitbox
 {
     public float X { get; set; }

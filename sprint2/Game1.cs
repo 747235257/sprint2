@@ -49,8 +49,8 @@ namespace sprint2
         public int blockCol = 4;
 
 
-        private List<IProjectile> playerProjectiles;
-        private List<IProjectile> enemyProjectiles;
+        public List<IProjectile> playerProjectiles;
+        public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
 
@@ -66,19 +66,19 @@ namespace sprint2
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            //window size
+            _graphics.PreferredBackBufferHeight = 528; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
+            _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-
             // TODO: Add your initialization logic here
             levelManager = new LevelManager();
             levelManager.LoadLevels("Content/levels/level1.json");
             curLevel = levelManager.Levels[0];
-            
-          
 
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             

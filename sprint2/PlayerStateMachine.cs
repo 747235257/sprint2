@@ -50,7 +50,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         WIDTH = 87, HEIGHT = 99
     }
 
-    //COLLISION SPRINT3
+    //Dimensions for player hitbox
     private enum HitboxDims
     {
         WIDTH = 45, HEIGHT = 45, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
@@ -59,9 +59,9 @@ public class PlayerStateMachine : IPlayerStateMachine
     State state;
     private Vector2 currPos;
     private Vector2 prevPos;
-    private Rectangle hitbox; //COLLISION SPRINT3
+    private Rectangle hitbox;
     private Rectangle prevHitbox;
-    private ISprite hitboxSprite; //COLLISION SPRINT3
+    private ISprite hitboxSprite; //to draw red box around hitbox
     private List<ISprite> walkSprites;
     private List<ISprite> idleSprites;
     private List<ISprite> attackSprites;
@@ -110,14 +110,14 @@ public class PlayerStateMachine : IPlayerStateMachine
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemLeft"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
         itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemRight"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
 
-        //COLLISION SPRINT3
+        //Red square to draw hitbox
         hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
     }
 
     public void drawCurrentSprite()
     {
         //spriteBatch.Begin
-        drawHitbox(); //COLLISION SPRINT3
+        drawHitbox(); //draws hitbox under player
         currSprite.Draw(spriteBatch, currPos); //draws current sprite
         //spriteBatch.End();
     }
@@ -128,7 +128,6 @@ public class PlayerStateMachine : IPlayerStateMachine
         hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
     }
 
-    //COLLISION SPRINT3
     public Rectangle getHitbox()
     {
         return hitbox;
@@ -144,12 +143,14 @@ public class PlayerStateMachine : IPlayerStateMachine
         this.attackCounter = 0;
         this.itemCounter = 0;
 
+        //prev pos/hbox for collisions
         currPos = startPos;
         prevPos = currPos;
-        //COLLISION SPRINT3
-        hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
 
+        //hitbox based on currPos
+        hitbox = new Rectangle((int)currPos.X + (int)HitboxDims.X_ADJ, (int)currPos.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
         prevHitbox = hitbox;
+
         LoadContent(game);
         state = State.IDLE_DOWN; //initial state
         currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite

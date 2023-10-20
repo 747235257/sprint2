@@ -25,7 +25,7 @@ namespace sprint2
         public ObstacleHandler(Game1 game1, Game game, Texture2D Blocks)
         {
             this.Blocks = Blocks;
-            level = game1.curLevel;
+            level = game1.curLevel; //gets current level in game
             blocks = new List<IBlock>();
             enemies= new List<INPC>();
             this.game1 = game1; //TO CHECK
@@ -36,6 +36,7 @@ namespace sprint2
 
         public void Update()
         {
+            //places/modifies game elements based on Level Contents
             for (int i = 0; i < level.Obstacles.Count; i++)
             {
                 switch (level.Obstacles[i].Type)
@@ -64,11 +65,16 @@ namespace sprint2
 
                 }
             }
+            //game now has updated lists
             game1.NPCList = enemies;
             game1.blocks = blocks;
+            //clears projectiles in the game
+            game1.playerProjectiles.Clear();
+            game1.enemyProjectiles.Clear();
             LoadBack(level.Name);
         }
 
+        //loads level background
         public void LoadBack(string levelName)
         {
              game1.LevelBack = game1.Content.Load<Texture2D>(Path.Combine("levels", levelName));

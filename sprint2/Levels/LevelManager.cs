@@ -19,7 +19,7 @@ public class LevelManager
 
     public void LoadLevels(string filePath)
     {
-        
+        //occupies the levels array with json content
         string json = File.ReadAllText(filePath);
         Levels = JsonConvert.DeserializeObject<List<Level>>(json);
     }
