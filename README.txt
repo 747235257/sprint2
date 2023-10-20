@@ -8,6 +8,16 @@ Description for sprint3: Now, the program supports collision handling, level tra
 
 Code Metric Analysis: Data can be found attached in the excel file.
 
+During Sprint 3,
+
+In General: only # of lines of source code and exec code were changed heavily. Due to added features. Complexities remained the same.
+
+CollisionHandler: Coupling increased, so did complexity. Mainly due to added Collision handling methods with Wall hitboxes and door hitboxes - also having to handle level changes.
+
+Level: Barely any changes to complexity and lines of code. Changes are mainly due to newly added door hitboxes.
+
+LevelManager: The same
+
 Controls: 
 (WASD/ARROWS): Move
 (1), (2), (3): Shoot items
