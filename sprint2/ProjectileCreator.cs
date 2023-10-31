@@ -1,25 +1,65 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
 
 namespace sprint2
 {
      public abstract class ProjectileFactory
         {
-            public abstract IProjectile GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir);
+            public abstract List<IProjectile> GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir);
            
         }
     public class ProjectileCreator : ProjectileFactory
     {
-        public override IProjectile GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir )
+        public override List<IProjectile> GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir )
         {
-            //switch case for creating a specific projectile instance based on the name
-            switch (name)
+
+            List<IProjectile> projs = new List<IProjectile>();
+            if (name.Equals("Nunchucks"))
             {
-                case "Nunchucks": return new Nunchucks(currPos, content, dir);
-                case "Goriya": return new Banana(currPos, content, dir);
-                case "Dragon": return new DragonProjectile(currPos, content, dir);
-                default: return null;
+               projs.Add(new Nunchucks(currPos, content, dir));
             }
+
+            if (name.Equals("Dragon"))
+            {
+                projs.Add(new DragonProjectile(currPos, content, dir));
+              
+                //case if dir = (1, 0) RIGHT
+                if(dir.X == 1 && dir.Y == 0)
+                {
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(1, 1)));
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(1, -1)));
+                }
+
+                //case if dir = (-1, 0) LEFT
+                if (dir.X == -1 && dir.Y == 0)
+                {
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(-1, 1)));
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(-1, -1)));
+                }
+
+                //case if dir = (0, 1) UP
+                if (dir.X == 0 && dir.Y == 1)
+                {
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(1, 1)));
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(-1, 1)));
+                }
+
+                //case if dir = (0, -1) Down
+                if (dir.X == 0 && dir.Y == -1)
+                {
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(1, -1)));
+                    projs.Add(new DragonProjectile(currPos, content, new Vector2(-1, -1)));
+                }
+            }
+
+            if (name.Equals("Goriya"))
+            {
+                projs.Add(new Banana(currPos, content, dir));
+            }
+
+
+            return projs;
         }
 
 

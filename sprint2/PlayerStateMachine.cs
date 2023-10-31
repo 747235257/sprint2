@@ -73,7 +73,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     private SpriteBatch spriteBatch;
     private int attackCounter;
     private int itemCounter;
-    private int damagedCounter;
+    public int damagedCounter { get; set;}
     private ProjectileFactory factory = new ProjectileCreator();
 
     private void LoadContent(Game game)
@@ -402,7 +402,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         return rangeAttack;
     }
 
-    public void updateAttack()
+    public int updateAttack()
     {
 
         //locks player in attack anim.
@@ -417,9 +417,11 @@ public class PlayerStateMachine : IPlayerStateMachine
             setIdle();
         }
 
+        return attackCounter;
+
     }
 
-    public void updateItem()
+    public int updateItem()
     {
         //locks player in item animation
         if (itemCounter > 0) itemCounter++;
@@ -429,9 +431,11 @@ public class PlayerStateMachine : IPlayerStateMachine
             setIdle();
         }
 
+        return itemCounter;
+
     }
 
-    public void updateDamaged()
+    public int updateDamaged()
     {
         if (damagedCounter > 0) damagedCounter++;
         if (damagedCounter > (int)MaxFrames.MAX_DAMAGED)
@@ -439,18 +443,25 @@ public class PlayerStateMachine : IPlayerStateMachine
             damagedCounter = 0;
             setIdle();
         }
+
+        return damagedCounter;
     }
 
-    public  IProjectile useItem(string itemName)
+    public int retDamagedCount()
     {
-        
+        return damagedCounter;
+    }
+
+    public  List<IProjectile> useItem(string itemName)
+    {
+        List<IProjectile> projs = new List<IProjectile>();
         if (!InAttack() && !InItem() && !InDamaged())
         {
             //direction of item depends on last dir
             Vector2 dir = new Vector2(0, 0);
             Vector2 shootPos = currPos;
-            shootPos.X += (float)PlayerTextureDims.WIDTH / 3;
-            shootPos.Y += (float)PlayerTextureDims.HEIGHT / 3;
+            shootPos.X += (float)PlayerTextureDims.WIDTH / (float)5;
+            shootPos.Y += (float)PlayerTextureDims.HEIGHT / (float)5;
 
             if (state == State.IDLE_DOWN)
             {
@@ -492,7 +503,7 @@ public class PlayerStateMachine : IPlayerStateMachine
             }
 
         }
-        return null;
+        return projs;
     }
 
     public void setLastPos()

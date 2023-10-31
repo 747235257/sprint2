@@ -17,6 +17,7 @@ namespace sprint2
         
         List<IBlock> blocks;
         List<INPC> enemies;
+        List<IItem> items;
         Level level;
         Game1 game1;
         Game game;
@@ -28,6 +29,7 @@ namespace sprint2
             level = game1.curLevel; //gets current level in game
             blocks = new List<IBlock>();
             enemies= new List<INPC>();
+            items = new List<IItem>();
             this.game1 = game1; //TO CHECK
             this.game = game;
             
@@ -59,6 +61,15 @@ namespace sprint2
                     case "Bat":
                         enemies.Add(new Bat(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;
+                    case "wep1":
+                        items.Add(new wep1(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "wep2":
+                        items.Add(new wep2(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "wep3":
+                        items.Add(new wep3(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
                     default:
                         break;
 
@@ -68,6 +79,7 @@ namespace sprint2
             //game now has updated lists
             game1.NPCList = enemies;
             game1.blocks = blocks;
+            game1.items = items;
             //clears projectiles in the game
             game1.playerProjectiles.Clear();
             game1.enemyProjectiles.Clear();
