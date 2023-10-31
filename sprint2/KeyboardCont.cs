@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sprint2;
 using System;
-
+using System.Collections.Generic;
 
 public class KeyboardCont : IController
 {
@@ -37,25 +37,25 @@ public class KeyboardCont : IController
         HandleNoPlayerInput(kstate, player);
     }
     //return projectile class
-    public IProjectile HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+    public List<IProjectile> HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
     {
         var kstate = Keyboard.GetState();
-        IProjectile proj = null;
+        List<IProjectile> projs = new List<IProjectile>();
         if (kstate.IsKeyDown(Keys.D1))
         {
-            proj = player.useItem("Nunchucks");
+            projs.AddRange(player.useItem("Nunchucks"));
         }
         else if(kstate.IsKeyDown(Keys.D2))
         {
-            proj = player.useItem("Goriya");
+            projs.AddRange(player.useItem("Dragon"));
         } 
         else if (kstate.IsKeyDown(Keys.D3))
         {
-            proj = player.useItem("Dragon");
+            projs.AddRange(player.useItem("Goriya"));
         }
 
         HandleNoPlayerInput(kstate, player);
-        return proj;
+        return projs;
     }
 
     public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player)
@@ -82,18 +82,6 @@ public class KeyboardCont : IController
 
     }
 
-    public void HandleItem(GraphicsDeviceManager _graphics, IItem item)
-    { 
-        KeyboardState kstate = Keyboard.GetState();
-        if (kstate.IsKeyDown(Keys.U))
-        {
-            item.CurrentItemPlus();
-        }
-        else if (kstate.IsKeyDown(Keys.I))
-        {
-           item.CurrentItemMinus();
-        }
-    }
 
     public void HandleNoPlayerInput(KeyboardState kstate, IPlayer player)
     {

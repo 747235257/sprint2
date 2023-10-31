@@ -62,7 +62,6 @@ namespace sprint2
 
         public List<IProjectile> Attack()
         {
-            List<IProjectile> projectiles = new List<IProjectile>();
             Vector2 dir = new Vector2();
             switch (attackDir)
             {
@@ -83,8 +82,7 @@ namespace sprint2
 
             }
             
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, dir));
-            return projectiles;
+            return factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, dir);
 
         }
         public void Stop()

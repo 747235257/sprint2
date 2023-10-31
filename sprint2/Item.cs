@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace sprint2
 {
 
-    public class Item : IItem
+    public class Item
     {
         public Texture2D Texture { get; set; }
         public int Rows { get; set; }

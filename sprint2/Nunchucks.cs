@@ -11,11 +11,11 @@ namespace sprint2
         private readonly Vector2 velocity = new Vector2(250, 250); //the projectile will travel 250 pixels per sec
         private readonly int rangevalue = 50;
         private readonly int row = 1;
-        private readonly int column = 6;
+        private readonly int column = 1;
 
         public enum HitboxDims
         {
-            WIDTH = 25, HEIGHT = 27, X_ADJ = 3, Y_ADJ = 10, ROW = 1, COL = 1
+            WIDTH = 20, HEIGHT = 20, X_ADJ = 20, Y_ADJ = 20, ROW = 1, COL = 1
         }
 
         //constructor that accepts current user's position and direction of the projectile
@@ -26,7 +26,7 @@ namespace sprint2
             Direction = initialDirection;
             currentRange = 0;
             isActive = true;
-            Texture = Content.Load<Texture2D>("Nunchuks");
+            Texture = Content.Load<Texture2D>("wep1hud");
             hitboxTexture = Content.Load<Texture2D>("hitbox");
             hitbox = new Rectangle((int)Position.X + (int)HitboxDims.X_ADJ, (int)Position.Y + (int)HitboxDims.Y_ADJ, (int)HitboxDims.WIDTH, (int)HitboxDims.HEIGHT);
             currSprite = new NonMoveAnimatedSprite(Texture, row, column, Position);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace sprint2
@@ -29,7 +30,14 @@ namespace sprint2
 
         public Vector2 attack(); //returns attack hitbox range
 
-        public IProjectile useItem(string itemName); //returns the projectile shot
+        public List<IProjectile> useItem(string itemName); //returns the projectile shot
         public void Draw();
+
+        public bool isAlive();
+
+        public void reduceHP();
+        public int getHealth();
+        public List<string> getInventory();
+        public void pickUpItem(string itemName);
     }
 }

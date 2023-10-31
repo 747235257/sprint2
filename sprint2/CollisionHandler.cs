@@ -8,15 +8,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using sprint2;
 
+namespace sprint2;
 public class CollisionHandler
 {
 	public CollisionHandler()
-	{
+    {
+    }
 
+    public void HandlePlayerItemCollision(List<IItem> items, IPlayer player)
+	{
+		foreach(IItem item in items)
+		{
+			Rectangle iHitbox = item.getHitbox();
+			Rectangle pHitbox = player.getHitbox();
+
+			if(iHitbox.Intersects(pHitbox))
+			{
+				item.setInactive();
+				player.pickUpItem(item.getItemName());
+			}
+		}
 	}
 
-		//PlayerProj vs Enemy
-	public void HandleEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> playerProj)
+        //PlayerProj vs Enemy
+    public void HandleEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> playerProj)
 	{
 		foreach (INPC npc in enemies)
 		{
