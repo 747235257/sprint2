@@ -512,4 +512,9 @@ public class PlayerStateMachine : IPlayerStateMachine
         hitbox = prevHitbox;
     }
 
+    public Vector2 getPosition()
+    {
+        return currPos;
+    }
+
 }

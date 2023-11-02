@@ -40,6 +40,8 @@ namespace sprint2
         public Vector2 attack(); //returns attack hitbox range
 
         public List<IProjectile> useItem(string itemName); //returns the projectile shot
+
+        public Vector2 getPosition();//return current postion of the player
        
     }
 }

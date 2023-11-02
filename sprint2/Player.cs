@@ -128,5 +128,10 @@ namespace sprint2
             playerState.drawCurrentSprite();
         }
 
+        public Vector2 getPosition()
+        {
+            return playerState.getPosition();
+        }
+
     }
 }

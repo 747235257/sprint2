@@ -39,5 +39,7 @@ namespace sprint2
         public int getHealth();
         public List<string> getInventory();
         public void pickUpItem(string itemName);
+
+        public Vector2 getPosition();//return current postion of the player
     }
 }

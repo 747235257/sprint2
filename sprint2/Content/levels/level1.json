@@ -1,6 +1,10 @@
 [
   {
     "Name": "Level1",
+    "HUDLocation": {
+      "X": 78,
+      "Y": 0
+    },
     "Obstacles": [
       {
         "Type": "Player",
@@ -154,6 +158,10 @@
   },
   {
     "Name": "Level2",
+    "HUDLocation": {
+      "X": 110,
+      "Y": 0
+    },
     "Obstacles": [
       {
         "Type": "Player",
