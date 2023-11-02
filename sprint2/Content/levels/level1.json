@@ -1,11 +1,33 @@
 [
   {
     "Name": "Level1",
+    "HUDLocation": {
+      "X": 78,
+      "Y": 0
+    },
     "Obstacles": [
       {
         "Type": "Player",
         "X": 100,
         "Y": 200
+
+      },
+      {
+        "Type": "wep1",
+        "X": 100,
+        "Y": 100
+
+      },
+      {
+        "Type": "wep2",
+        "X": 150,
+        "Y": 150
+
+      },
+      {
+        "Type": "wep3",
+        "X": 170,
+        "Y": 170
 
       },
       {
@@ -136,6 +158,10 @@
   },
   {
     "Name": "Level2",
+    "HUDLocation": {
+      "X": 111,
+      "Y": 0
+    },
     "Obstacles": [
       {
         "Type": "Player",

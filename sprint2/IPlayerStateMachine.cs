@@ -24,11 +24,13 @@ namespace sprint2
 
         public void moveUp();
 
-        public void updateAttack(); //To lock player in attack anim.
+        public int updateAttack(); //To lock player in attack anim.
 
-        public void updateItem();//To lock player in item anim.
+        public int updateItem();//To lock player in item anim.
 
-        public void updateDamaged();
+        public int updateDamaged();
+
+        public int retDamagedCount();
         public void setDamaged();
 
         public void setLastPos();
@@ -37,7 +39,9 @@ namespace sprint2
 
         public Vector2 attack(); //returns attack hitbox range
 
-        public IProjectile useItem(string itemName); //returns the projectile shot
+        public List<IProjectile> useItem(string itemName); //returns the projectile shot
+
+        public Vector2 getPosition();//return current postion of the player
        
     }
 }

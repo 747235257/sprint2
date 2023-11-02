@@ -66,15 +66,8 @@ namespace sprint2
 
         public List<IProjectile> Attack()
         {
-            //The dragon gonna fire 3 fireballs.
-            List<IProjectile> projectiles = new List<IProjectile>();
-            
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_DOWNLEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT));
-            projectiles.Add(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, DIAGONAL_UPLEFT));
 
-
-            return projectiles;
+            return factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT);
 
 
 

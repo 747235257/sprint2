@@ -53,6 +53,7 @@ namespace sprint2
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
+        public List<IItem> items;
 
 
         private IItem item;
@@ -63,18 +64,24 @@ namespace sprint2
         public ObstacleHandler obstacleHandler;
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
-        public List<Rectangle> doorHitboxes; 
+        public List<Rectangle> doorHitboxes;
+
+        //HUD RELATED CONSTANTS
+        private HUD hud;
+        private Vector2 HUDpos = new Vector2(0, 528);
+        private int HUDHeight = 150;
+
         
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             //window size
-            _graphics.PreferredBackBufferHeight = 528; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
+            _graphics.PreferredBackBufferHeight = 528 + HUDHeight; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
             _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-        }
+    }
 
         protected override void Initialize()
         {
@@ -95,6 +102,7 @@ namespace sprint2
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
+            items = new List<IItem>();
             wallHitboxes= new List<Rectangle>();
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
@@ -114,6 +122,9 @@ namespace sprint2
 
             player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
 
+            //HUD Loading
+            hud = new HUD(HUDpos, this, _spriteBatch);
+
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
             NPCs = Content.Load<Texture2D>("NPCs");
@@ -127,8 +138,8 @@ namespace sprint2
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
             obstacleHandler.Update();
-            ItemSprite = Content.Load<Texture2D>("Sheet");
-            item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
+            //ItemSprite = Content.Load<Texture2D>("Sheet");
+            //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
         }
 
         protected override void Update(GameTime gameTime)
@@ -141,7 +152,6 @@ namespace sprint2
             }
 
             keyboard.handleLevelSwitch(this);
-            keyboard.HandleItem(_graphics, item);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
             keyboard.HandleDamaged(_graphics, player);
@@ -151,9 +161,9 @@ namespace sprint2
             removePlayerProjectileList();
             removeEnemyList();
             //projectile return by keyboard is added to the list
-            IProjectile plProj = keyboard.HandlePlayerItem(_graphics, player);
+            List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
 
-            if(plProj != null) playerProjectiles.Add(plProj);
+            if(plProj != null) playerProjectiles.AddRange(plProj);
 
             UpdatePlayerProjectileList(gameTime);
 
@@ -191,15 +201,16 @@ namespace sprint2
             //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
             collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
+            collision.HandlePlayerItemCollision(items, player);
 
-
+            if (!player.isAlive()) this.Initialize(); //resets game when player dies
             base.Update(gameTime);
 
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Cyan);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
@@ -210,11 +221,13 @@ namespace sprint2
             drawAllBlocks();
             drawAllProjectiles();
             drawAllEnemies();
+            drawAllItems();
             player.Draw();
+            hud.Draw();
 
             _spriteBatch.End();
 
-            item.ItemProcess(_spriteBatch);
+            //item.ItemProcess(_spriteBatch);
 
             base.Draw(gameTime);
         }
@@ -271,6 +284,16 @@ namespace sprint2
             }
         }
 
+        private void drawAllItems()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i] != null && items[i].isAlive())
+                {
+                    items[i].Draw();
+                }
+            }
+        }
         private void drawAllBlocks()
         {
             foreach (IBlock block in blocks)
