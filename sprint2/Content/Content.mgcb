@@ -61,6 +61,36 @@
 /processorParam:TextureFormat=Color
 /build:AttackUp.png
 
+#begin Audio/itempick.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/itempick.wav
+
+#begin Audio/meleestrike.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/meleestrike.wav
+
+#begin Audio/nunchuckstrike.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/nunchuckstrike.wav
+
+#begin Audio/playerwalk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/playerwalk.wav
+
+#begin Audio/takedamage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/takedamage.wav
+
 #begin Banana.png
 /importer:TextureImporter
 /processor:TextureProcessor

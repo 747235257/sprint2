@@ -120,6 +120,7 @@ namespace sprint2
         public void giveDamage()
         {
             isAlive = false;
+            //need to set sound based on npc
         }
 
         public bool isStillAlive()

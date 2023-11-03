@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using sprint2;
+using Microsoft.Xna.Framework.Audio;
 
 namespace sprint2;
 public class CollisionHandler
@@ -24,8 +25,13 @@ public class CollisionHandler
 
 			if(iHitbox.Intersects(pHitbox))
 			{
+				if (item.isAlive())
+				{
+					SoundManager.Instance.PlaySound("pickupitem");
+				}
 				item.setInactive();
 				player.pickUpItem(item.getItemName());
+				
 			}
 		}
 	}
@@ -46,6 +52,8 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
+						SoundManager.Instance.StopSound();
+						SoundManager.Instance.PlaySound("damaged");
                     }
 				}
 			}

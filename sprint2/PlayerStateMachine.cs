@@ -195,6 +195,11 @@ public class PlayerStateMachine : IPlayerStateMachine
         return (state == State.MOVE_LEFT || state == State.ATTACK_LEFT || state == State.ITEM_LEFT || state == State.DAMAGED_LEFT || state == State.IDLE_LEFT);
     }
 
+    private bool isWalking()
+    {
+        return (state == State.MOVE_LEFT || state == State.MOVE_RIGHT || state == State.MOVE_UP || state == State.MOVE_DOWN);
+    }
+
     public void setLocation(Vector2 pos)
     {
         this.currPos = pos;
@@ -256,6 +261,11 @@ public class PlayerStateMachine : IPlayerStateMachine
                 }
             }
 
+            //if (isWalking())
+            //{
+            //    SoundManager.Instance.PlaySound("walking");
+            //}
+            
             state = State.MOVE_LEFT;
         }
     }
@@ -278,6 +288,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.RIGHT];
                 }
+                //SoundManager.Instance.PlaySound("walking");
             }
 
             state = State.MOVE_RIGHT;
@@ -303,6 +314,10 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.DOWN];
                 }
+                //if (isWalking())
+                //{
+                //    SoundManager.Instance.PlaySound("walking");
+                //}
             }
 
             state = State.MOVE_DOWN;
@@ -327,6 +342,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.UP];
                 }
+                //SoundManager.Instance.PlaySound("walking");
             }
 
             state = State.MOVE_UP;
@@ -337,27 +353,29 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InDamaged()) {
             damagedCounter = 1;
-        //damaged direction depends on last direction
-        if (isDown())
-        {
-            currSprite = damagedSprites[(int)DirNums.DOWN];
-            state = State.DAMAGED_DOWN;
-        }
-        else if (isUp())
-        {
-            currSprite = damagedSprites[(int)DirNums.UP];
-            state = State.DAMAGED_UP;
-        }
-        else if (isRight())
-        {
-            currSprite = damagedSprites[(int)DirNums.RIGHT];
-            state = State.DAMAGED_RIGHT;
-        }
-        else if (isLeft())
-        {
-            currSprite = damagedSprites[(int)DirNums.LEFT];
-            state = State.DAMAGED_LEFT;
-        }
+            //damaged direction depends on last direction
+            if (isDown())
+            {
+                currSprite = damagedSprites[(int)DirNums.DOWN];
+                state = State.DAMAGED_DOWN;
+            }
+            else if (isUp())
+            {
+                currSprite = damagedSprites[(int)DirNums.UP];
+                state = State.DAMAGED_UP;
+            }
+            else if (isRight())
+            {
+                currSprite = damagedSprites[(int)DirNums.RIGHT];
+                state = State.DAMAGED_RIGHT;
+            }
+            else if (isLeft())
+            {
+                currSprite = damagedSprites[(int)DirNums.LEFT];
+                state = State.DAMAGED_LEFT;
+            }
+
+            SoundManager.Instance.PlaySound("damaged");
         }
     }
 
@@ -374,6 +392,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.DOWN];
                 state = State.ATTACK_DOWN;
                 attackCounter = 1;
+                SoundManager.Instance.PlaySound("attack");
             }
             else if (state == State.IDLE_UP)
             {
@@ -381,6 +400,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.UP];
                 state = State.ATTACK_UP;
                 attackCounter = 1;
+                SoundManager.Instance.PlaySound("attack");
             }
             else if (state == State.IDLE_LEFT)
             {
@@ -388,6 +408,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.LEFT];
                 state = State.ATTACK_LEFT;
                 attackCounter = 1;
+                SoundManager.Instance.PlaySound("attack");
             }
             else if (state == State.IDLE_RIGHT)
             {
@@ -395,7 +416,9 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.RIGHT];
                 state = State.ATTACK_RIGHT;
                 attackCounter = 1;
+                SoundManager.Instance.PlaySound("attack");
             }
+            
         }
 
 
@@ -469,6 +492,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
+                SoundManager.Instance.PlaySound(itemName);
                 
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
 
@@ -479,7 +503,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
-                
+                SoundManager.Instance.PlaySound(itemName);
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
 
             }
@@ -489,7 +513,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
-                
+                SoundManager.Instance.PlaySound(itemName);
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
             }
             else if (state == State.IDLE_RIGHT)
@@ -498,7 +522,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
-                
+                SoundManager.Instance.PlaySound(itemName);
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
             }
 
