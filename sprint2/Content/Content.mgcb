@@ -109,6 +109,12 @@
 /processorParam:Quality=Best
 /build:Audio/takedamage.wav
 
+#begin Audio/walkingsound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/walkingsound.wav
+
 #begin Banana.png
 /importer:TextureImporter
 /processor:TextureProcessor

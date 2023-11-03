@@ -15,7 +15,12 @@ namespace sprint2
         private int damageCount;
         Game game;
         private List<string> items;
+        private HashSet<string> inventory;
 
+        private enum InventoryConst
+        {
+            MAX_INV = 3
+        }
 
         public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
         {
@@ -24,6 +29,7 @@ namespace sprint2
             hp = startHP;
             damageCount = 0;
             items = new List<string>();
+            inventory = new HashSet<string>();
         }
 
         public void setLocation(Vector2 pos)
@@ -81,11 +87,15 @@ namespace sprint2
             return hp;
         }
 
-        public List<string> getInventory()
+        public List<string> getItemSlot()
         {
             return items;
         }
 
+        public HashSet<string> getInventory()
+        {
+            return inventory;
+        }
         public bool isAlive()
         {
             return hp != 0;
@@ -103,12 +113,14 @@ namespace sprint2
             playerState.setLastPos();
         }
         //returns PROJECTILE used
-        public List<IProjectile> useItem(string itemName)
+        public List<IProjectile> useItem(int keyNum)
         {
             List<IProjectile> projs = new List<IProjectile>();
-            //only uses item is the item is in player inventory
-            if (items.Contains(itemName))
+
+            //only uses item if in the item bar
+            if (items.Count >= keyNum)
             {
+                string itemName = items[keyNum];
                 projs.AddRange(playerState.useItem(itemName));
             }
 
@@ -118,7 +130,17 @@ namespace sprint2
         public void pickUpItem(string itemName)
         {
             //only adds item if not in the list.
-            if (!items.Contains(itemName))
+            if (!inventory.Contains(itemName))
+            {
+                inventory.Add(itemName);
+                reshuffleItems(itemName);
+            }
+        }
+
+        //fills up empty spots in the item bar
+        private void reshuffleItems(string itemName)
+        {
+            if(items.Count < (int)InventoryConst.MAX_INV)
             {
                 items.Add(itemName);
             }

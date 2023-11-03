@@ -12,9 +12,7 @@ namespace sprint2
         private ISprite hpSprite;
         private ISprite mapSprite;
         private ISprite playerIconSprite;
-        private ISprite item1;
-        private ISprite item2;
-        private ISprite item3;
+        private Dictionary<string, ISprite> itemSprites;
         private SpriteBatch spriteBatch;
         private Game1 game;
         private Vector2 HUDpos;
@@ -33,9 +31,7 @@ namespace sprint2
         {
             HUDbg = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hudbg1"), 1, 1, HUDpos);
             hpSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hpSprite"), 1, 1, HUDpos);
-            item1 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep1hud"), 1, 1, HUDpos);
-            item2 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos);
-            item3 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos);
+
             //mapSprite
             mapSprite = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("mapTexture"), HUDpos);
            //playerLocSprite
@@ -43,8 +39,17 @@ namespace sprint2
             this.spriteBatch = spriteBatch;
             this.game = game;
             this.HUDpos = HUDpos;
+
+            initItemSprites(); //init sprite dictionary for items
         }
 
+        private void initItemSprites()
+        {
+            itemSprites = new Dictionary<string, ISprite>();
+            itemSprites.Add("Nunchucks", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep1hud"), 1, 1, HUDpos));
+            itemSprites.Add("Dragon", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos));
+            itemSprites.Add("Goriya", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos));
+        }
         public void Draw()
         {
             HUDbg.Draw(spriteBatch, HUDpos);
@@ -58,23 +63,23 @@ namespace sprint2
 
         public void DrawItems()
         {
-            List<string> items = game.player.getInventory();
-
+            List<string> items = game.player.getItemSlot();
             //only draws the items in player's inventory
-            if (items.Contains("Nunchucks"))
+            if (items.Count > 0)
             {
-                item1.Draw(spriteBatch, new Vector2((int)posAdj.ITEM1_X + HUDpos.X, (int)posAdj.ITEM1_Y + HUDpos.Y));
+                itemSprites[items[0]].Draw(spriteBatch, new Vector2((int)posAdj.ITEM1_X + HUDpos.X, (int)posAdj.ITEM1_Y + HUDpos.Y));
             }
 
-            if (items.Contains("Dragon"))
+            if (items.Count > 1)
             {
-                item2.Draw(spriteBatch, new Vector2((int)posAdj.ITEM2_X + HUDpos.X, (int)posAdj.ITEM2_Y + HUDpos.Y));
+                itemSprites[items[1]].Draw(spriteBatch, new Vector2((int)posAdj.ITEM2_X + HUDpos.X, (int)posAdj.ITEM2_Y + HUDpos.Y));
             }
 
-            if (items.Contains("Goriya"))
+            if (items.Count > 2)
             {
-                item3.Draw(spriteBatch, new Vector2((int)posAdj.ITEM3_X + HUDpos.X, (int)posAdj.ITEM3_Y + HUDpos.Y));
+                itemSprites[items[2]].Draw(spriteBatch, new Vector2((int)posAdj.ITEM3_X + HUDpos.X, (int)posAdj.ITEM3_Y + HUDpos.Y));
             }
+
 
         }
         public void DrawHP()

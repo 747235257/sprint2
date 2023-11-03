@@ -27,8 +27,9 @@ public class CollisionHandler
 			{
 				if (item.isAlive())
 				{
-					SoundManager.Instance.PlaySound("pickupitem");
-				}
+                    SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
+                    pickupSound.Play();
+                }
 				item.setInactive();
 				player.pickUpItem(item.getItemName());
 				
@@ -52,8 +53,8 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
-						SoundManager.Instance.StopSound();
-						SoundManager.Instance.PlaySound("damaged");
+                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+                        damageSound.Play();
                     }
 				}
 			}
@@ -312,7 +313,9 @@ public class CollisionHandler
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
                 game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+
 				//music.MusicLoader(game, game.curLevel);
+
                 game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
                 game.obstacleHandler.Update(); //resets lists in game with new objects
                 player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
