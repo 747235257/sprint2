@@ -305,12 +305,14 @@ public class CollisionHandler
     public void HandlePlayerDoorCollision(IPlayer player, List<Rectangle> doorHitboxes, List<DoorHitbox> doors, Game1 game)
     {
         Rectangle playerHitbox = player.getHitbox();
+		//MusicManager music = new MusicManager(game);
 
 		for(int i = 0; i < doors.Count; i++)
 		{
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
                 game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+				//music.MusicLoader(game, game.curLevel);
                 game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
                 game.obstacleHandler.Update(); //resets lists in game with new objects
                 player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
