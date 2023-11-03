@@ -72,7 +72,10 @@ namespace sprint2
             //only reduce hp when grace period is over in player state
             if (playerState.retDamagedCount() == 0)
             {
-                hp--;
+                if (hp != 0)
+                {
+                    hp--;
+                }
             }
 
         }
@@ -90,6 +93,7 @@ namespace sprint2
         {
             return hp != 0;
         }
+
 
         public void updatePlayer()
         {

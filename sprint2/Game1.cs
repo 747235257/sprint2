@@ -71,6 +71,11 @@ namespace sprint2
         private Vector2 HUDpos = new Vector2(0, 528);
         private int HUDHeight = 150;
 
+        //GameState
+        private Texture2D DeathScreen;
+
+        
+
         
 
         public Game1()
@@ -140,6 +145,8 @@ namespace sprint2
             obstacleHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
+
+            DeathScreen = Content.Load<Texture2D>("DeathScreen");
         }
 
         protected override void Update(GameTime gameTime)
@@ -203,7 +210,7 @@ namespace sprint2
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerItemCollision(items, player);
 
-            if (!player.isAlive()) this.Initialize(); //resets game when player dies
+            //if (!player.isAlive()) this.Initialize(); //resets game when player dies
             base.Update(gameTime);
 
         }
@@ -216,20 +223,29 @@ namespace sprint2
 
             //TUTORIAL
             _spriteBatch.Begin();
+
             //256, 176
-            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,768,528), Color.White); 
-            drawAllBlocks();
-            drawAllProjectiles();
-            drawAllEnemies();
-            drawAllItems();
-            player.Draw();
-            hud.Draw();
+            if (player.isAlive())
+            {
+                _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
+                drawAllBlocks();
+                drawAllProjectiles();
+                drawAllEnemies();
+                drawAllItems();
+                player.Draw();
+                hud.Draw();
+            }
+
+            else
+            {
+                drawDeath();
+            }
 
             _spriteBatch.End();
-
+            base.Draw(gameTime);
             //item.ItemProcess(_spriteBatch);
 
-            base.Draw(gameTime);
+            
         }
 
 
@@ -365,6 +381,11 @@ namespace sprint2
             }
             doorHitboxes = list;
             return curLevel.DoorHitboxs;
+        }
+
+        private void drawDeath()
+        {
+            _spriteBatch.Draw(DeathScreen, new Rectangle(0, 0, 768, 528), Color.White);
         }
 
     }
