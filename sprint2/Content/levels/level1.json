@@ -2,8 +2,8 @@
   {
     "Name": "Level1",
     "HUDLocation": {
-      "X": 78,
-      "Y": 0
+      "X": 144,
+      "Y": 44
     },
     "Obstacles": [
       {
@@ -30,12 +30,12 @@
         "Y": 170
 
       },
-      {
-        "Type": "Block",
-        "X": 354,
-        "Y": 378
+      //{
+      //  "Type": "Block",
+      //  "X": 354,
+      //  "Y": 378
 
-      },
+      //},
       {
         "Type": "Block",
         "X": 300,
@@ -78,7 +78,7 @@
         "Height": 99,
         "NextX": 580,
         "NextY": 210,
-        "NextLevel": 2
+        "NextLevel": 3
       },
       { //right
         "X": 672,
@@ -87,70 +87,74 @@
         "Height": 99,
         "NextX": 87,
         "NextY": 232,
-        "NextLevel": 2
+        "NextLevel": 4
       },
       { //top
         "X": 360,
-        "Y": 48,
+        "Y": 0,
         "Width": 48,
         "Height": 48,
         "NextX": 351,
         "NextY": 355,
+        "NextLevel": 5
+      },
+      {
+        //bottom
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
         "NextLevel": 2
       }
     ],
     "WallHitboxs": [
-      {
+      { //left-up wall
         "X": 0,
         "Y": 0,
         "Width": 96,
-        "Height": 220
+        "Height": 230
       },
-      {
+      { //left-bottom wall
         "X": 0,
-        "Y": 300,
-        "Width": 96,
-        "Height": 240
-      },
-      {
-        "X": 0,
-        "Y": 0,
-        "Width": 360,
-        "Height": 96
-      },
-      {
-        "X": 408,
-        "Y": 0,
-        "Width": 360,
-        "Height": 96
-      },
-      {
-        "X": 0,
-        "Y": 0,
+        "Y": 290,
         "Width": 96,
         "Height": 240
       },
-      {
+      { //up-left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //up-right wall
+        "X": 426,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //bottom-left wall
         "X": 0,
         "Y": 432,
-        "Width": 360,
+        "Width": 336,
         "Height": 96
       },
-      {
-        "X": 408,
+      { //bottom-right wall
+        "X": 426,
         "Y": 432,
-        "Width": 360,
+        "Width": 336,
         "Height": 96
       },
-      {
+      { //right-up wall
         "X": 672,
         "Y": 0,
         "Width": 96,
-        "Height": 240
+        "Height": 230
       },
-      {
+      { //right-bottom wall
         "X": 672,
-        "Y": 288,
+        "Y": 290,
         "Width": 96,
         "Height": 240
       }
@@ -159,16 +163,16 @@
   {
     "Name": "Level2",
     "HUDLocation": {
-      "X": 111,
-      "Y": 0
+      "X": 144,
+      "Y": 66
     },
     "Obstacles": [
-      {
-        "Type": "Player",
-        "X": 200,
-        "Y": 100
+      //{
+      //  "Type": "Player",
+      //  "X": 200,
+      //  "Y": 100
 
-      },
+      //},
       {
         "Type": "Block",
         "X": 400,
@@ -209,15 +213,59 @@
       }
     ],
     "DoorHitboxs": [
-      { //left
-        "X": 0,
-        "Y": 210,
-        "Width": 87,
-        "Height": 99,
-        "NextX": 580,
-        "NextY": 210,
+      { //top
+        "X": 336,
+        "Y": 0,
+        "Width": 90,
+        "Height": 48,
+        "NextX": 351,
+        "NextY": 355,
         "NextLevel": 1
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
       },
+      { //up-left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //up-right wall
+        "X": 426,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //bottom
+        "X": 0,
+        "Y": 432,
+        "Width": 768,
+        "Height": 96
+      },
+      { //right
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      }
+    ]
+  },
+  {
+    "Name": "Level3",
+    "HUDLocation": {
+      "X": 111,
+      "Y": 44
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
       { //right
         "X": 672,
         "Y": 216,
@@ -226,65 +274,425 @@
         "NextX": 87,
         "NextY": 232,
         "NextLevel": 1
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
       },
-      { //bottom
-        "X": 342,
-        "Y": 423,
-        "Width": 48,
-        "Height": 48,
-        "NextX": 354,
-        "NextY": 99,
+      { //up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 768,
+        "Height": 90
+      },
+      { //bottom wall
+        "X": 0,
+        "Y": 432,
+        "Width": 768,
+        "Height": 96
+      },
+      { //right-up wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 230
+      },
+      { //right-bottom wall
+        "X": 672,
+        "Y": 290,
+        "Width": 96,
+        "Height": 240
+      }
+    ]
+  },
+  {
+    "Name": "Level4",
+    "HUDLocation": {
+      "X": 177,
+      "Y": 44
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      { //left
+        "X": 0,
+        "Y": 210,
+        "Width": 87,
+        "Height": 99,
+        "NextX": 580,
+        "NextY": 210,
         "NextLevel": 1
       }
     ],
     "WallHitboxs": [
-      {
+      { //left-up wall
         "X": 0,
         "Y": 0,
         "Width": 96,
-        "Height": 240
+        "Height": 236
       },
-      {
+      { //left-bottom wall
         "X": 0,
-        "Y": 288,
+        "Y": 292,
         "Width": 96,
-        "Height": 240
+        "Height": 230
       },
-      {
+      { //up wall
         "X": 0,
         "Y": 0,
         "Width": 768,
-        "Height": 96
+        "Height": 90
       },
-      {
-        "X": 0,
-        "Y": 0,
-        "Width": 96,
-        "Height": 240
-      },
-      {
+      { //bottom wall
         "X": 0,
         "Y": 432,
-        "Width": 360,
+        "Width": 768,
         "Height": 96
       },
-      {
-        "X": 408,
-        "Y": 432,
-        "Width": 360,
-        "Height": 96
-      },
-      {
+      { //right wall
         "X": 672,
         "Y": 0,
         "Width": 96,
-        "Height": 240
+        "Height": 528
+      }
+    ]
+  },
+  {
+    "Name": "Level5",
+    "HUDLocation": {
+      "X": 144,
+      "Y": 23
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      { //top
+        "X": 360,
+        "Y": 0,
+        "Width": 48,
+        "Height": 48,
+        "NextX": 351,
+        "NextY": 355,
+        "NextLevel": 6
       },
       {
+        //bottom
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 1
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      },
+      { //up-left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //up-right wall
+        "X": 426,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //bottom-left wall
+        "X": 0,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //bottom-right wall
+        "X": 426,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //right wall
         "X": 672,
-        "Y": 288,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      }
+    ]
+  },
+  {
+    "Name": "Level6",
+    "HUDLocation": {
+      "X": 144,
+      "Y": 0
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      { //left
+        "X": 0,
+        "Y": 210,
+        "Width": 87,
+        "Height": 99,
+        "NextX": 580,
+        "NextY": 210,
+        "NextLevel": 7
+      },
+      {
+        //bottom
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 5
+      }
+    ],
+    "WallHitboxs": [
+      { //left-up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 236
+      },
+      { //left-bottom wall
+        "X": 0,
+        "Y": 292,
+        "Width": 96,
+        "Height": 230
+      },
+      { //up-left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 768,
+        "Height": 90
+      },
+      { //bottom-left wall
+        "X": 0,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //bottom-right wall
+        "X": 426,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //right wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      }
+    ]
+  },
+  {
+    "Name": "Level7",
+    "HUDLocation": {
+      "X": 111,
+      "Y": 0
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      { //left
+        "X": 0,
+        "Y": 210,
+        "Width": 87,
+        "Height": 99,
+        "NextX": 580,
+        "NextY": 210,
+        "NextLevel": 8
+      },
+      { //right
+        "X": 672,
+        "Y": 216,
+        "Width": 99,
+        "Height": 99,
+        "NextX": 87,
+        "NextY": 232,
+        "NextLevel": 6
+      },
+      { //top
+        "X": 360,
+        "Y": 0,
+        "Width": 48,
+        "Height": 48,
+        "NextX": 351,
+        "NextY": 355,
+        "NextLevel": 9
+      }
+    ],
+    "WallHitboxs": [
+      { //left-up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 230
+      },
+      { //left-bottom wall
+        "X": 0,
+        "Y": 290,
         "Width": 96,
         "Height": 240
+      },
+      { //up-left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //up-right wall
+        "X": 426,
+        "Y": 0,
+        "Width": 336,
+        "Height": 90
+      },
+      { //bottom-left wall
+        "X": 0,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //bottom-right wall
+        "X": 426,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //right-up wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 230
+      },
+      { //right-bottom wall
+        "X": 672,
+        "Y": 290,
+        "Width": 96,
+        "Height": 240
+      }
+    ]
+  },
+  {
+    "Name": "Level8",
+    "HUDLocation": {
+      "X": 78,
+      "Y": 0
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      { //right
+        "X": 672,
+        "Y": 216,
+        "Width": 99,
+        "Height": 99,
+        "NextX": 87,
+        "NextY": 232,
+        "NextLevel": 7
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      },
+      { //up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 768,
+        "Height": 90
+      },
+      { //bottom wall
+        "X": 0,
+        "Y": 432,
+        "Width": 768,
+        "Height": 96
+      },
+      { //right-up wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 230
+      },
+      { //right-bottom wall
+        "X": 672,
+        "Y": 290,
+        "Width": 96,
+        "Height": 240
+      }
+    ]
+  },
+  {
+    "Name": "Level9",
+    "HUDLocation": {
+      "X": 111,
+      "Y": -23
+    },
+    "Obstacles": [
+
+    ],
+    "DoorHitboxs": [
+      {
+        //bottom
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 7
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      },
+      { //up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 768,
+        "Height": 90
+      },
+      { //bottom-left wall
+        "X": 0,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //bottom-right wall
+        "X": 426,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //right wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
       }
     ]
   }
