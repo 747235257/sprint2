@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 
 namespace sprint2
 {
@@ -60,7 +61,8 @@ namespace sprint2
                         break;
 
                 }
-                SoundManager.Instance.PlaySound("walking");
+                SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("walking");
+                walkingSound.Play();
                 source.X = 1 + 25 * (frameCol % 4);//Change the sprite source position in a spritesheet.
                 frameCol %= 4;//Total frame number is 4.
 

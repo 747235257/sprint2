@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -64,11 +65,12 @@ namespace sprint2
 
 
 
-        public List<IProjectile> Attack() { 
-       
+        public List<IProjectile> Attack() {
 
-            SoundManager.Instance.PlaySound("damaged");
-         
+
+            SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("damaged");
+            attackSound.Play();
+
 
             return factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT);
 

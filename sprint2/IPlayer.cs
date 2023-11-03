@@ -30,14 +30,16 @@ namespace sprint2
 
         public Vector2 attack(); //returns attack hitbox range
 
-        public List<IProjectile> useItem(string itemName); //returns the projectile shot
+        public List<IProjectile> useItem(int keyNum); //returns the projectile shot
         public void Draw();
 
         public bool isAlive();
 
         public void reduceHP();
         public int getHealth();
-        public List<string> getInventory();
+        public HashSet<string> getInventory();
+
+        public List<string> getItemSlot();
         public void pickUpItem(string itemName);
 
         public Vector2 getPosition();//return current postion of the player

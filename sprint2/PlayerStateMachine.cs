@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System.Reflection.Metadata;
 using sprint2;
 using System.Security.Cryptography.X509Certificates;
@@ -259,14 +260,19 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.LEFT];
                 }
-            }
 
-            //if (isWalking())
-            //{
-            //    SoundManager.Instance.PlaySound("walking");
-            //}
-            
-            state = State.MOVE_LEFT;
+
+                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
+
+                //if (isWalking())
+                //{
+
+                //    walkingSound.Play();
+
+                //}
+            }
+        
+           state = State.MOVE_LEFT;
         }
     }
 
@@ -274,6 +280,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InAttack() && !InItem())
         {
+            
             prevPos = currPos;
             prevHitbox = hitbox;
             currPos.X += (int)PosNums.MOV_RANGE; //updates the position
@@ -288,10 +295,17 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.RIGHT];
                 }
-                //SoundManager.Instance.PlaySound("walking");
-            }
 
-            state = State.MOVE_RIGHT;
+                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
+
+                //if (isWalking())
+                //{
+
+                //    walkingSound.Play();
+
+                //}
+            }
+                state = State.MOVE_RIGHT;
         }
     }
 
@@ -299,7 +313,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         if (!InAttack() && !InItem())
         {
-
+           
             prevPos = currPos;
             prevHitbox = hitbox;
             currPos.Y += (int)PosNums.MOV_RANGE; //updates the position
@@ -314,13 +328,19 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.DOWN];
                 }
+
+                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
+
+
                 //if (isWalking())
                 //{
-                //    SoundManager.Instance.PlaySound("walking");
+
+                //    walkingSound.Play();
+
+
                 //}
             }
-
-            state = State.MOVE_DOWN;
+                state = State.MOVE_DOWN;
         }
     }
 
@@ -342,10 +362,18 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.UP];
                 }
-                //SoundManager.Instance.PlaySound("walking");
+
+                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
+
+                //if (isWalking())
+                //{
+
+                //    walkingSound.Play();
+                //}
+
             }
 
-            state = State.MOVE_UP;
+                state = State.MOVE_UP;
         }
     }
 
@@ -375,7 +403,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.DAMAGED_LEFT;
             }
 
-            SoundManager.Instance.PlaySound("damaged");
+            SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+            damageSound.Play();
         }
     }
 
@@ -392,7 +421,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.DOWN];
                 state = State.ATTACK_DOWN;
                 attackCounter = 1;
-                SoundManager.Instance.PlaySound("attack");
+                SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
+                attackSound.Play();
             }
             else if (state == State.IDLE_UP)
             {
@@ -400,7 +430,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.UP];
                 state = State.ATTACK_UP;
                 attackCounter = 1;
-                SoundManager.Instance.PlaySound("attack");
+                SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
+                attackSound.Play();
             }
             else if (state == State.IDLE_LEFT)
             {
@@ -408,7 +439,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.LEFT];
                 state = State.ATTACK_LEFT;
                 attackCounter = 1;
-                SoundManager.Instance.PlaySound("attack");
+                SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
+                attackSound.Play();
             }
             else if (state == State.IDLE_RIGHT)
             {
@@ -416,7 +448,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.RIGHT];
                 state = State.ATTACK_RIGHT;
                 attackCounter = 1;
-                SoundManager.Instance.PlaySound("attack");
+                SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
+                attackSound.Play();
             }
             
         }
@@ -492,8 +525,9 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
-                SoundManager.Instance.PlaySound(itemName);
-                
+                SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
+                projectileSound.Play();
+
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
 
             }
@@ -503,7 +537,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_UP;
                 itemCounter = 1;
                 dir.Y -= 1;
-                SoundManager.Instance.PlaySound(itemName);
+                SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
+                projectileSound.Play();
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
 
             }
@@ -513,7 +548,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_LEFT;
                 itemCounter = 1;
                 dir.X -= 1;
-                SoundManager.Instance.PlaySound(itemName);
+                SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
+                projectileSound.Play();
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
             }
             else if (state == State.IDLE_RIGHT)
@@ -522,7 +558,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_RIGHT;
                 itemCounter = 1;
                 dir.X += 1;
-                SoundManager.Instance.PlaySound(itemName);
+                SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
+                projectileSound.Play();
                 return (factory.GetProjectile(itemName, shootPos, game.Content, dir));
             }
 
