@@ -25,7 +25,7 @@ namespace sprint2
             ITEM1_X = 0, ITEM1_Y = 60,
             ITEM2_X = 80, ITEM2_Y = 60,
             ITEM3_X = 160, ITEM3_Y = 60,
-            PLAYER_X = 480, PLAYER_Y = 48,
+            PLAYER_X = 7, PLAYER_Y = 4,
             MAP_X = 550, MAP_Y = 20,
             HUD_WIDTH = 30 , HUD_HEIGHT =21
         }
@@ -34,9 +34,6 @@ namespace sprint2
         {
             HUDbg = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hudbg1"), 1, 1, HUDpos);
             hpSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hpSprite"), 1, 1, HUDpos);
-            item1 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep1hud"), 1, 1, HUDpos);
-            item2 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos);
-            item3 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos);
             initializeGridSprites();
             //define the grid with the positions
             positionGrid(gridDictionary);
@@ -54,9 +51,10 @@ namespace sprint2
 
         public void initializeGridSprites()
         {
+            gridSprites = new List<ISprite>();
             for(int i = 0; i<20;i++ )
             {
-                gridSprites.Add(0);
+                gridSprites.Add(null);
             }
         }
 
@@ -128,7 +126,7 @@ namespace sprint2
         public void AddToGrid(string levelName)
         {
             //add the sprites to the grid
-            if (gridSprites[game.curLevel.GridLocation.Grid] != null)
+            if (gridSprites[game.curLevel.GridLocation.Grid] == null)
             {
                 gridSprites[game.curLevel.GridLocation.Grid] = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("levels/" + levelName + "hud"), HUDpos);
             }
@@ -157,20 +155,20 @@ namespace sprint2
             {
                 if (gridSprites[i] != null)
                 {
-                    gridSprites[i].Draw(spriteBatch, new Vector2(gridDictionary[i].X + (int)HUDpos.X, gridDictionary[i].Y + (int)HUDpos.Y));
+                   gridSprites[i].Draw(spriteBatch, new Vector2(gridDictionary[i].X + (int)HUDpos.X, gridDictionary[i].Y + (int)HUDpos.Y));
                 }
                 
             }
 
+            ////gridSprites[2000] = null;
         }
 
         //draw player in map
         public void DrawPlayerIcon() 
         {
-
-            //playerIconSprite.Draw(spriteBatch, new Vector2((int)posAdj.PLAYER_X + (int)game.curLevel.HUDLocation.X + (int)HUDpos.X, (int)posAdj.PLAYER_Y + (int)game.curLevel.HUDLocation.Y + (int)HUDpos.Y));
-            playerIconSprite.Draw(spriteBatch, new Vector2(587 + (int)HUDpos.X, 22 + (int)HUDpos.Y));
-        }
+            int currentGrid = game.curLevel.GridLocation.Grid;
+            Vector2 gridPos = gridDictionary[currentGrid];
+            playerIconSprite.Draw(spriteBatch, new Vector2((int)posAdj.PLAYER_X + gridPos.X + (int)HUDpos.X, (int)posAdj.PLAYER_Y + gridPos.Y + (int)HUDpos.Y));        }
 
     }
 }

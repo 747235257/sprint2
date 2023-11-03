@@ -69,7 +69,7 @@ namespace sprint2
         private MusicManager music;
 
         //HUD RELATED CONSTANTS
-        private HUD hud;
+        public HUD hud;
         private Vector2 HUDpos = new Vector2(0, 528);
         private int HUDHeight = 150;
 
@@ -125,6 +125,7 @@ namespace sprint2
 
             //HUD Loading
             hud = new HUD(HUDpos, this, _spriteBatch);
+            hud.AddToGrid(curLevel.Name);
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
@@ -144,8 +145,6 @@ namespace sprint2
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
 
-            //initialize the gridSprites
-            hud.AddToGrid(curLevel.Name);
             music.InitializeMusic(this);
         }
 

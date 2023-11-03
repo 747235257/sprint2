@@ -313,7 +313,7 @@ public class CollisionHandler
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
                 game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
-
+				game.hud.AddToGrid(game.curLevel.Name);
 				//music.MusicLoader(game, game.curLevel);
 
                 game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
