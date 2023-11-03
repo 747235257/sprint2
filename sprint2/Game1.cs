@@ -40,6 +40,7 @@ namespace sprint2
         public Texture2D NPCs;
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
+        public Texture2D pixel;
 
         public IPlayer player;
         private IController keyboard;
@@ -133,7 +134,8 @@ namespace sprint2
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
-
+            pixel = new Texture2D(GraphicsDevice, 1, 1);
+            pixel.SetData<Color>(new Color[] { Color.White });
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
@@ -225,6 +227,10 @@ namespace sprint2
             drawAllItems();
             player.Draw();
             hud.Draw();
+            for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
+            {
+                _spriteBatch.Draw(pixel, new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height), Color.Blue);
+            }
 
             _spriteBatch.End();
 
