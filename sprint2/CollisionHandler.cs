@@ -306,7 +306,7 @@ public class CollisionHandler
                 game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
                 game.obstacleHandler.Update(); //resets lists in game with new objects
                 player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
-				
+				game.wallHitboxes = game.WallHitboxHandler();
 				game.doors = game.DoorHitboxHandler();//doorlists is reset
             }
 		}
