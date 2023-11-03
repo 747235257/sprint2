@@ -66,6 +66,7 @@ namespace sprint2
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
         public List<Rectangle> doorHitboxes;
+        private MusicManager music;
 
         //HUD RELATED CONSTANTS
         private HUD hud;
@@ -107,8 +108,8 @@ namespace sprint2
             wallHitboxes= new List<Rectangle>();
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
-            // TODO: Add your initialization logic here
             NPCList = new List<INPC>();
+            music = new MusicManager(this);
             //loads kb and mouse support
             timer = 0;
             keyEn = false;
@@ -143,6 +144,7 @@ namespace sprint2
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
+            music.InitializeMusic(this);
         }
 
         protected override void Update(GameTime gameTime)
