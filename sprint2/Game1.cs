@@ -41,6 +41,7 @@ namespace sprint2
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
         public Texture2D pixel;
+        public Texture2D DeathScreen;
 
         public IPlayer player;
         private IController keyboard;
@@ -132,6 +133,7 @@ namespace sprint2
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
+            DeathScreen = Content.Load<Texture2D>("DeathScreen");
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
@@ -209,7 +211,7 @@ namespace sprint2
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerItemCollision(items, player);
 
-            if (!player.isAlive()) this.Initialize(); //resets game when player dies
+         //if (!player.isAlive()) this.Initialize();
             base.Update(gameTime);
 
         }
@@ -223,18 +225,25 @@ namespace sprint2
             //TUTORIAL
             _spriteBatch.Begin();
             //256, 176
-            _spriteBatch.Draw(LevelBack, new Rectangle(0,0,768,528), Color.White); 
-            drawAllBlocks();
-            drawAllProjectiles();
-            drawAllEnemies();
-            drawAllItems();
-            player.Draw();
-            hud.Draw();
+   
             //for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
             //{
             //    _spriteBatch.Draw(pixel, new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height), Color.Blue);
             //}
-
+            if (player.isAlive())
+            {
+                _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
+                drawAllBlocks();
+                drawAllProjectiles();
+                drawAllEnemies();
+                drawAllItems();
+                player.Draw();
+                hud.Draw();
+            }
+            else
+            {
+                drawDeath();
+            }
             _spriteBatch.End();
 
             //item.ItemProcess(_spriteBatch);
@@ -377,5 +386,9 @@ namespace sprint2
             return curLevel.DoorHitboxs;
         }
 
+        private void drawDeath()
+        {
+            _spriteBatch.Draw(DeathScreen, new Rectangle(0, 0, 768, 528), Color.White);
+        }
     }
 }
