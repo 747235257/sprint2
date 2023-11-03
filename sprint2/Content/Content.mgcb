@@ -85,6 +85,18 @@
 /processorParam:Quality=Best
 /build:Audio/playerwalk.wav
 
+#begin Audio/projectile2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/projectile2.wav
+
+#begin Audio/projectile3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/projectile3.wav
+
 #begin Audio/takedamage.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
