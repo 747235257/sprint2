@@ -88,14 +88,13 @@ namespace sprint2
         {
             // TODO: Add your initialization logic here
             levelManager = new LevelManager();
+            
             levelManager.LoadLevels("Content/levels/level1.json");
             curLevel = levelManager.Levels[0];
+            
 
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
-
-
-
             collision = new CollisionHandler();
 
             //loads kb and mouse support
@@ -143,6 +142,9 @@ namespace sprint2
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
+
+            //initialize the gridSprites
+            hud.AddToGrid(curLevel.Name);
         }
 
         protected override void Update(GameTime gameTime)

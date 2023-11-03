@@ -382,6 +382,18 @@
 /processorParam:TextureFormat=Color
 /build:levels/Level1.png
 
+#begin levels/level1hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level1hud.png
+
 #begin levels/Level2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -393,6 +405,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/Level2.png
+
+#begin levels/level2hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level2hud.png
 
 #begin levels/Level3.png
 /importer:TextureImporter
@@ -406,6 +430,18 @@
 /processorParam:TextureFormat=Color
 /build:levels/Level3.png
 
+#begin levels/level3hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level3hud.png
+
 #begin levels/Level4.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -417,6 +453,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/Level4.png
+
+#begin levels/level4hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level4hud.png
 
 #begin levels/Level5.png
 /importer:TextureImporter
@@ -430,6 +478,18 @@
 /processorParam:TextureFormat=Color
 /build:levels/Level5.png
 
+#begin levels/level5hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level5hud.png
+
 #begin levels/Level6.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -441,6 +501,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/Level6.png
+
+#begin levels/level6hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level6hud.png
 
 #begin levels/Level7.png
 /importer:TextureImporter
@@ -454,6 +526,18 @@
 /processorParam:TextureFormat=Color
 /build:levels/Level7.png
 
+#begin levels/level7hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level7hud.png
+
 #begin levels/Level8.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -466,6 +550,18 @@
 /processorParam:TextureFormat=Color
 /build:levels/Level8.png
 
+#begin levels/level8hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level8hud.png
+
 #begin levels/Level9.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -477,6 +573,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/Level9.png
+
+#begin levels/level9hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/level9hud.png
 
 #begin mapTexture.png
 /importer:TextureImporter

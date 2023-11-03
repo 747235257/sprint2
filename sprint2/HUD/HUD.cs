@@ -18,6 +18,8 @@ namespace sprint2
         private SpriteBatch spriteBatch;
         private Game1 game;
         private Vector2 HUDpos;
+        private List<ISprite> gridSprites;
+        private Dictionary<int, Vector2> gridDictionary = new Dictionary<int, Vector2>();
 
         private enum posAdj
         {
@@ -26,7 +28,8 @@ namespace sprint2
             ITEM2_X = 80, ITEM2_Y = 60,
             ITEM3_X = 160, ITEM3_Y = 60,
             PLAYER_X = 480, PLAYER_Y = 48,
-            MAP_X = 550, MAP_Y = 20
+            MAP_X = 550, MAP_Y = 20,
+            HUD_WIDTH = 30 , HUD_HEIGHT =21
         }
 
         public HUD(Vector2 HUDpos, Game1 game, SpriteBatch spriteBatch) 
@@ -36,13 +39,25 @@ namespace sprint2
             item1 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep1hud"), 1, 1, HUDpos);
             item2 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos);
             item3 = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos);
-            //mapSprite
-            mapSprite = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("mapTexture"), HUDpos);
-           //playerLocSprite
+            initializeGridSprites();
+            //define the grid with the positions
+            positionGrid(gridDictionary);
+
+            //mapSprite = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("levels/level1hud"), HUDpos);
+            //playerLocSprite
             playerIconSprite = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("playerLoc"), HUDpos);
+            //gridSprites = 
             this.spriteBatch = spriteBatch;
             this.game = game;
             this.HUDpos = HUDpos;
+        }
+
+        public void initializeGridSprites()
+        {
+            for(int i = 0; i<20;i++ )
+            {
+                gridSprites.Add(0);
+            }
         }
 
         public void Draw()
@@ -77,6 +92,42 @@ namespace sprint2
             }
 
         }
+
+        
+        public void positionGrid(Dictionary<int, Vector2> gridDictionary)
+        {
+            gridDictionary.Add(0, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 0)); //0
+            gridDictionary.Add(1, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1,20 + (int)posAdj.HUD_HEIGHT * 0)); //1
+            gridDictionary.Add(2, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 0)); //2
+            gridDictionary.Add(3, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 0)); //3
+            gridDictionary.Add(4, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 1)); //4
+            gridDictionary.Add(5, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 1)); //5
+            gridDictionary.Add(6, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 1)); //6
+            gridDictionary.Add(7, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 1)); //7
+            gridDictionary.Add(8, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 2)); //8
+            gridDictionary.Add(9, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 2)); //9
+            gridDictionary.Add(10, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 2)); //10
+            gridDictionary.Add(11, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 2)); //11
+            gridDictionary.Add(12, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 3)); //12
+            gridDictionary.Add(13, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 3)); //13
+            gridDictionary.Add(14, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 3)); //14
+            gridDictionary.Add(15, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 3)); //15
+            gridDictionary.Add(16, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 4)); //16
+            gridDictionary.Add(17, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 4)); //17
+            gridDictionary.Add(18, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 4)); //18
+            gridDictionary.Add(19, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 4)); //19
+
+        }
+
+        public void AddToGrid(string levelName)
+        {
+            //add the sprites to the grid
+            if (gridSprites[game.curLevel.GridLocation.Grid] != null)
+            {
+                gridSprites[game.curLevel.GridLocation.Grid] = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("levels/" + levelName + "hud"), HUDpos);
+            }
+        }
+        
         public void DrawHP()
         {
             int hp = game.player.getHealth();
@@ -94,15 +145,26 @@ namespace sprint2
         //draw map
         public void DrawMap()
         {
+           
+            //mapSprite.Draw(spriteBatch, new Vector2(gridDictionary[0].X + (int)HUDpos.X, gridDictionary[0].Y +(int)HUDpos.Y));
+            for(int i=0; i < 20; i++)
+            {
+                if (gridSprites[i] != null)
+                {
+                    gridSprites[i].Draw(spriteBatch, new Vector2(gridDictionary[i].X + (int)HUDpos.X, gridDictionary[i].Y + (int)HUDpos.Y));
+                }
+                
+            }
 
-            mapSprite.Draw(spriteBatch, new Vector2((int)HUDpos.X + (int)posAdj.MAP_X, (int)HUDpos.Y + (int)posAdj.MAP_Y));
         }
 
         //draw player in map
         public void DrawPlayerIcon() 
         {
-            
-            playerIconSprite.Draw(spriteBatch, new Vector2((int)posAdj.PLAYER_X + (int)game.curLevel.HUDLocation.X + (int)HUDpos.X, (int)posAdj.PLAYER_Y + (int)game.curLevel.HUDLocation.Y + (int)HUDpos.Y));
+
+            //playerIconSprite.Draw(spriteBatch, new Vector2((int)posAdj.PLAYER_X + (int)game.curLevel.HUDLocation.X + (int)HUDpos.X, (int)posAdj.PLAYER_Y + (int)game.curLevel.HUDLocation.Y + (int)HUDpos.Y));
+            playerIconSprite.Draw(spriteBatch, new Vector2(587 + (int)HUDpos.X, 22 + (int)HUDpos.Y));
         }
+
     }
 }

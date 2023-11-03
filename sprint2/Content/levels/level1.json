@@ -1,9 +1,8 @@
 [
   {
     "Name": "Level1",
-    "HUDLocation": {
-      "X": 144,
-      "Y": 44
+    "GridLocation": {
+      "Grid" :  14
     },
     "Obstacles": [
       {
@@ -162,9 +161,8 @@
   },
   {
     "Name": "Level2",
-    "HUDLocation": {
-      "X": 144,
-      "Y": 66
+    "GridLocation": {
+      "Grid": 18
     },
     "Obstacles": [
       //{
@@ -258,9 +256,8 @@
   },
   {
     "Name": "Level3",
-    "HUDLocation": {
-      "X": 111,
-      "Y": 44
+    "GridLocation": {
+      "Grid": 13
     },
     "Obstacles": [
 
@@ -311,9 +308,8 @@
   },
   {
     "Name": "Level4",
-    "HUDLocation": {
-      "X": 177,
-      "Y": 44
+    "GridLocation": {
+      "Grid": 15
     },
     "Obstacles": [
 
@@ -364,9 +360,8 @@
   },
   {
     "Name": "Level5",
-    "HUDLocation": {
-      "X": 144,
-      "Y": 23
+    "GridLocation": {
+      "Grid": 10
     },
     "Obstacles": [
 
@@ -433,9 +428,8 @@
   },
   {
     "Name": "Level6",
-    "HUDLocation": {
-      "X": 144,
-      "Y": 0
+    "GridLocation": {
+      "Grid": 6
     },
     "Obstacles": [
 
@@ -502,9 +496,8 @@
   },
   {
     "Name": "Level7",
-    "HUDLocation": {
-      "X": 111,
-      "Y": 0
+    "GridLocation": {
+      "Grid": 5
     },
     "Obstacles": [
 
@@ -591,9 +584,8 @@
   },
   {
     "Name": "Level8",
-    "HUDLocation": {
-      "X": 78,
-      "Y": 0
+    "GridLocation": {
+      "Grid": 4
     },
     "Obstacles": [
 
@@ -644,9 +636,8 @@
   },
   {
     "Name": "Level9",
-    "HUDLocation": {
-      "X": 111,
-      "Y": -23
+    "GridLocation": {
+      "Grid": 1
     },
     "Obstacles": [
 

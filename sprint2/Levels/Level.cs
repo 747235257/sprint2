@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 public class Level
 {
     public string Name { get; set; }
-    public HUDPosition HUDLocation{ get; set; }
+    public GridPosition GridLocation{ get; set; }
 
     public List<Obstacle> Obstacles { get; set; }
     public List<WallHitbox> WallHitboxs { get; set; }
@@ -23,16 +23,15 @@ public class Level
         Obstacles = new List<Obstacle>(); //enemies, player, blocks
         WallHitboxs = new List<WallHitbox>(); //walls
         DoorHitboxs = new List<DoorHitbox>(); //Doors
-        HUDLocation = new HUDPosition();
+        GridLocation = new GridPosition();
     }
 }
 
-//class for hud
-public class HUDPosition
+//class for gridPosition
+public class GridPosition
 {
-    public float X { get; set; }
+    public int Grid { get; set; }
 
-    public float Y { get; set; }
 }
 
 public class Obstacle
