@@ -140,6 +140,7 @@ namespace sprint2
             obstacleHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
+            SoundManager.Instance.InitializeSound(this);
         }
 
         protected override void Update(GameTime gameTime)
