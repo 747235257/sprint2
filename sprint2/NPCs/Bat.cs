@@ -101,7 +101,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             BatSprite.Draw(currPos);
         }
 

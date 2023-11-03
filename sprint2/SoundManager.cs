@@ -14,10 +14,6 @@ namespace sprint2
         {
             get
             {
-                //if (instance == null)
-                //{
-                //    instance = new SoundManager();
-                //}
                 return instance;
             }
         }

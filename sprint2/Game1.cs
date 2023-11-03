@@ -227,10 +227,10 @@ namespace sprint2
             drawAllItems();
             player.Draw();
             hud.Draw();
-            for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
-            {
-                _spriteBatch.Draw(pixel, new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height), Color.Blue);
-            }
+            //for(int i = 0; i < curLevel.WallHitboxs.Count; i++)
+            //{
+            //    _spriteBatch.Draw(pixel, new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height), Color.Blue);
+            //}
 
             _spriteBatch.End();
 

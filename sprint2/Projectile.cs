@@ -55,7 +55,7 @@ namespace sprint2
         {
             if (isActive)
             {
-                drawHitbox(spriteBatch,new Vector2(hitbox.X, hitbox.Y), hitbox);
+                //drawHitbox(spriteBatch,new Vector2(hitbox.X, hitbox.Y), hitbox);
                 currSprite.Draw(spriteBatch, Position);
             }
         }

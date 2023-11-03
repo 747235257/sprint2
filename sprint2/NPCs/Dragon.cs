@@ -134,7 +134,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             DragonSprite.Draw(currPos);
 
         }

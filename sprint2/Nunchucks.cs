@@ -8,7 +8,7 @@ namespace sprint2
     public class Nunchucks : Projectile
     {
 
-        private readonly Vector2 velocity = new Vector2(250, 250); //the projectile will travel 250 pixels per sec
+        private readonly Vector2 velocity = new Vector2(400, 400); //the projectile will travel 250 pixels per sec
         private readonly int rangevalue = 50;
         private readonly int row = 1;
         private readonly int column = 1;

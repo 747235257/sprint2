@@ -84,7 +84,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             OldManSprite.Draw(currPos);
         }
 

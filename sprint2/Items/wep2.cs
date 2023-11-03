@@ -51,7 +51,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            DrawHitbox();
+            //DrawHitbox();
             itemSprite.Draw(spriteBatch, pos);
         }
 

@@ -92,7 +92,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             GelSprite.Draw(currPos);
         }
 

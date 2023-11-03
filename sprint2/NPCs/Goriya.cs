@@ -148,7 +148,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             GoriyaSprite.Draw(currPos);
         }
 

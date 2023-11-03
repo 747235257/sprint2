@@ -96,7 +96,7 @@ namespace sprint2
         }
         public void Draw()
         {
-            drawHitbox();
+            //drawHitbox();
             SkullSprite.Draw(currPos);
         }
 

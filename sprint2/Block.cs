@@ -104,7 +104,7 @@ public class Block : IBlock
         Rectangle sourceRectangle = new Rectangle(0+17*col, 0+17*row, (int)TextureDims.WIDTH, (int)TextureDims.HEIGHT);
         Rectangle destinationRectangle = new Rectangle((int)pos.X, (int)pos.Y, (int)TextureDims.WIDTH * sizeScale, (int)TextureDims.HEIGHT * sizeScale);
 
-        drawHitbox();//for debugging
+        //drawHitbox();//for debugging
         //draws a portion of the texture into a portion of the screen
         spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
     }
