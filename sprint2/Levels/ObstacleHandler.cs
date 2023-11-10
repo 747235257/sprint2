@@ -70,6 +70,12 @@ namespace sprint2
                     case "wep3":
                         items.Add(new wep3(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
                         break;
+                    case "key":
+                        items.Add(new key(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "triforce":
+                        items.Add(new triforce(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
                     default:
                         break;
 

@@ -29,9 +29,9 @@ public class CollisionHandler
 				{
                     SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
                     pickupSound.Play();
+                    player.pickUpItem(item.getItemName());
                 }
 				item.setInactive();
-				player.pickUpItem(item.getItemName());
 				
 			}
 		}
