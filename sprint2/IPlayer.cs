@@ -9,6 +9,11 @@ namespace sprint2
     public interface IPlayer
     {
 
+        public bool getHasWon();
+        public void incrementKeyCount();
+
+        public int getKeyCount();
+        public void decrementKeyCount();
         public void setIdle();
         public void setLocation(Vector2 pos);
         public void moveLeft();

@@ -12,6 +12,8 @@ namespace sprint2
         private const int startHP = 4;
         public IPlayerStateMachine playerState;
         public int hp;
+        public int keyCount;
+        public bool hasTriforce;
         private int damageCount;
         Game game;
         private List<string> items;
@@ -30,6 +32,27 @@ namespace sprint2
             damageCount = 0;
             items = new List<string>();
             inventory = new HashSet<string>();
+            keyCount = 0;
+            hasTriforce = false;
+        }
+
+        public bool getHasWon()
+        {
+            return hasTriforce;
+        }
+        public void incrementKeyCount()
+        {
+            keyCount++;
+        }
+
+        public void decrementKeyCount()
+        {
+            keyCount--;
+        }
+
+        public int getKeyCount()
+        {
+            return keyCount;
         }
 
         public void setLocation(Vector2 pos)
@@ -118,7 +141,7 @@ namespace sprint2
             List<IProjectile> projs = new List<IProjectile>();
 
             //only uses item if in the item bar
-            if (items.Count >= keyNum)
+            if (items.Count > keyNum)
             {
                 string itemName = items[keyNum];
                 projs.AddRange(playerState.useItem(itemName));
@@ -129,8 +152,16 @@ namespace sprint2
         
         public void pickUpItem(string itemName)
         {
-            //only adds item if not in the list.
-            if (!inventory.Contains(itemName))
+            //if triforce object is obtained
+            if (itemName.Equals("triforce"))
+            {
+                hasTriforce = true;
+            }
+            else if (itemName.Equals("key")) //if a key is picked up
+            {
+                incrementKeyCount();
+            }
+            else if (!inventory.Contains(itemName)) //else, the weapon items
             {
                 inventory.Add(itemName);
                 reshuffleItems(itemName);
