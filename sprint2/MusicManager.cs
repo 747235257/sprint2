@@ -26,11 +26,11 @@ namespace sprint2
 
             switch(level.Name)
             {
-                case "boss":
-                    music = game.Content.Load<Song>("song/boss");
+                case "Level9":
+                    music = game.Content.Load<Song>("Audio/enemyBGM");
                     break;
                 default:
-                    music = game.Content.Load<Song>("Audio/enemyBGM");
+                    music = game.Content.Load<Song>("Audio/8-bit");
                     break;
             }
             MediaPlayer.Play(music);
@@ -38,7 +38,7 @@ namespace sprint2
 
         public void InitializeMusic(Game1 game)
         {
-            Song music = game.Content.Load<Song>("Audio/enemyBGM");
+            Song music = game.Content.Load<Song>("Audio/8-bit");
             MediaPlayer.Play(music);
         }
 

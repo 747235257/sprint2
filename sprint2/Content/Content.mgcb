@@ -61,6 +61,12 @@
 /processorParam:TextureFormat=Color
 /build:AttackUp.png
 
+#begin Audio/8-bit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/8-bit.mp3
+
 #begin Audio/enemyBGM.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
