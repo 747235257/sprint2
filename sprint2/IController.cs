@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public interface IController
 {
 
-    
+    public void handlePause(Game1 game);
     public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky);
 
     public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player);

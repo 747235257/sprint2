@@ -75,6 +75,8 @@ namespace sprint2
         private Vector2 HUDpos = new Vector2(0, 528);
         private int HUDHeight = 150;
 
+        //GAME STATE variables
+        public bool gamePaused;
         
 
         public Game1()
@@ -115,6 +117,9 @@ namespace sprint2
             //loads kb and mouse support
             timer = 0;
             keyEn = false;
+
+            //game is not paused at the start
+            gamePaused = false;
 
             base.Initialize();
         }
@@ -162,6 +167,7 @@ namespace sprint2
                 this.Initialize();
             }
 
+            keyboard.handlePause(this);
             keyboard.handleLevelSwitch(this);
             keyboard.HandleMovement(_graphics, player);
             Vector2 range = keyboard.HandleAttack(_graphics, player);
@@ -223,8 +229,8 @@ namespace sprint2
 
         protected override void Draw(GameTime gameTime)
         {
-            SpriteFont font;
-            font = Content.Load<SpriteFont>("File");
+            gamePaused = true;
+            Inventory inventoryScreen = new Inventory(this, _spriteBatch);
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
@@ -246,8 +252,10 @@ namespace sprint2
                 drawAllItems();
                 player.Draw();
                 hud.Draw();
-                _spriteBatch.DrawString(font, "KeyCount: " + player.getKeyCount(), new Vector2(100, 100), Color.Black);
-
+                if (gamePaused)
+                {
+                    inventoryScreen.Draw();
+                }
             }
             else
             {

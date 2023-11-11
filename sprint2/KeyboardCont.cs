@@ -147,4 +147,14 @@ public class KeyboardCont : IController
             game.WallHitboxHandler();
         }
     }
+
+    public void handlePause(Game1 game)
+    {
+        var kstate = Keyboard.GetState();
+
+        if(kstate.IsKeyDown(Keys.Tab))
+        {
+            game.gamePaused = !game.gamePaused;
+        }
+    }
 }
