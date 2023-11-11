@@ -67,6 +67,7 @@ namespace sprint2
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
         public List<Rectangle> doorHitboxes;
+        public List<LockDoorInstance> lockDoorInstances;
         private MusicManager music;
 
         //HUD RELATED CONSTANTS
@@ -109,6 +110,7 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+            lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
             //loads kb and mouse support
             timer = 0;
@@ -142,6 +144,7 @@ namespace sprint2
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
+            LockDoorHandler();
             obstacleHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
@@ -210,7 +213,9 @@ namespace sprint2
             collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerItemCollision(items, player);
-
+            collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
+            collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
+            collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
          //if (!player.isAlive()) this.Initialize();
             base.Update(gameTime);
 
@@ -388,6 +393,17 @@ namespace sprint2
             }
             doorHitboxes = list;
             return curLevel.DoorHitboxs;
+        }
+
+        public void LockDoorHandler()
+        {
+            List<LockDoorInstance> list = new List<LockDoorInstance>();
+            for (int i = 0; i < curLevel.LockDoors.Count; i++)
+            {
+                list.Add(new LockDoorInstance(this, curLevel.LockDoors[i]));
+            }
+            lockDoorInstances = list;
+            
         }
 
         private void drawDeath()
