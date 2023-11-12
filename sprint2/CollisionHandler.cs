@@ -312,18 +312,24 @@ public class CollisionHandler
 		{
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
-                game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
-				game.hud.AddToGrid(game.curLevel.Name);
-                //music.MusicLoader(game, game.curLevel);
-                game.LockDoorHandler();
-                game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
-                game.obstacleHandler.Update(); //resets lists in game with new objects
-                player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
-				game.wallHitboxes = game.WallHitboxHandler();
-				game.doors = game.DoorHitboxHandler();//doorlists is reset
+                if (game.curLevel.getClearStatus())
+                {
+                    game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+                    game.hud.AddToGrid(game.curLevel.Name);
+                    //music.MusicLoader(game, game.curLevel);
+                    game.LockDoorHandler();
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
+                    game.wallHitboxes = game.WallHitboxHandler();
+                    game.doors = game.DoorHitboxHandler();//doorlists is reset
+                } 
+                else if (!game.curLevel.getClearStatus())
+                    player.setLastPos();
+                }
             }
 		}
-    }
+    
 
     //PlayerProj vs Wall
     public void HandleProjectileDoorCollision(List<Rectangle> doors, List<IProjectile> enemyProj, List<IProjectile> playerProj)
@@ -385,30 +391,37 @@ public class CollisionHandler
         {
             if (lockDoorInstances[i].position.Intersects(playerHitbox))
             {
-                if (lockDoorInstances[i].state == 0)
+                if (game.curLevel.getClearStatus()) //only can unlock if level is cleared
                 {
-                    if (player.getKeyCount() > 0)
+                    if (lockDoorInstances[i].state == 0)
                     {
-                        lockDoorInstances[i].state = 1;
-                        player.decrementKeyCount();
-                        //may add some notifications that the door is open now
+                        if (player.getKeyCount() > 0)
+                        {
+                            lockDoorInstances[i].state = 1;
+                            player.decrementKeyCount();
+                            //may add some notifications that the door is open now
+                        }
+                        else
+                        {
+                            player.setLastPos();
+                        }
                     }
                     else
                     {
-                        player.setLastPos();
+                        game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
+                        game.hud.AddToGrid(game.curLevel.Name);
+                        //music.MusicLoader(game, game.curLevel);
+                        game.LockDoorHandler();
+                        game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                        game.obstacleHandler.Update(); //resets lists in game with new objects
+                        player.setLocation(lockDoorInstances[i].playerPos); //new player location
+                        game.wallHitboxes = game.WallHitboxHandler();
+                        game.doors = game.DoorHitboxHandler();//doorlists is reset
                     }
                 }
                 else
                 {
-                    game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
-                    game.hud.AddToGrid(game.curLevel.Name);
-                    //music.MusicLoader(game, game.curLevel);
-                    game.LockDoorHandler();
-                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
-                    game.obstacleHandler.Update(); //resets lists in game with new objects
-                    player.setLocation(lockDoorInstances[i].playerPos); //new player location
-                    game.wallHitboxes = game.WallHitboxHandler();
-                    game.doors = game.DoorHitboxHandler();//doorlists is reset
+                    player.setLastPos();
                 }
             }
             
