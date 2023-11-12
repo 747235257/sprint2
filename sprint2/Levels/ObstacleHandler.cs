@@ -83,9 +83,9 @@ namespace sprint2
                 }
             }
             //game now has updated lists
-            game1.NPCList = enemies;
+            if(!level.getClearStatus())game1.NPCList = enemies;
             game1.blocks = blocks;
-            game1.items = items;
+            if (!level.getClearStatus()) game1.items = items;
             //clears projectiles in the game
             game1.playerProjectiles.Clear();
             game1.enemyProjectiles.Clear();

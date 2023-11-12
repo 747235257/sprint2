@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using sprint2;
 
 public class Level
 {
@@ -18,6 +19,8 @@ public class Level
     public List<DoorHitbox> DoorHitboxs { get; set; }
     // Add other properties as needed
     public List<LockDoor> LockDoors { get; set; }
+
+    public bool isCleared;
     public Level()
     {
         Obstacles = new List<Obstacle>(); //enemies, player, blocks
@@ -25,6 +28,49 @@ public class Level
         DoorHitboxs = new List<DoorHitbox>(); //Doors
         GridLocation = new GridPosition();
         LockDoors = new List<LockDoor>();
+        isCleared = false;
+    }
+
+    public bool getClearStatus()
+    {
+        return isCleared;
+    }
+
+    //if the level doesn't have any enemies, level is clear
+    public void checkLevelClear(Game1 game)
+    {
+        isCleared = true;
+        if (!isEnemyEmpty(game)) isCleared = false;
+        if(!isItemEmpty(game)) isCleared = false;
+    }
+
+    private bool isEnemyEmpty(Game1 game)
+    {
+        bool isEmpty = true;
+        foreach(INPC enemy in game.NPCList)
+        {
+            if(enemy != null)
+            {
+                isEmpty = false;
+                break;
+            }
+        }
+
+        return isEmpty;
+    }
+
+    private bool isItemEmpty(Game1 game)
+    {
+        bool isEmpty = true;
+        foreach(IItem item in game.items)
+        {
+            if(item.isAlive())
+            {
+                isEmpty = false;
+                break;
+            }
+        }
+        return isEmpty;
     }
 }
 
