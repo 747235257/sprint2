@@ -17,13 +17,14 @@ public class Level
 
     public List<DoorHitbox> DoorHitboxs { get; set; }
     // Add other properties as needed
-
+    public List<LockDoor> LockDoors { get; set; }
     public Level()
     {
         Obstacles = new List<Obstacle>(); //enemies, player, blocks
         WallHitboxs = new List<WallHitbox>(); //walls
         DoorHitboxs = new List<DoorHitbox>(); //Doors
         GridLocation = new GridPosition();
+        LockDoors = new List<LockDoor>();
     }
 }
 
@@ -60,6 +61,25 @@ public class DoorHitbox
     public int Height { get; set; }
 
     public float NextX {  get; set; }
+
+    public float NextY { get; set; }
+
+    public int NextLevel { get; set; }
+}
+
+enum State
+{
+    Lock = 0,
+    Unlock = 1
+}
+public class LockDoor
+{
+    public int state;
+    public float X { get; set; }
+    public float Y { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public float NextX { get; set; }
 
     public float NextY { get; set; }
 

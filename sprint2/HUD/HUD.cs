@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System;
 
 namespace sprint2
 {
@@ -27,7 +28,8 @@ namespace sprint2
             ITEM3_X = 160, ITEM3_Y = 60,
             PLAYER_X = 7, PLAYER_Y = 4,
             MAP_X = 550, MAP_Y = 20,
-            HUD_WIDTH = 30 , HUD_HEIGHT =21
+            HUD_WIDTH = 30 , HUD_HEIGHT =21,
+            KEY_X = 10, KEY_Y = 10, KEY_ADJUST_X = 60, KEY_ADJUST_Y = 0
         }
 
         public HUD(Vector2 HUDpos, Game1 game, SpriteBatch spriteBatch) 
@@ -64,6 +66,9 @@ namespace sprint2
             itemSprites.Add("Nunchucks", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep1hud"), 1, 1, HUDpos));
             itemSprites.Add("Dragon", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos));
             itemSprites.Add("Goriya", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos));
+            itemSprites.Add("key", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("key"), 1, 1, HUDpos));
+
+
         }
         public void Draw()
         {
@@ -74,6 +79,22 @@ namespace sprint2
             DrawMap();
             //Draw Player Legend
             DrawPlayerIcon();
+            DrawKeyCount();
+        }
+
+        public void DrawKeyCount()
+        {
+            int keyCount = game.player.getKeyCount();
+            Vector2 keyPos = new Vector2((int)posAdj.KEY_X, (int)posAdj.KEY_Y);
+
+            //updates key position with each key
+            for (int i = 0; i < keyCount; i++)
+            {
+                itemSprites["key"].Draw(spriteBatch, keyPos);
+                keyPos.X += (int)posAdj.KEY_ADJUST_X;
+                keyPos.Y += (int)posAdj.KEY_ADJUST_Y;
+            }
+
         }
 
         public void DrawItems()

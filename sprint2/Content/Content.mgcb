@@ -223,6 +223,13 @@
 /processorParam:TextureFormat=Color
 /build:Enemies.png
 
+#begin File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:File.spritefont
+
 #begin goriyaprojectile.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -331,6 +338,18 @@
 /processorParam:TextureFormat=Color
 /build:InitialStand.png
 
+#begin InventoryScreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:InventoryScreen.png
+
 #begin ItemDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -378,6 +397,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ItemUp.png
+
+#begin key.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:key.png
 
 #begin LeftWalk.png
 /importer:TextureImporter
@@ -741,6 +772,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sheet.png
+
+#begin StartScreePrototype.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:StartScreePrototype.png
+
+#begin triforce.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:triforce.png
 
 #begin UpWalk.png
 /importer:TextureImporter

@@ -29,6 +29,27 @@
         "Y": 170
 
       },
+
+      {
+        "Type": "key",
+        "X": 300,
+        "Y": 350
+
+      },
+
+      {
+        "Type": "key",
+        "X": 350,
+        "Y": 350
+
+      },
+
+      {
+        "Type": "triforce",
+        "X": 200,
+        "Y": 200
+
+      },
       //{
       //  "Type": "Block",
       //  "X": 354,
@@ -579,6 +600,18 @@
         "Y": 290,
         "Width": 96,
         "Height": 240
+      }
+    ],
+    "LockDoors": [
+      { //bottom
+        "state": 0,
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 5
       }
     ]
   },

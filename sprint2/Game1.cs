@@ -6,7 +6,7 @@ using System.Collections;
 
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Net.Mime;
 
 namespace sprint2
 {
@@ -67,13 +67,19 @@ namespace sprint2
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
         public List<Rectangle> doorHitboxes;
+        public List<LockDoorInstance> lockDoorInstances;
         private MusicManager music;
+        private Inventory inventoryScreen;
 
         //HUD RELATED CONSTANTS
         public HUD hud;
         private Vector2 HUDpos = new Vector2(0, 528);
         private int HUDHeight = 150;
 
+        //GAME STATE variables
+        public bool gamePaused;
+        private int pauseCounter;
+        private const int MAX_PAUSE = 10;
         
 
         public Game1()
@@ -109,11 +115,15 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+            lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
             //loads kb and mouse support
             timer = 0;
             keyEn = false;
 
+            //game is not paused at the start
+            /*TRUE BECAUSE TESTING INVENTORY*/
+            gamePaused = false;
             base.Initialize();
         }
 
@@ -123,7 +133,7 @@ namespace sprint2
 
 
             player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
-
+            inventoryScreen = new Inventory(this, _spriteBatch);
             //HUD Loading
             hud = new HUD(HUDpos, this, _spriteBatch);
             hud.AddToGrid(curLevel.Name);
@@ -142,6 +152,7 @@ namespace sprint2
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
+            LockDoorHandler();
             obstacleHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
@@ -159,58 +170,57 @@ namespace sprint2
                 this.Initialize();
             }
 
-            keyboard.handleLevelSwitch(this);
-            keyboard.HandleMovement(_graphics, player);
-            Vector2 range = keyboard.HandleAttack(_graphics, player);
-            keyboard.HandleDamaged(_graphics, player);
-
-            player.updatePlayer();
-
-            removePlayerProjectileList();
-            removeEnemyList();
-            //projectile return by keyboard is added to the list
-            List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
-
-            if(plProj != null) playerProjectiles.AddRange(plProj);
-
-            UpdatePlayerProjectileList(gameTime);
-
-
-            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if(timer > 0.5 && !keyEn)
-            //{
-            //    keyEn = keyboard.HandleSwitchEnemy(currentNPC);
-            //    if(keyEn)
-            //    {
-            //        timer = 0;
-            //    }
-            //}else if(timer > 0.5 && keyEn)
-            //{
-            //    keyEn = false;
-            //}
+            inventoryScreen.updateInventory();
+            inventoryScreen.updateCounterInventory();
+            updatePauseCounter();
+            keyboard.HandlePause(this);
+            if(gamePaused)keyboard.HandleSwitchInventory(player, inventoryScreen);
             
-            
+            if (!gamePaused)
+            {
+                keyboard.handleLevelSwitch(this);
+                keyboard.HandleMovement(_graphics, player);
+                Vector2 range = keyboard.HandleAttack(_graphics, player);
+                keyboard.HandleDamaged(_graphics, player);
 
-            removeEnemyProjectileList();
-            updateEnemyProjectileList(gameTime);
-            updateEnemyList(gameTime);
+                player.updatePlayer();
 
-            collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
-            collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
-            collision.HandlePlayerBlockCollision(player, blocks);
-            collision.HandlePlayerEnemyCollision(player, NPCList);
-            collision.HandleEnemyEnemyCollision(NPCList);
-            collision.HandleEnemyBlockCollision(NPCList, blocks);
-            collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
-            collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
-            collision.HandlePlayerWallCollision(player, wallHitboxes);
-            collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
-            collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
-            //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
-            collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
-            collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
-            collision.HandlePlayerItemCollision(items, player);
+                removePlayerProjectileList();
+                removeEnemyList();
+                //projectile return by keyboard is added to the list
 
+
+                List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+
+                if (plProj != null) playerProjectiles.AddRange(plProj);
+
+
+                UpdatePlayerProjectileList(gameTime);
+
+
+                removeEnemyProjectileList();
+                updateEnemyProjectileList(gameTime);
+                updateEnemyList(gameTime);
+
+                collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
+                collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
+                collision.HandlePlayerBlockCollision(player, blocks);
+                collision.HandlePlayerEnemyCollision(player, NPCList);
+                collision.HandleEnemyEnemyCollision(NPCList);
+                collision.HandleEnemyBlockCollision(NPCList, blocks);
+                collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+                collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
+                collision.HandlePlayerWallCollision(player, wallHitboxes);
+                collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+                collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
+                //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+                collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
+                collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
+                collision.HandlePlayerItemCollision(items, player);
+                collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
+                collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
+                collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
+            }
          //if (!player.isAlive()) this.Initialize();
             base.Update(gameTime);
 
@@ -218,6 +228,7 @@ namespace sprint2
 
         protected override void Draw(GameTime gameTime)
         {
+            
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
@@ -239,6 +250,10 @@ namespace sprint2
                 drawAllItems();
                 player.Draw();
                 hud.Draw();
+                if (gamePaused)
+                {
+                    inventoryScreen.Draw();
+                }
             }
             else
             {
@@ -251,8 +266,20 @@ namespace sprint2
             base.Draw(gameTime);
         }
 
+        public void pauseGame()
+        {
+            if(pauseCounter >= MAX_PAUSE)
+            {
+                gamePaused = !gamePaused;
+                pauseCounter = 0;
+                inventoryScreen.resetItemIndex();
+            }
+        }
 
-
+        public void updatePauseCounter()
+        {
+            pauseCounter++;
+        }
         private void updateEnemyList(GameTime gameTime)
         {
             foreach(INPC enemy in NPCList)
@@ -384,6 +411,17 @@ namespace sprint2
             }
             doorHitboxes = list;
             return curLevel.DoorHitboxs;
+        }
+
+        public void LockDoorHandler()
+        {
+            List<LockDoorInstance> list = new List<LockDoorInstance>();
+            for (int i = 0; i < curLevel.LockDoors.Count; i++)
+            {
+                list.Add(new LockDoorInstance(this, curLevel.LockDoors[i]));
+            }
+            lockDoorInstances = list;
+            
         }
 
         private void drawDeath()

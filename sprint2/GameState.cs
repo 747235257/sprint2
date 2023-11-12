@@ -57,6 +57,8 @@ namespace sprint2
             * If Next level key pressed, go to next level in GAMEPLAY state
             * If Exit gameplay key pressed, change state to START_SCREEN
             */
+            
+        }
 
         private enum State
         {
@@ -120,6 +122,7 @@ namespace sprint2
             hud.Draw();
         }
         public void GameStateMachine ()
+        public void GameStateMachine (Game game)
         {
             _state = State.START_SCREEN;
             if (_state == State.START_SCREEN) 
@@ -245,7 +248,7 @@ namespace sprint2
 
         private void removeEnemyList()
         {
-
+            
             for (int i = 0; i < NPCList.Count; i++)
             {
                 if (NPCList[i] != null && !NPCList[i].isStillAlive()) NPCList[i] = null;
