@@ -5,6 +5,7 @@ using sprint2;
 using System;
 using System.Collections.Generic;
 
+
 public class KeyboardCont : IController
 {
 
@@ -148,13 +149,57 @@ public class KeyboardCont : IController
         }
     }
 
-    public void handlePause(Game1 game)
+    public void HandleSwitchInventory(IPlayer player, Inventory inventory)
     {
         var kstate = Keyboard.GetState();
 
-        if(kstate.IsKeyDown(Keys.Tab))
+        if (kstate.IsKeyDown(Keys.D1))
         {
-            game.gamePaused = !game.gamePaused;
+            inventory.handleSwitchInventory(1);
+        }
+        else if (kstate.IsKeyDown(Keys.D2))
+        {
+            inventory.handleSwitchInventory(2);
+        }
+        else if (kstate.IsKeyDown(Keys.D3))
+        {
+            inventory.handleSwitchInventory(3);
+        }
+        else if (kstate.IsKeyDown(Keys.D4))
+        {
+            inventory.handleSwitchInventory(4);
+        }
+        else if (kstate.IsKeyDown(Keys.D5))
+        {
+            inventory.handleSwitchInventory(5);
+        }
+        else if (kstate.IsKeyDown(Keys.D6))
+        {
+            inventory.handleSwitchInventory(6);
+        }
+        else if (kstate.IsKeyDown(Keys.D7))
+        {
+            inventory.handleSwitchInventory(7);
+        }
+        else if (kstate.IsKeyDown(Keys.D8))
+        {
+            inventory.handleSwitchInventory(8);
+        }
+        else if (kstate.IsKeyDown(Keys.D9))
+        {
+            inventory.handleSwitchInventory(9);
+        }
+
+    }
+
+    public void HandlePause(Game1 game)
+    {
+        var kstate = Keyboard.GetState();
+
+        if (kstate.IsKeyDown(Keys.Tab))
+        {
+            game.pauseGame();
         }
     }
+
 }

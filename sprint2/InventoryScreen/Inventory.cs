@@ -17,6 +17,9 @@ namespace sprint2
         ISprite inventoryScreenSprite;
         Vector2 screenPos;
         Dictionary<String, ISprite> itemSprites;
+        int lastItemIndex;
+        int updateCounter;
+        private const int UPDATE_MAX = 10;
 
         public enum ScreenPos
         {
@@ -33,17 +36,59 @@ namespace sprint2
             inventoryScreenSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("InventoryScreen"), 1, 1, screenPos);
             initInventoryGrid();
             initItemSprites();
+            lastItemIndex = 0;
+            updateCounter = 0;
+        }
+
+        public void updateInventory()
+        {
+            initInventoryGrid();
+        }
+        public void handleSwitchInventory(int code)
+        {
+            if (updateCounter >= UPDATE_MAX)
+            {
+                if (code - 1 < inventoryGrid.Count)
+                {
+                    game.player.setItems(lastItemIndex, inventoryGrid[code - 1]);
+                }
+
+                //inc/resets the index for next change
+                updateLastItemIndex();
+                updateCounterInventory();
+                updateCounter = 0;
+            }
+        }
+
+        public void updateCounterInventory()
+        {
+            updateCounter++;
+        }
+        public void resetItemIndex()
+        {
+            lastItemIndex = 0;
+        }
+        private void updateLastItemIndex()
+        {
+            lastItemIndex++;
+            if(lastItemIndex >= game.player.getItemSlot().Count)
+            {
+                resetItemIndex();
+            }
         }
 
         //adds all inventory items to the list
         public void initInventoryGrid()
         {
             inventoryGrid = new List<String>();
-            HashSet<String> inventory = game.player.getInventory();
-
-            foreach(String item in inventory)
+            if (game.player.getInventory() != null)
             {
-                inventoryGrid.Add(item);
+                HashSet<String> inventory = game.player.getInventory();
+
+                foreach (String item in inventory)
+                {
+                    inventoryGrid.Add(item);
+                }
             }
         }
 
