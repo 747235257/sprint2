@@ -42,6 +42,10 @@ namespace sprint2
         public Texture2D LevelBack;
         public Texture2D pixel;
         public Texture2D DeathScreen;
+        public Texture2D VictoryScreen;
+        public Texture2D transiton;
+
+        public ISprite _transition;
 
         public IPlayer player;
         private IController keyboard;
@@ -144,6 +148,11 @@ namespace sprint2
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
             DeathScreen = Content.Load<Texture2D>("DeathScreen");
+            VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen");
+            transiton = Content.Load<Texture2D>("Transition");
+
+            _transition = new NonMoveAnimatedSprite(transiton, 1, 12, new Vector2(0, 0));
+
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
@@ -178,6 +187,10 @@ namespace sprint2
             
             if (!gamePaused)
             {
+                if (player.getHasWon() || !player.isAlive())
+                {
+                    pauseGame();
+                }
                 keyboard.handleLevelSwitch(this);
                 keyboard.HandleMovement(_graphics, player);
                 Vector2 range = keyboard.HandleAttack(_graphics, player);
@@ -250,13 +263,20 @@ namespace sprint2
                 drawAllItems();
                 player.Draw();
                 hud.Draw();
+
                 if (gamePaused)
                 {
                     inventoryScreen.Draw();
                 }
+
+                if (player.getHasWon())
+                {
+                    drawWin();
+                }
             }
             else
             {
+                pauseGame();
                 drawDeath();
             }
             _spriteBatch.End();
@@ -427,6 +447,18 @@ namespace sprint2
         private void drawDeath()
         {
             _spriteBatch.Draw(DeathScreen, new Rectangle(0, 0, 768, 528), Color.White);
+        }
+
+        private void drawWin()
+        {
+            _spriteBatch.Draw(VictoryScreen, new Rectangle(0, 0, 768, 658), Color.White);
+        }
+
+        public void transitionHandler()
+        {
+            _spriteBatch.Begin();
+            _transition.Draw(_spriteBatch, new Vector2(0, 0));
+            _spriteBatch.End();
         }
     }
 }

@@ -94,7 +94,10 @@ namespace sprint2
         public void setDamaged()
         {
             reduceHP();
-            playerState.setDamaged();
+            if (hp != 0)
+            {
+                playerState.setDamaged();
+            }
         }
         public void reduceHP()
         {

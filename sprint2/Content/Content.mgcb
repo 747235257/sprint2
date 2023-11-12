@@ -701,6 +701,18 @@
 /processorParam:TextureFormat=Color
 /build:MoveUp.png
 
+#begin NewVictoryScreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:NewVictoryScreen.png
+
 #begin NPCs.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -785,6 +797,18 @@
 /processorParam:TextureFormat=Color
 /build:StartScreePrototype.png
 
+#begin Transition.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Transition.png
+
 #begin triforce.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -808,6 +832,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UpWalk.png
+
+#begin VictoryScreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VictoryScreen.png
 
 #begin wep1hud.png
 /importer:TextureImporter
