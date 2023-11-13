@@ -26,6 +26,7 @@ Controls:
 (WASD/ARROWS): Move
 (1), (2), (3): Shoot items in slots [1], [2], [3]
 (z): Attack
+(r): reset (after death /victory)
 (TAB): Pause/Inventory Screen
 (1, 2,...9): In inventory Screen, corresponds to which item in inventory you want to switch items slots to. [First press will correspond to first item slot, Second press to 2nd item slot and so forth]
 
