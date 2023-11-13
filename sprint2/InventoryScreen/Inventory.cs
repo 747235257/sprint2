@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 
 namespace sprint2
 {
@@ -51,6 +52,8 @@ namespace sprint2
                 if (code - 1 < inventoryGrid.Count)
                 {
                     game.player.setItems(lastItemIndex, inventoryGrid[code - 1]);
+                    SoundEffectInstance switchItem = SoundManager.Instance.CreateSound("switchitem");
+                    switchItem.Play();
                 }
 
                 //inc/resets the index for next change

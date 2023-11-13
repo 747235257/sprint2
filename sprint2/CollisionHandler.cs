@@ -53,7 +53,7 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
-                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
                         damageSound.Play();
                     }
 				}
@@ -312,6 +312,8 @@ public class CollisionHandler
 		{
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
+                SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
+                changeRoom.Play();
                 game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
 				game.hud.AddToGrid(game.curLevel.Name);
                 //music.MusicLoader(game, game.curLevel);
@@ -400,6 +402,8 @@ public class CollisionHandler
                 }
                 else
                 {
+                    SoundEffectInstance unlockDoor = SoundManager.Instance.CreateSound("unlock");
+                    unlockDoor.Play();
                     game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);

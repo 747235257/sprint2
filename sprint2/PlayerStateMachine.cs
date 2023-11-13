@@ -261,15 +261,6 @@ public class PlayerStateMachine : IPlayerStateMachine
                     currSprite = walkSprites[(int)DirNums.LEFT];
                 }
 
-
-                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
-
-                //if (isWalking())
-                //{
-
-                //    walkingSound.Play();
-
-                //}
             }
         
            state = State.MOVE_LEFT;
@@ -296,14 +287,6 @@ public class PlayerStateMachine : IPlayerStateMachine
                     currSprite = walkSprites[(int)DirNums.RIGHT];
                 }
 
-                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
-
-                //if (isWalking())
-                //{
-
-                //    walkingSound.Play();
-
-                //}
             }
                 state = State.MOVE_RIGHT;
         }
@@ -328,17 +311,6 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.DOWN];
                 }
-
-                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
-
-
-                //if (isWalking())
-                //{
-
-                //    walkingSound.Play();
-
-
-                //}
             }
                 state = State.MOVE_DOWN;
         }
@@ -362,14 +334,6 @@ public class PlayerStateMachine : IPlayerStateMachine
                 {
                     currSprite = walkSprites[(int)DirNums.UP];
                 }
-
-                //SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("playerwalk");
-
-                //if (isWalking())
-                //{
-
-                //    walkingSound.Play();
-                //}
 
             }
 
