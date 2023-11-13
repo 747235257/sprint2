@@ -312,20 +312,26 @@ public class CollisionHandler
 		{
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
-                SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
-                changeRoom.Play();
-                game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
-				game.hud.AddToGrid(game.curLevel.Name);
-                //music.MusicLoader(game, game.curLevel);
-                game.LockDoorHandler();
-                game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
-                game.obstacleHandler.Update(); //resets lists in game with new objects
-                player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
-				game.wallHitboxes = game.WallHitboxHandler();
-				game.doors = game.DoorHitboxHandler();//doorlists is reset
+                if (game.curLevel.getClearStatus())
+                {
+                    SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
+                    changeRoom.Play();
+                    game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+                    game.hud.AddToGrid(game.curLevel.Name);
+                    //music.MusicLoader(game, game.curLevel);
+                    game.LockDoorHandler();
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
+                    game.wallHitboxes = game.WallHitboxHandler();
+                    game.doors = game.DoorHitboxHandler();//doorlists is reset
+                } 
+                else if (!game.curLevel.getClearStatus())
+                    player.setLastPos();
+                }
             }
 		}
-    }
+    
 
     //PlayerProj vs Wall
     public void HandleProjectileDoorCollision(List<Rectangle> doors, List<IProjectile> enemyProj, List<IProjectile> playerProj)
@@ -402,8 +408,6 @@ public class CollisionHandler
                 }
                 else
                 {
-                    SoundEffectInstance unlockDoor = SoundManager.Instance.CreateSound("unlock");
-                    unlockDoor.Play();
                     game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
