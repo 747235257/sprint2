@@ -168,6 +168,10 @@ namespace sprint2
             }
         }
 
+        public void setItems(int i, string itemName)
+        {
+            items[i] = itemName;
+        }
         //fills up empty spots in the item bar
         private void reshuffleItems(string itemName)
         {

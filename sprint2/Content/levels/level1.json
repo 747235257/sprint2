@@ -672,7 +672,11 @@
       "Grid": 5
     },
     "Obstacles": [
-
+      {
+        "Type": "Dragon",
+        "X": 400,
+        "Y": 200
+      }
     ],
     "DoorHitboxs": [
       { //left
@@ -754,7 +758,16 @@
       }
     ],
     "LockDoors": [
-
+      { //bottom
+        "state": 0,
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 5
+      }
     ]
   },
   {
