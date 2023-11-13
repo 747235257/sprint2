@@ -184,6 +184,7 @@ namespace sprint2
                 keyboard.HandleDamaged(_graphics, player);
 
                 player.updatePlayer();
+                curLevel.checkLevelClear(this);
 
                 removePlayerProjectileList();
                 removeEnemyList();

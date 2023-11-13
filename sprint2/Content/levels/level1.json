@@ -521,7 +521,11 @@
       "Grid": 5
     },
     "Obstacles": [
-
+      {
+        "Type": "Dragon",
+        "X": 400,
+        "Y": 200
+      }
     ],
     "DoorHitboxs": [
       { //left
