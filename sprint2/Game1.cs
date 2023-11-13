@@ -42,6 +42,7 @@ namespace sprint2
         public Texture2D LevelBack;
         public Texture2D pixel;
         public Texture2D DeathScreen;
+        public Texture2D VictoryScreen;
 
         public IPlayer player;
         private IController keyboard;
@@ -144,6 +145,7 @@ namespace sprint2
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
             DeathScreen = Content.Load<Texture2D>("DeathScreen");
+            VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen");
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
@@ -221,6 +223,10 @@ namespace sprint2
                 collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
                 collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
                 collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
+                if (player.getHasWon() || !player.isAlive())
+                {
+                    pauseGame();
+                }
             }
          //if (!player.isAlive()) this.Initialize();
             base.Update(gameTime);
@@ -242,7 +248,7 @@ namespace sprint2
             //{
             //    _spriteBatch.Draw(pixel, new Rectangle((int)curLevel.WallHitboxs[i].X, (int)curLevel.WallHitboxs[i].Y, curLevel.WallHitboxs[i].Width, curLevel.WallHitboxs[i].Height), Color.Blue);
             //}
-            if (player.isAlive())
+            if (player.isAlive() && !player.getHasWon())
             {
                 _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
                 drawAllBlocks();
@@ -256,7 +262,11 @@ namespace sprint2
                     inventoryScreen.Draw();
                 }
             }
-            else
+            else if (player.getHasWon())
+            {
+                drawWin();
+            }
+            else if (!player.isAlive())
             {
                 drawDeath();
             }
@@ -430,6 +440,10 @@ namespace sprint2
         private void drawDeath()
         {
             _spriteBatch.Draw(DeathScreen, new Rectangle(0, 0, 768, 528), Color.White);
+        }
+        private void drawWin()
+        {
+            _spriteBatch.Draw(VictoryScreen, new Rectangle(0, 0, 768, 700), Color.White);
         }
     }
 }

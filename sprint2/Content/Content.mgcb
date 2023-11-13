@@ -109,12 +109,6 @@
 /processorParam:Quality=Best
 /build:Audio/pause.wav
 
-#begin Audio/pause.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/pause.wav
-
 #begin Audio/playerwalk.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -144,12 +138,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/takedamage.wav
-
-#begin Audio/unlockdoor.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/unlockdoor.wav
 
 #begin Audio/unlockdoor.wav
 /importer:WavImporter
@@ -748,6 +736,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MoveUp.png
+
+#begin NewVictoryScreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:NewVictoryScreen.png
 
 #begin NPCs.png
 /importer:TextureImporter

@@ -120,7 +120,10 @@ namespace sprint2
             player.Draw();
             hud.Draw();
         }
-        public void GameStateMachine ()
+        public void GameStateMachine()
+        {
+
+        }
         public void GameStateMachine (Game game)
         {
             _state = State.START_SCREEN;
