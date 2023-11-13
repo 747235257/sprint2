@@ -61,11 +61,23 @@
 /processorParam:TextureFormat=Color
 /build:AttackUp.png
 
+#begin Audio/beam.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/beam.wav
+
 #begin Audio/enemyBGM.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Audio/enemyBGM.mp3
+
+#begin Audio/enemykill.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemykill.wav
 
 #begin Audio/itempick.wav
 /importer:WavImporter
@@ -79,11 +91,29 @@
 /processorParam:Quality=Best
 /build:Audio/meleestrike.wav
 
+#begin Audio/nextroom.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/nextroom.wav
+
 #begin Audio/nunchuckstrike.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/nunchuckstrike.wav
+
+#begin Audio/pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/pause.wav
+
+#begin Audio/pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/pause.wav
 
 #begin Audio/playerwalk.wav
 /importer:WavImporter
@@ -103,11 +133,29 @@
 /processorParam:Quality=Best
 /build:Audio/projectile3.wav
 
+#begin Audio/switchitem.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/switchitem.wav
+
 #begin Audio/takedamage.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/takedamage.wav
+
+#begin Audio/unlockdoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/unlockdoor.wav
+
+#begin Audio/unlockdoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/unlockdoor.wav
 
 #begin Audio/walkingsound.wav
 /importer:WavImporter

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections;
-
+using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Mime;
@@ -271,6 +271,8 @@ namespace sprint2
         {
             if(pauseCounter >= MAX_PAUSE)
             {
+                SoundEffectInstance pauseGame = SoundManager.Instance.CreateSound("pause");
+                pauseGame.Play();
                 gamePaused = !gamePaused;
                 pauseCounter = 0;
                 inventoryScreen.resetItemIndex();

@@ -53,7 +53,7 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
-                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
                         damageSound.Play();
                     }
 				}
@@ -314,6 +314,8 @@ public class CollisionHandler
 			{
                 if (game.curLevel.getClearStatus())
                 {
+                    SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
+                    changeRoom.Play();
                     game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
@@ -391,37 +393,30 @@ public class CollisionHandler
         {
             if (lockDoorInstances[i].position.Intersects(playerHitbox))
             {
-                if (game.curLevel.getClearStatus()) //only can unlock if level is cleared
+                if (lockDoorInstances[i].state == 0)
                 {
-                    if (lockDoorInstances[i].state == 0)
+                    if (player.getKeyCount() > 0)
                     {
-                        if (player.getKeyCount() > 0)
-                        {
-                            lockDoorInstances[i].state = 1;
-                            player.decrementKeyCount();
-                            //may add some notifications that the door is open now
-                        }
-                        else
-                        {
-                            player.setLastPos();
-                        }
+                        lockDoorInstances[i].state = 1;
+                        player.decrementKeyCount();
+                        //may add some notifications that the door is open now
                     }
                     else
                     {
-                        game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
-                        game.hud.AddToGrid(game.curLevel.Name);
-                        //music.MusicLoader(game, game.curLevel);
-                        game.LockDoorHandler();
-                        game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
-                        game.obstacleHandler.Update(); //resets lists in game with new objects
-                        player.setLocation(lockDoorInstances[i].playerPos); //new player location
-                        game.wallHitboxes = game.WallHitboxHandler();
-                        game.doors = game.DoorHitboxHandler();//doorlists is reset
+                        player.setLastPos();
                     }
                 }
                 else
                 {
-                    player.setLastPos();
+                    game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
+                    game.hud.AddToGrid(game.curLevel.Name);
+                    //music.MusicLoader(game, game.curLevel);
+                    game.LockDoorHandler();
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(lockDoorInstances[i].playerPos); //new player location
+                    game.wallHitboxes = game.WallHitboxHandler();
+                    game.doors = game.DoorHitboxHandler();//doorlists is reset
                 }
             }
             
