@@ -58,7 +58,6 @@ namespace sprint2
             * If Exit gameplay key pressed, change state to START_SCREEN
             */
             
-        }
 
         private enum State
         {

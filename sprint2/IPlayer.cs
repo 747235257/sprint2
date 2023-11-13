@@ -9,6 +9,7 @@ namespace sprint2
     public interface IPlayer
     {
 
+        public void setItems(int index, string itemName);
         public bool getHasWon();
         public void incrementKeyCount();
             
