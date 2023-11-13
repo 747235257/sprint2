@@ -19,7 +19,7 @@ HUD: A big spike in complexity and # of lines because the dynamic grid map syste
 SoundManager: Barely any changes to complexity and lines of code.
 
 MusicManager: See above.
-
+The music is made by Haowen Deng who is in NYU.
 Inventory: Limited Data, seeing as it was implemented late in development.
 
 Controls: 
