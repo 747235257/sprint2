@@ -70,6 +70,12 @@ namespace sprint2
                     case "wep3":
                         items.Add(new wep3(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
                         break;
+                    case "key":
+                        items.Add(new key(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "triforce":
+                        items.Add(new triforce(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
                     default:
                         break;
 
@@ -77,9 +83,9 @@ namespace sprint2
                 }
             }
             //game now has updated lists
-            game1.NPCList = enemies;
+            if(!level.getClearStatus())game1.NPCList = enemies;
             game1.blocks = blocks;
-            game1.items = items;
+            if (!level.getClearStatus()) game1.items = items;
             //clears projectiles in the game
             game1.playerProjectiles.Clear();
             game1.enemyProjectiles.Clear();

@@ -68,7 +68,7 @@ namespace sprint2
         public List<IProjectile> Attack() {
 
 
-            SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("damaged");
+            SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("beam");
             attackSound.Play();
 
 

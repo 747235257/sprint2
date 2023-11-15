@@ -29,9 +29,9 @@ public class CollisionHandler
 				{
                     SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
                     pickupSound.Play();
+                    player.pickUpItem(item.getItemName());
                 }
 				item.setInactive();
-				player.pickUpItem(item.getItemName());
 				
 			}
 		}
@@ -53,7 +53,7 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
-                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
                         damageSound.Play();
                     }
 				}
@@ -312,18 +312,26 @@ public class CollisionHandler
 		{
 			if (doorHitboxes[i].Intersects(playerHitbox))
 			{
-                game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
-				game.hud.AddToGrid(game.curLevel.Name);
-				//music.MusicLoader(game, game.curLevel);
-
-                game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
-                game.obstacleHandler.Update(); //resets lists in game with new objects
-                player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
-				game.wallHitboxes = game.WallHitboxHandler();
-				game.doors = game.DoorHitboxHandler();//doorlists is reset
+                if (game.curLevel.getClearStatus())
+                {
+                    SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
+                    changeRoom.Play();
+                    game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
+                    game.hud.AddToGrid(game.curLevel.Name);
+                    //music.MusicLoader(game, game.curLevel);
+                    game.LockDoorHandler();
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
+                    game.wallHitboxes = game.WallHitboxHandler();
+                    game.doors = game.DoorHitboxHandler();//doorlists is reset
+                } 
+                else if (!game.curLevel.getClearStatus())
+                    player.setLastPos();
+                }
             }
 		}
-    }
+    
 
     //PlayerProj vs Wall
     public void HandleProjectileDoorCollision(List<Rectangle> doors, List<IProjectile> enemyProj, List<IProjectile> playerProj)
@@ -354,6 +362,94 @@ public class CollisionHandler
 
     }
 
+    public void HandleEnemyLockDoorCollision(List<INPC> enemies, List<LockDoorInstance> lockDoors)
+    {
+        foreach (INPC enemy in enemies)
+        {
+            foreach (LockDoorInstance lockDoor in lockDoors)
+            {
+                if (enemy != null)
+                {
+
+                    Rectangle eHitbox = enemy.getHitbox();
+
+                    if (lockDoor.position.Intersects(eHitbox))
+                    {
+                        enemy.setLastPos();
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    public void HandlePlayerLockDoorCollision(IPlayer player, List<LockDoorInstance> lockDoorInstances, Game1 game)
+    {
+        Rectangle playerHitbox = player.getHitbox();
+        //MusicManager music = new MusicManager(game);
+
+        for (int i = 0; i < lockDoorInstances.Count; i++)
+        {
+            if (lockDoorInstances[i].position.Intersects(playerHitbox))
+            {
+                if (lockDoorInstances[i].state == 0)
+                {
+                    if (player.getKeyCount() > 0)
+                    {
+                        lockDoorInstances[i].state = 1;
+                        player.decrementKeyCount();
+                        //may add some notifications that the door is open now
+                    }
+                    else
+                    {
+                        player.setLastPos();
+                    }
+                }
+                else
+                {
+                    game.curLevel = game.levelManager.Levels[lockDoorInstances[i].NextLevel - 1]; //changes current level
+                    game.hud.AddToGrid(game.curLevel.Name);
+                    //music.MusicLoader(game, game.curLevel);
+                    game.LockDoorHandler();
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(lockDoorInstances[i].playerPos); //new player location
+                    game.wallHitboxes = game.WallHitboxHandler();
+                    game.doors = game.DoorHitboxHandler();//doorlists is reset
+                }
+            }
+            
+            
+        }
+    }
+    public void HandleProjectileLockDoorCollision(List<LockDoorInstance> lockDoors, List<IProjectile> enemyProj, List<IProjectile> playerProj)
+    {
+        foreach (LockDoorInstance lockDoor in lockDoors)
+        {
+
+
+            foreach (IProjectile proj in enemyProj) //untested - enemies don't have hitboxes
+            {
+                if (proj != null)
+                {
+                    Rectangle projHitbox = proj.getHitbox();
+                    if (lockDoor.position.Intersects(projHitbox)) proj.setToInactive();
+                }
+            }
+
+            foreach (IProjectile proj in playerProj)
+            {
+                if (proj != null)
+                {
+                    Rectangle projHitbox = proj.getHitbox();
+                    if (lockDoor.position.Intersects(projHitbox)) proj.setToInactive();
+                }
+            }
+        }
+
+
+    }
 
 }
 

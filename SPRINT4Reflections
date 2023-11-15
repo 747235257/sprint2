@@ -1,0 +1,10 @@
+SPRINT 4 Reflections
+
+Overall, the team ran into little to few issues with pushing/pulling code from github.
+The team had no issue dividing the tasks equally.
+
+Sound and Music was simple and easy enough to implement.
+HUD had some complexities, since HUD had to be updated in real time - which includes HP, MAP, and Item slots.
+Levels had to be refactored to support level clearing.
+Inventory/Pause Screen also had some complexities, because the team had to stop all updates, and allow for item switching.
+Victory Screen and Game Over Screen were simple enough to implement.
