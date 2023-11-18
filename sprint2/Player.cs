@@ -9,12 +9,14 @@ namespace sprint2
 
     public class Player : IPlayer
     {
+        private const int HpBound = 4;
         private const int startHP = 4;
         public IPlayerStateMachine playerState;
         public int hp;
         public int keyCount;
         public bool hasTriforce;
         private int damageCount;
+        private bool hasMap;
         Game game;
         private List<string> items;
         private HashSet<string> inventory;
@@ -34,8 +36,13 @@ namespace sprint2
             inventory = new HashSet<string>();
             keyCount = 0;
             hasTriforce = false;
+            hasMap = false;
         }
 
+        public bool getHasMap()
+        {
+            return hasMap;
+        }
         public bool getHasWon()
         {
             return hasTriforce;
@@ -105,6 +112,14 @@ namespace sprint2
             }
 
         }
+
+        public void incHP() 
+        { 
+            if(this.hp < HpBound)
+            {
+                hp++;
+            }
+        }
         public int getHealth()
         {
             return hp;
@@ -149,7 +164,7 @@ namespace sprint2
 
             return projs;
         }
-        
+
         public void pickUpItem(string itemName)
         {
             //if triforce object is obtained
@@ -160,6 +175,14 @@ namespace sprint2
             else if (itemName.Equals("key")) //if a key is picked up
             {
                 incrementKeyCount();
+            }
+            else if (itemName.Equals("healthItem")) //health pick up
+            {
+                incHP();
+            }
+            else if (itemName.Equals("mapItem"))
+            {
+                hasMap = true;
             }
             else if (!inventory.Contains(itemName)) //else, the weapon items
             {
