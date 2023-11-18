@@ -9,6 +9,8 @@ namespace sprint2
     public interface IPlayer
     {
 
+        public bool getHasMap();
+        public void incHP();
         public void setItems(int index, string itemName);
         public bool getHasWon();
         public void incrementKeyCount();

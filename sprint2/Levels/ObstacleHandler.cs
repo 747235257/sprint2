@@ -76,6 +76,12 @@ namespace sprint2
                     case "triforce":
                         items.Add(new triforce(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
                         break;
+                    case "mapItem":
+                        items.Add(new mapItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "healthItem":
+                        items.Add(new healthItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
                     default:
                         break;
 

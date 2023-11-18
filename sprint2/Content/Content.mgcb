@@ -278,6 +278,18 @@
 /processorParam:TextureFormat=Color
 /build:goriyaprojectile.png
 
+#begin healthItem.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:healthItem.png
+
 #begin hitbox.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -676,6 +688,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/level9hud.png
+
+#begin mapItem.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:mapItem.png
 
 #begin mapTexture.png
 /importer:TextureImporter
