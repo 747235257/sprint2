@@ -10,6 +10,7 @@ namespace sprint2
 
         public void Draw(SpriteBatch spriteBatch);
 
+        public void parryProjectile();
         public void CheckRange();
 
         public bool ReturnStatus();

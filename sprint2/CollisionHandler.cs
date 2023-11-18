@@ -16,6 +16,48 @@ public class CollisionHandler
     {
     }
 
+    public void HandlePlayerParryProjectile(IPlayer player, List<IProjectile> projectiles, Game1 game)
+    {
+        if (player.InAttack())
+        {
+            Rectangle attackRect = player.getAttackHitbox();
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                {
+                    if (projectiles[i] != null)
+                    {
+                        Rectangle projRect = projectiles[i].getHitbox();
+
+                        if (projRect.Intersects(attackRect))
+                        {
+                            projectiles[i].parryProjectile();
+                            game.playerProjectiles.Add(projectiles[i]);
+                            projectiles[i] = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void HandlePlayerAttackCollision(IPlayer player, List<INPC> NPCList)
+    {
+        if (player.InAttack())
+        {
+            Rectangle attackRect = player.getAttackHitbox();
+            foreach (INPC npc in NPCList)
+            {
+                if(npc != null)
+                {
+                    Rectangle npcRect = npc.getHitbox();
+
+                    if(npcRect.Intersects(attackRect))
+                    {
+                        npc.giveDamage();
+                    }
+                }
+            }
+        }
+    }
     public void HandlePlayerItemCollision(List<IItem> items, IPlayer player)
 	{
 		foreach(IItem item in items)
