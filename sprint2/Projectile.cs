@@ -33,6 +33,12 @@ namespace sprint2
             isActive = true;
         }
 
+        public void parryProjectile()
+        {
+            Velocity.X = -Velocity.X;
+            Velocity.Y = -Velocity.Y;
+            currentRange = 0;
+        }
         public void UpdatePosition(GameTime gameTime)
         {
             //only updates position if the current projectile is active

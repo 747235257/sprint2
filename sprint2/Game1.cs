@@ -43,6 +43,7 @@ namespace sprint2
         public Texture2D pixel;
         public Texture2D DeathScreen;
         public Texture2D VictoryScreen;
+        public Texture2D ranChests;
 
         public IPlayer player;
         private IController keyboard;
@@ -50,13 +51,15 @@ namespace sprint2
 
         public int blockRow = 3;
         public int blockCol = 4;
-
+        public int chestRow = 1;
+        public int chestCol = 2;
 
         public List<IProjectile> playerProjectiles;
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
         public List<IItem> items;
+        public List<IChest> chests;
 
 
         private IItem item;
@@ -71,6 +74,7 @@ namespace sprint2
         public List<LockDoorInstance> lockDoorInstances;
         private MusicManager music;
         private Inventory inventoryScreen;
+        public RandomChest chest;
 
         //HUD RELATED CONSTANTS
         public HUD hud;
@@ -116,6 +120,7 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+            chests = new List<IChest>();
             lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
             //loads kb and mouse support
@@ -146,12 +151,13 @@ namespace sprint2
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
             DeathScreen = Content.Load<Texture2D>("DeathScreen");
             VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen");
+            ranChests = Content.Load<Texture2D>("Chest");
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData<Color>(new Color[] { Color.White });
-            obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            obstacleHandler = new ObstacleHandler(this, this, Blocks, ranChests);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
             LockDoorHandler();
@@ -205,6 +211,8 @@ namespace sprint2
                 updateEnemyProjectileList(gameTime);
                 updateEnemyList(gameTime);
 
+                collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
+                collision.HandlePlayerAttackCollision(player, NPCList);
                 collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
                 collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
                 collision.HandlePlayerBlockCollision(player, blocks);
@@ -215,6 +223,8 @@ namespace sprint2
                 collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
                 collision.HandlePlayerWallCollision(player, wallHitboxes);
                 collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+                collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
+                collision.HandleEnemyChestCollision(NPCList, chests);
                 collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
                 //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
                 collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
@@ -255,6 +265,7 @@ namespace sprint2
                 drawAllProjectiles();
                 drawAllEnemies();
                 drawAllItems();
+                drawAllChests();
                 player.Draw();
                 hud.Draw();
                 if (gamePaused)
@@ -358,6 +369,13 @@ namespace sprint2
             foreach (IBlock block in blocks)
             {
                 if (block != null) block.drawBlock();
+            }
+        }
+        private void drawAllChests()
+        {
+            foreach (IChest chest in chests)
+            {
+                if (chest != null) chest.drawRandomChest();
             }
         }
 

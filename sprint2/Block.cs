@@ -31,7 +31,7 @@ public class Block : IBlock
     {
         this.Texture = texture;
         this.Rows = rows;
-        this.Columns = columns;
+        this.Columns = columns; 
         currentFrame = 0;
         totalFrames = (rows * columns) - 2;
         pos = location;

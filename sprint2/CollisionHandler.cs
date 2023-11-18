@@ -16,6 +16,48 @@ public class CollisionHandler
     {
     }
 
+    public void HandlePlayerParryProjectile(IPlayer player, List<IProjectile> projectiles, Game1 game)
+    {
+        if (player.InAttack())
+        {
+            Rectangle attackRect = player.getAttackHitbox();
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                {
+                    if (projectiles[i] != null)
+                    {
+                        Rectangle projRect = projectiles[i].getHitbox();
+
+                        if (projRect.Intersects(attackRect))
+                        {
+                            projectiles[i].parryProjectile();
+                            game.playerProjectiles.Add(projectiles[i]);
+                            projectiles[i] = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void HandlePlayerAttackCollision(IPlayer player, List<INPC> NPCList)
+    {
+        if (player.InAttack())
+        {
+            Rectangle attackRect = player.getAttackHitbox();
+            foreach (INPC npc in NPCList)
+            {
+                if(npc != null)
+                {
+                    Rectangle npcRect = npc.getHitbox();
+
+                    if(npcRect.Intersects(attackRect))
+                    {
+                        npc.giveDamage();
+                    }
+                }
+            }
+        }
+    }
     public void HandlePlayerItemCollision(List<IItem> items, IPlayer player)
 	{
 		foreach(IItem item in items)
@@ -215,7 +257,46 @@ public class CollisionHandler
         }
 
     }
-	//Enemy vs Wall
+    //Player vs Chest
+    public void HandlePlayerChestCollision(IPlayer player, List<IChest> chests, List<IItem> items, SpriteBatch spriteBatch)
+    {
+        Rectangle playerHitbox = player.getHitbox();
+
+        foreach (IChest chest in chests)
+        {
+            if (chest != null)
+            {
+                Rectangle chestHitbox = chest.getHitbox();
+                if (chestHitbox.Intersects(playerHitbox))
+                {
+                    chest.openChest(chest, spriteBatch);
+                    player.setLastPos();
+                }
+            }
+        }
+    }
+    //Enemy vs Chest
+    public void HandleEnemyChestCollision(List<INPC> enemies, List<IChest> chests)
+    {
+        foreach (INPC enemy in enemies)
+        {
+            foreach (IChest chest in chests)
+            {
+                if (enemy != null && chest != null)
+                {
+                    Rectangle cHitbox = chest.getHitbox();
+                    Rectangle eHitbox = enemy.getHitbox();
+
+                    if (cHitbox.Intersects(eHitbox))
+                    {
+                        enemy.setLastPos();
+                    }
+                }
+            }
+
+        }
+    }
+    //Enemy vs Wall
     public void HandleEnemyWallCollision(List<INPC> enemies, List<Rectangle> walls)
     {
         foreach (INPC enemy in enemies)
@@ -320,7 +401,7 @@ public class CollisionHandler
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
                     game.LockDoorHandler();
-                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
                     player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
@@ -412,7 +493,7 @@ public class CollisionHandler
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
                     game.LockDoorHandler();
-                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
                     player.setLocation(lockDoorInstances[i].playerPos); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
