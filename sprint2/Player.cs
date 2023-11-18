@@ -39,6 +39,10 @@ namespace sprint2
             hasMap = false;
         }
 
+        public bool InAttack()
+        {
+            return playerState.InAttack();
+        }
         public bool getHasMap()
         {
             return hasMap;
@@ -87,6 +91,10 @@ namespace sprint2
             playerState.moveDown();
         }
 
+        public Rectangle getAttackHitbox()
+        {
+            return playerState.getAttackHitbox();
+        }
         public Vector2 attack()
         {
             Vector2 range = playerState.attack();

@@ -10,6 +10,8 @@ namespace sprint2
     public interface IPlayerStateMachine
     {
 
+        public bool InAttack();
+        public Rectangle getAttackHitbox();
         public void drawCurrentSprite();
         public void setIdle();
         public void setLocation(Vector2 pos);

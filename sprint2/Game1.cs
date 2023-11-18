@@ -205,6 +205,8 @@ namespace sprint2
                 updateEnemyProjectileList(gameTime);
                 updateEnemyList(gameTime);
 
+                collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
+                collision.HandlePlayerAttackCollision(player, NPCList);
                 collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
                 collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
                 collision.HandlePlayerBlockCollision(player, blocks);
