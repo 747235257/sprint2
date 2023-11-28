@@ -43,15 +43,15 @@ public class KeyboardCont : IController
         List<IProjectile> projs = new List<IProjectile>();
         if (kstate.IsKeyDown(Keys.D1))
         {
-            projs.AddRange(player.useItem("Nunchucks"));
+            projs.AddRange(player.useItem(0));
         }
         else if(kstate.IsKeyDown(Keys.D2))
         {
-            projs.AddRange(player.useItem("Dragon"));
+            projs.AddRange(player.useItem(1));
         } 
         else if (kstate.IsKeyDown(Keys.D3))
         {
-            projs.AddRange(player.useItem("Goriya"));
+            projs.AddRange(player.useItem(2));
         }
 
         HandleNoPlayerInput(kstate, player);

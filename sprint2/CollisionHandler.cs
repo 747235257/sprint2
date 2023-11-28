@@ -27,8 +27,9 @@ public class CollisionHandler
 			{
 				if (item.isAlive())
 				{
-					SoundManager.Instance.PlaySound("pickupitem");
-				}
+                    SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
+                    pickupSound.Play();
+                }
 				item.setInactive();
 				player.pickUpItem(item.getItemName());
 				
@@ -52,8 +53,8 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
-						SoundManager.Instance.StopSound();
-						SoundManager.Instance.PlaySound("damaged");
+                        SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("damaged");
+                        damageSound.Play();
                     }
 				}
 			}

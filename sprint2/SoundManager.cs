@@ -28,18 +28,13 @@ namespace sprint2
             soundBank["attack"] = game.Content.Load<SoundEffect>("audio/meleestrike");
             soundBank["Dragon"] = game.Content.Load<SoundEffect>("audio/projectile2");
             soundBank["Goriya"] = game.Content.Load<SoundEffect>("audio/projectile3");
-            //soundBank["attack"] = game.Content.Load<SoundEffect>("audio/nunchuckstrike");
+            soundBank["playerwalk"] = game.Content.Load<SoundEffect>("audio/walkingsound");
 
         }
-        public void PlaySound(string soundType)
+        public SoundEffectInstance CreateSound(string soundType)
         {
             soundInstance = soundBank[soundType].CreateInstance();
-            soundInstance.Volume = 1.0f;
-            soundInstance.Play();
-        }
-
-        public void StopSound( ) { 
-            soundInstance.Stop();
+            return soundInstance;
         }
     }
 }
