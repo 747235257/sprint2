@@ -49,6 +49,9 @@ namespace sprint2
                     case "Block":
                         blocks.Add(new Block(Blocks, game1.blockRow, game1.blockCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game));
                         break;
+                    case "Boss1":
+                        enemies.Add(new Boss1(game1.Boss1, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
                     case "Dragon":
                         enemies.Add(new Dragon(game1.Bosses, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;

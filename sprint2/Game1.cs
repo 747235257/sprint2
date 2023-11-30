@@ -26,6 +26,7 @@ namespace sprint2
         private INPC Goriya;
         private INPC Gel;
         private INPC Bat;
+        
         public INPC cur;
         public int currentNPC { get; set; }
 
@@ -37,6 +38,7 @@ namespace sprint2
 
         public Texture2D Enemies;
         public Texture2D Bosses;
+        public Texture2D Boss1;
         public Texture2D NPCs;
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
@@ -141,6 +143,7 @@ namespace sprint2
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
+            Boss1 = Content.Load<Texture2D>("Enemy_Concept");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");

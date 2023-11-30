@@ -61,6 +61,11 @@
         "Type": "Skull",
         "X": 400,
         "Y": 400
+      },
+      {
+        "Type": "Boss1",
+        "X": 200,
+        "Y": 100
       }
     ],
     "DoorHitboxs": [
