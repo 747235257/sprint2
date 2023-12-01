@@ -56,6 +56,9 @@ namespace sprint2
 
         public int blockRow = 3;
         public int blockCol = 4;
+        public int chestRow = 1;
+        public int chestCol = 2;
+
         public int pickupCount { get; set; }//counter for item pickup
         public int roomCount { get; set; } //counter for room travelled
         public int killCount {  get; set; }//counter for enemies killed
@@ -64,11 +67,11 @@ namespace sprint2
         float victoryTimer = 0f;
         bool isTextureVisible = false;
 
-
         public List<IProjectile> playerProjectiles;
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
+        public List<IChest> chests;
         public List<IItem> items { get; set; }
 
 
@@ -85,6 +88,7 @@ namespace sprint2
         public List<LockDoorInstance> lockDoorInstances;
         private MusicManager music;
         private Inventory inventoryScreen;
+        public RandomChest chest;
 
         //HUD RELATED CONSTANTS
         public HUD hud;
@@ -131,6 +135,7 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+            chests = new List<IChest>();
             lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
             //loads kb and mouse support
@@ -159,20 +164,23 @@ namespace sprint2
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
+            ranChests = Content.Load<Texture2D>("Chest");
             DeathScreen = Content.Load<Texture2D>("DeathScreen"); //CHANGE
             VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen"); //CHANGE
             Scoreboard = Content.Load<Texture2D>("blank");
             spriteFont = Content.Load<SpriteFont>("File");
             bannerFont = Content.Load<SpriteFont>("score");
             Banner = Content.Load<Texture2D>("banner");
-
+            
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData<Color>(new Color[] { Color.White });
-            obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            
+            obstacleHandler = new ObstacleHandler(this, this, Blocks, ranChests);
             randomLevelHandler = new RandomLevelHandler(this, blocks);
+
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
             LockDoorHandler();
@@ -253,6 +261,8 @@ namespace sprint2
                 collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
                 collision.HandlePlayerWallCollision(player, wallHitboxes);
                 collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+                collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
+                collision.HandleEnemyChestCollision(NPCList, chests);
                 collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
                 //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
                 collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
@@ -293,6 +303,7 @@ namespace sprint2
                 drawAllProjectiles();
                 drawAllEnemies();
                 drawAllItems();
+                drawAllChests();
                 player.Draw();
                 hud.Draw();
                 if (gamePaused)
@@ -408,6 +419,13 @@ namespace sprint2
             foreach (IBlock block in blocks)
             {
                 if (block != null) block.drawBlock();
+            }
+        }
+        private void drawAllChests()
+        {
+            foreach (IChest chest in chests)
+            {
+                if (chest != null) chest.drawRandomChest();
             }
         }
 
