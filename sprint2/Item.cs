@@ -41,47 +41,5 @@ namespace sprint2
             }
             return !result;
         }
-        public void CurrentItemPlus()
-        {
-            if (updateCheck()) //only switches after a time
-            {
-                if (currentFrame < totalFrames)
-                {
-                    currentFrame++;
-                }
-                else
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-        public void CurrentItemMinus()
-        {
-            if (updateCheck())
-            {
-                if (currentFrame != 0)
-                {
-                    currentFrame--;
-                }
-                else { currentFrame = totalFrames; }
-            }
-        }
-
-        public void ItemProcess(SpriteBatch spriteBatch)
-        {
-            int width = Texture.Width / Columns;
-            int height = Texture.Height / Rows;
-            int row = currentFrame / Columns;
-            int column = currentFrame % Columns;
-
-            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)pos.X, (int)pos.Y, width*2, height*2);
-
-            //draws a portion of the texture into a portion of the screen
-            spriteBatch.Begin();
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
-
-        }
     }
 }
