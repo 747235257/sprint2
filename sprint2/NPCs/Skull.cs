@@ -25,16 +25,18 @@ namespace sprint2
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
         private bool isAlive;
+        private IPlayer _player;
 
         private enum HitboxDims
         {
             WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
 
-        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
+        public Skull(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.spriteBatch = spriteBatch;
             this.texture = texture;
+            this._player = game.player;
             SkullSprite = new SkullSprite(this.texture, this.spriteBatch);
             count = 0;
             curdir = 0;
@@ -72,25 +74,44 @@ namespace sprint2
         public List<IProjectile> Execute(GameTime gametime)
         {
 
-            count++;
-
-            if (count % 16 == 0)//Interval of a diraction generator.
+            float distance = Vector2.Distance(prevPos, _player.getPosition());
+            if (distance > 300)
             {
-                curdir = rnd.Next(0, 5);
+                count++;
+
+                if (count % 16 == 0)//Interval of a direction generator. 
+                {
+                    curdir = rnd.Next(0, 5);
 
 
+                }
+
+                //UPDATES positions and hitboxes
+
+                prevPos = currPos;
+                Vector2 updateMove = SkullSprite.Update(gametime, curdir);
+                currPos.X += updateMove.X;
+                currPos.Y += updateMove.Y;
+                count = count % 16;//Reset the count to prevent unnecessary storage usage.
+
+                //UPDATES positions and hitboxes
+
+                prevHitbox = hitbox;
+                hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+                hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
             }
- 
-            prevPos = currPos;
-            Vector2 updateMove = SkullSprite.Update(gametime, curdir);
-            count = count % 16;//Reset the count to prevent unnecessary storage usage.
-            currPos.X += updateMove.X;
-            currPos.Y += updateMove.Y;  
-            //UPDATES positions and hitboxes
+            else
+            {
+                prevPos = currPos;
+                Vector2 updateMove = SkullSprite.Update(gametime, 0);
+                Vector2 direction = _player.getPosition() - prevPos;
+                direction.Normalize();
+                currPos += direction * 2;
 
-            prevHitbox = hitbox;
-            hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
-            hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
+                prevHitbox = hitbox;
+                hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+                hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
+            }
 
             return null;
         }
@@ -126,6 +147,10 @@ namespace sprint2
         {
             currPos = prevPos;
             hitbox = prevHitbox;
+        }
+        public Vector2 getLastPos()
+        {
+            return currPos;
         }
     }
 }

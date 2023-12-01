@@ -329,7 +329,10 @@ namespace sprint2
         {
             foreach (IProjectile projectile in playerProjectiles)
             {
-                if (projectile != null) projectile.UpdatePosition(gameTime);
+                if (projectile != null)
+                {
+                    projectile.UpdatePosition(gameTime);
+                }
             }
         }
         private void drawAllProjectiles()

@@ -11,7 +11,7 @@ namespace sprint2
         }
     public class ProjectileCreator : ProjectileFactory
     {
-        public override List<IProjectile> GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir )
+        public override List<IProjectile> GetProjectile(string name, Vector2 currPos, ContentManager content, Vector2 dir)
         {
 
             List<IProjectile> projs = new List<IProjectile>();
