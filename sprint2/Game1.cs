@@ -49,6 +49,7 @@ namespace sprint2
         public Texture2D VictoryScreen; //CHANGE
         public Texture2D Scoreboard;
         public Texture2D Banner;
+        public Texture2D ranChests;
 
         public IPlayer player;
         private IController keyboard;
