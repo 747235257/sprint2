@@ -17,7 +17,7 @@ namespace sprint2
         public bool hasTriforce;
         private int damageCount;
         private bool hasMap;
-        Game game;
+        Game1 game;
         private List<string> items;
         private HashSet<string> inventory;
 
@@ -26,7 +26,7 @@ namespace sprint2
             MAX_INV = 3
         }
 
-        public Player(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
+        public Player(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
         {
             this.game = game;
             playerState = new PlayerStateMachine(game, graphics, spriteBatch, startPos);

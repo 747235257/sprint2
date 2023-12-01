@@ -28,6 +28,7 @@ namespace sprint2
         public bool isStillAlive();
 
         public void setLastPos();
+        public Vector2 getLastPos();
 
 
     }
