@@ -12,6 +12,7 @@ namespace sprint2
         private readonly int rangeValue = 150;
         private readonly int row = 1;
         private readonly int column = 1;
+        
 
         private enum HitboxDims
         {

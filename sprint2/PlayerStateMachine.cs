@@ -80,7 +80,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     private List<ISprite> damagedSprites;
     private ISprite currSprite;
     private GraphicsDeviceManager graphics;
-    private Game game;
+    private Game1 game;
     private SpriteBatch spriteBatch;
     private int attackCounter;
     private int itemCounter;
@@ -97,20 +97,20 @@ public class PlayerStateMachine : IPlayerStateMachine
         damagedSprites = new List<ISprite>();
         walkSprites = new List<ISprite>();  
         //idle sprites
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleDown"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleUp"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleFront2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleFront2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
         //attack sprites
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
         //walkSprites
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveDown"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveUp"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveLeft"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveRight"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerUpL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerDownR1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerLeftL"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerRightL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         //damagedSprites
         damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
         damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
@@ -146,7 +146,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         return hitbox;
     }
 
-    public PlayerStateMachine(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
+    public PlayerStateMachine(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
 	{
         //graphics and game are set
         this.graphics = graphics;
@@ -523,6 +523,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
+                
                 SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
                 projectileSound.Play();
 
@@ -574,6 +575,22 @@ public class PlayerStateMachine : IPlayerStateMachine
     public Vector2 getPosition()
     {
         return currPos;
+    }
+
+    private Vector2 getNearestEnemyPosition(List<INPC> enemyList)
+    {
+        Vector2 returnPos = enemyList.First().getLastPos();
+        foreach (INPC enemy in enemyList)
+        {
+            float distanceCurr = Vector2.Distance(this.currPos, enemy.getLastPos()); 
+            float distancePrev = Vector2.Distance(this.currPos, returnPos);
+            if (distanceCurr < distancePrev)
+            {
+                returnPos = enemy.getLastPos();
+            }
+            
+        }
+        return returnPos;
     }
 
 }
