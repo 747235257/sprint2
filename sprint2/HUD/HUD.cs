@@ -20,6 +20,7 @@ namespace sprint2
         private Vector2 HUDpos;
         private List<ISprite> gridSprites;
         private Dictionary<int, Vector2> gridDictionary = new Dictionary<int, Vector2>();
+        private ISprite fullMapSprite;
 
         private enum posAdj
         {
@@ -49,6 +50,7 @@ namespace sprint2
             this.game = game;
             this.HUDpos = HUDpos;
 
+            this.fullMapSprite = new NonMovingNonAnimatedSprite(game.Content.Load<Texture2D>("mapTexture"), HUDpos);
             initItemSprites(); //init sprite dictionary for items
         }
 
@@ -68,6 +70,8 @@ namespace sprint2
             itemSprites.Add("Dragon", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep2hud"), 1, 1, HUDpos));
             itemSprites.Add("Goriya", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("wep3hud"), 1, 1, HUDpos));
             itemSprites.Add("key", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("key"), 1, 1, HUDpos));
+            itemSprites.Add("healthItem", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("healthItem"), 1, 1, HUDpos));
+            itemSprites.Add("mapItem", new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("mapItem"), 1, 1, HUDpos));
 
 
         }
@@ -157,30 +161,39 @@ namespace sprint2
         
         public void DrawHP()
         {
-            int hp = game.player.getHealth();
-            int gapX = 48;
 
-            if(hp > 0)
-            {
-                for(int  i = 0; i < hp; i++)
+
+                int hp = game.player.getHealth();
+                int gapX = 48;
+
+                if (hp > 0)
                 {
-                    hpSprite.Draw(spriteBatch, new Vector2((int)posAdj.HP_X + (int)HUDpos.X + i * gapX, (int)posAdj.HP_Y + (int)HUDpos.Y));
+                    for (int i = 0; i < hp; i++)
+                    {
+                        hpSprite.Draw(spriteBatch, new Vector2((int)posAdj.HP_X + (int)HUDpos.X + i * gapX, (int)posAdj.HP_Y + (int)HUDpos.Y));
+                    }
                 }
-            }
+            
         }
 
         //draw map
         public void DrawMap()
         {
-           
-            //mapSprite.Draw(spriteBatch, new Vector2(gridDictionary[0].X + (int)HUDpos.X, gridDictionary[0].Y +(int)HUDpos.Y));
-            for(int i=0; i < 20; i++)
+            if (game.player.getHasMap())
             {
-                if (gridSprites[i] != null)
+                fullMapSprite.Draw(spriteBatch, new Vector2(580 + (int)HUDpos.X, 20 + (int)HUDpos.Y));
+            }
+            else
+            {
+                //mapSprite.Draw(spriteBatch, new Vector2(gridDictionary[0].X + (int)HUDpos.X, gridDictionary[0].Y +(int)HUDpos.Y));
+                for (int i = 0; i < 20; i++)
                 {
-                   gridSprites[i].Draw(spriteBatch, new Vector2(gridDictionary[i].X + (int)HUDpos.X, gridDictionary[i].Y + (int)HUDpos.Y));
+                    if (gridSprites[i] != null)
+                    {
+                        gridSprites[i].Draw(spriteBatch, new Vector2(gridDictionary[i].X + (int)HUDpos.X, gridDictionary[i].Y + (int)HUDpos.Y));
+                    }
+
                 }
-                
             }
 
             ////gridSprites[2000] = null;

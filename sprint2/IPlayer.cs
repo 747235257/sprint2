@@ -9,10 +9,13 @@ namespace sprint2
     public interface IPlayer
     {
 
+        public bool InAttack();
+        public bool getHasMap();
+        public void incHP();
         public void setItems(int index, string itemName);
         public bool getHasWon();
         public void incrementKeyCount();
-            
+        public Rectangle getAttackHitbox();
         public int getKeyCount();
         public void decrementKeyCount();
         public void setIdle();

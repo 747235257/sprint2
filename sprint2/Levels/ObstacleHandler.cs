@@ -76,16 +76,33 @@ namespace sprint2
                     case "triforce":
                         items.Add(new triforce(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
                         break;
+                    case "mapItem":
+                        items.Add(new mapItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
+                    case "healthItem":
+                        items.Add(new healthItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+                        break;
                     default:
                         break;
-
-
                 }
             }
             //game now has updated lists
-            if(!level.getClearStatus())game1.NPCList = enemies;
+            if (!level.getClearStatus())
+            {
+                game1.NPCList = enemies;
+            }
+            else
+            {
+                game1.NPCList = new List<INPC>();
+            }
             game1.blocks = blocks;
-            if (!level.getClearStatus()) game1.items = items;
+            if (!level.getClearStatus())
+            {
+                game1.items = items;
+            } else
+            {
+                game1.items = new List<IItem>();
+            }
             //clears projectiles in the game
             game1.playerProjectiles.Clear();
             game1.enemyProjectiles.Clear();

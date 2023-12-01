@@ -21,6 +21,16 @@ public class PlayerStateMachine : IPlayerStateMachine
         DAMAGED_DOWN, DAMAGED_UP, DAMAGED_LEFT, DAMAGED_RIGHT
     }
 
+    private enum AttackPos
+    {
+        ATTACK_WIDTHL = 30, ATTACK_HEIGHTL = 45,
+        ATTACK_WIDTHU = 45, ATTACK_HEIGHTU = 30,
+        UP_X = 20, UP_Y = -5,
+        DOWN_X = 20, DOWN_Y = 70,
+        LEFT_X = -5, LEFT_Y = 30,
+        RIGHT_X = 60, RIGHT_Y = 30,
+    }
+
     private enum DirNums //differentiates directions in arrays
     {
         DOWN = 0, UP = 1, LEFT = 2, RIGHT = 3
@@ -54,7 +64,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     //Dimensions for player hitbox
     private enum HitboxDims
     {
-        WIDTH = 45, HEIGHT = 45, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
+        WIDTH = 45, HEIGHT = 45, X_ADJ = 10, Y_ADJ = 10, ROW = 1, COL = 1
     }
 
     State state;
@@ -70,10 +80,11 @@ public class PlayerStateMachine : IPlayerStateMachine
     private List<ISprite> damagedSprites;
     private ISprite currSprite;
     private GraphicsDeviceManager graphics;
-    private Game game;
+    private Game1 game;
     private SpriteBatch spriteBatch;
     private int attackCounter;
     private int itemCounter;
+    private Rectangle attackHitbox;
     public int damagedCounter { get; set;}
     private ProjectileFactory factory = new ProjectileCreator();
 
@@ -86,20 +97,20 @@ public class PlayerStateMachine : IPlayerStateMachine
         damagedSprites = new List<ISprite>();
         walkSprites = new List<ISprite>();  
         //idle sprites
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleDown"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleUp"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
-        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleFront2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleFront2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleLeft2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
+        idleSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("IdleRight2"), ((int)TextureDims.IDLE_R), ((int)TextureDims.IDLE_C), this.currPos));
         //attack sprites
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
-        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackDown2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackUp2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
+        attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
         //walkSprites
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveDown"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveUp"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveLeft"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("MoveRight"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerUpL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerDownR1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerLeftL"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerRightL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         //damagedSprites
         damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
         damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
@@ -118,7 +129,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void drawCurrentSprite()
     {
         //spriteBatch.Begin
-        //ppdrawHitbox(); //draws hitbox under player
+        drawHitbox(); //draws hitbox under player
         currSprite.Draw(spriteBatch, currPos); //draws current sprite
         //spriteBatch.End();
     }
@@ -127,6 +138,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void drawHitbox()
     {
         hitboxSprite.DrawHitbox(spriteBatch, new Vector2(hitbox.X, hitbox.Y), hitbox);
+        hitboxSprite.DrawHitbox(spriteBatch, new Vector2(attackHitbox.X, attackHitbox.Y), attackHitbox);
     }
 
     public Rectangle getHitbox()
@@ -134,7 +146,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         return hitbox;
     }
 
-    public PlayerStateMachine(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
+    public PlayerStateMachine(Game1 game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Vector2 startPos)
 	{
         //graphics and game are set
         this.graphics = graphics;
@@ -156,9 +168,11 @@ public class PlayerStateMachine : IPlayerStateMachine
         state = State.IDLE_DOWN; //initial state
         currSprite = idleSprites[(int)DirNums.DOWN]; //initial current sprite
 
+        resetAttackHitbox();
+
     }
 
-    private bool InAttack()
+    public bool InAttack()
     {
         return attackCounter > 0;
     }
@@ -385,6 +399,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.DOWN];
                 state = State.ATTACK_DOWN;
                 attackCounter = 1;
+                attackHitbox = new Rectangle((int)this.currPos.X + (int)AttackPos.DOWN_X, (int)this.currPos.Y + (int)AttackPos.DOWN_Y, (int)AttackPos.ATTACK_WIDTHU, (int)AttackPos.ATTACK_HEIGHTU);
                 SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
                 attackSound.Play();
             }
@@ -394,6 +409,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.UP];
                 state = State.ATTACK_UP;
                 attackCounter = 1;
+                attackHitbox = new Rectangle((int)this.currPos.X + (int)AttackPos.UP_X, (int)this.currPos.Y + (int)AttackPos.UP_Y, (int)AttackPos.ATTACK_WIDTHU, (int)AttackPos.ATTACK_HEIGHTU);
+
                 SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
                 attackSound.Play();
             }
@@ -403,6 +420,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.LEFT];
                 state = State.ATTACK_LEFT;
                 attackCounter = 1;
+                attackHitbox = new Rectangle((int)this.currPos.X + (int)AttackPos.LEFT_X, (int)this.currPos.Y + (int)AttackPos.LEFT_Y, (int)AttackPos.ATTACK_WIDTHL, (int)AttackPos.ATTACK_HEIGHTL);
+
                 SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
                 attackSound.Play();
             }
@@ -412,6 +431,8 @@ public class PlayerStateMachine : IPlayerStateMachine
                 currSprite = attackSprites[(int)DirNums.RIGHT];
                 state = State.ATTACK_RIGHT;
                 attackCounter = 1;
+                attackHitbox = new Rectangle((int)this.currPos.X + (int)AttackPos.RIGHT_X, (int)this.currPos.Y + (int)AttackPos.RIGHT_Y, (int)AttackPos.ATTACK_WIDTHL, (int)AttackPos.ATTACK_HEIGHTL);
+
                 SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("attack");
                 attackSound.Play();
             }
@@ -434,11 +455,24 @@ public class PlayerStateMachine : IPlayerStateMachine
         if(attackCounter > (int)MaxFrames.MAX_ATTACK)
         {
             attackCounter = 0;
+            resetAttackHitbox();
             setIdle();
         }
 
         return attackCounter;
 
+    }
+
+    //ret attack hitbox. rectangle 0 area - NOT ATTACKING.
+    public Rectangle getAttackHitbox()
+    {
+        return attackHitbox;
+    }
+
+    //resets the attack hitbox to empty rectangle
+    private void resetAttackHitbox()
+    {
+        attackHitbox = new Rectangle(0, 0, 0, 0); //initial attackRect is just a rectangle with area 0
     }
 
     public int updateItem()
@@ -489,6 +523,7 @@ public class PlayerStateMachine : IPlayerStateMachine
                 state = State.ITEM_DOWN;
                 itemCounter = 1;
                 dir.Y += 1;
+                
                 SoundEffectInstance projectileSound = SoundManager.Instance.CreateSound(itemName);
                 projectileSound.Play();
 
@@ -540,6 +575,22 @@ public class PlayerStateMachine : IPlayerStateMachine
     public Vector2 getPosition()
     {
         return currPos;
+    }
+
+    private Vector2 getNearestEnemyPosition(List<INPC> enemyList)
+    {
+        Vector2 returnPos = enemyList.First().getLastPos();
+        foreach (INPC enemy in enemyList)
+        {
+            float distanceCurr = Vector2.Distance(this.currPos, enemy.getLastPos()); 
+            float distancePrev = Vector2.Distance(this.currPos, returnPos);
+            if (distanceCurr < distancePrev)
+            {
+                returnPos = enemy.getLastPos();
+            }
+            
+        }
+        return returnPos;
     }
 
 }

@@ -33,13 +33,18 @@ namespace sprint2
             isActive = true;
         }
 
+        public void parryProjectile()
+        {
+            Velocity.X = -Velocity.X;
+            Velocity.Y = -Velocity.Y;
+            currentRange = 0;
+        }
         public void UpdatePosition(GameTime gameTime)
         {
             //only updates position if the current projectile is active
             if (isActive)
             {
-                Position.X += (int)(Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                Position.Y += (int)(Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 hitbox.X = (int)Position.X + x_adj;
                 hitbox.Y = (int)Position.Y + y_adj;
                 currentRange++;
@@ -48,7 +53,6 @@ namespace sprint2
 
             }
         }
-
         
         //draw only if current projectile is active
         public void Draw(SpriteBatch spriteBatch)

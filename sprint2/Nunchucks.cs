@@ -23,7 +23,6 @@ namespace sprint2
             : base(position, Content, initialDirection) // pass game
         {
             Position = position;  // put enemy position here
-            Direction = initialDirection;
             currentRange = 0;
             isActive = true;
             Texture = Content.Load<Texture2D>("wep1hud");

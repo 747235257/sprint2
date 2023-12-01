@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Mime;
+using System.Net.Mail;
 
 namespace sprint2
 {
@@ -15,9 +16,12 @@ namespace sprint2
 
         public GraphicsDeviceManager _graphics;
         public SpriteBatch _spriteBatch;
+        private SpriteFont spriteFont;
+        private SpriteFont bannerFont;
 
 
         private Vector2 initPosition;
+        private float gameTimeElapsed; // Variable to store elapsed time
 
 
         private INPC Dragon;
@@ -41,8 +45,10 @@ namespace sprint2
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
         public Texture2D pixel;
-        public Texture2D DeathScreen;
-        public Texture2D VictoryScreen;
+        public Texture2D DeathScreen; //CHANGE
+        public Texture2D VictoryScreen; //CHANGE
+        public Texture2D Scoreboard;
+        public Texture2D Banner;
 
         public IPlayer player;
         private IController keyboard;
@@ -50,21 +56,29 @@ namespace sprint2
 
         public int blockRow = 3;
         public int blockCol = 4;
+        public int pickupCount { get; set; }//counter for item pickup
+        public int roomCount { get; set; } //counter for room travelled
+        public int killCount {  get; set; }//counter for enemies killed
+
+        float displayTime = 3f; // Time to display the texture in seconds
+        float victoryTimer = 0f;
+        bool isTextureVisible = false;
 
 
         public List<IProjectile> playerProjectiles;
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
-        public List<IItem> items;
+        public List<IItem> items { get; set; }
 
 
         private IItem item;
 
-        private CollisionHandler collision;
+        public CollisionHandler collision;
         public LevelManager levelManager;
         public Level curLevel;
         public ObstacleHandler obstacleHandler;
+        public RandomLevelHandler randomLevelHandler;
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
         public List<Rectangle> doorHitboxes;
@@ -95,6 +109,7 @@ namespace sprint2
 
         protected override void Initialize()
         {
+            gameTimeElapsed = 0f; // Initialize the timer to zero
             // TODO: Add your initialization logic here
             levelManager = new LevelManager();
             
@@ -104,7 +119,7 @@ namespace sprint2
 
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
-            collision = new CollisionHandler();
+            collision = new CollisionHandler(this);
 
             //loads kb and mouse support
             keyboard = new KeyboardCont(this);
@@ -144,18 +159,25 @@ namespace sprint2
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
-            DeathScreen = Content.Load<Texture2D>("DeathScreen");
-            VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen");
+            DeathScreen = Content.Load<Texture2D>("DeathScreen"); //CHANGE
+            VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen"); //CHANGE
+            Scoreboard = Content.Load<Texture2D>("blank");
+            spriteFont = Content.Load<SpriteFont>("File");
+            bannerFont = Content.Load<SpriteFont>("score");
+            Banner = Content.Load<Texture2D>("banner");
+
             blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData<Color>(new Color[] { Color.White });
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            randomLevelHandler = new RandomLevelHandler(this, blocks);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
             LockDoorHandler();
             obstacleHandler.Update();
+            randomLevelHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
@@ -165,11 +187,25 @@ namespace sprint2
 
         protected override void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            //If game is not over, update the time
+            if (player.isAlive() && !player.getHasWon())
+            {
+                // Update the timer
+                gameTimeElapsed += deltaTime;
+            }
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
             if (Keyboard.GetState().IsKeyDown(Keys.R))
             {
                 this.Initialize();
+                /*Reset all the counts for scoreboard to 0*/
+                pickupCount = 0;
+                roomCount = 0;
+                killCount = 0;
             }
 
             inventoryScreen.updateInventory();
@@ -205,6 +241,8 @@ namespace sprint2
                 updateEnemyProjectileList(gameTime);
                 updateEnemyList(gameTime);
 
+                collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
+                collision.HandlePlayerAttackCollision(player, NPCList);
                 collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
                 collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
                 collision.HandlePlayerBlockCollision(player, blocks);
@@ -264,11 +302,20 @@ namespace sprint2
             }
             else if (player.getHasWon())
             {
+                //draw scoreboard
+                drawScoreboard();
+                //draw win message
                 drawWin();
+                
+                
+                
             }
             else if (!player.isAlive())
             {
-                drawDeath();
+                //drawscoreboard
+                drawScoreboard();
+                //draw lose wo
+                drawLose();
             }
             _spriteBatch.End();
 
@@ -327,7 +374,10 @@ namespace sprint2
         {
             foreach (IProjectile projectile in playerProjectiles)
             {
-                if (projectile != null) projectile.UpdatePosition(gameTime);
+                if (projectile != null)
+                {
+                    projectile.UpdatePosition(gameTime);
+                }
             }
         }
         private void drawAllProjectiles()
@@ -443,7 +493,20 @@ namespace sprint2
         }
         private void drawWin()
         {
-            _spriteBatch.Draw(VictoryScreen, new Rectangle(0, 0, 768, 700), Color.White);
+            _spriteBatch.DrawString(bannerFont, "YOU WIN! ", new Vector2(450,140 ), Color.Green);
+        }
+        private void drawLose()
+        {
+            _spriteBatch.DrawString(bannerFont, "YOU LOSE! ", new Vector2(450, 140), Color.Red);
+        }
+        private void drawScoreboard()
+        {
+            string time = gameTimeElapsed.ToString("0.00") ;
+           
+            _spriteBatch.Draw(Scoreboard, new Rectangle(0, 0, 768, 528), Color.Blue);
+            _spriteBatch.DrawString(spriteFont, "Enemy Killed : " + killCount + "\n\nTime Played : " + time  + "\n\nItems Collected : " + pickupCount + "\n\nRoom Traveled : " + roomCount , new Vector2(30, 200), Color.White);
+            _spriteBatch.DrawString(bannerFont, "SCOREBOARD ", new Vector2(170, 40), Color.White);
+            _spriteBatch.Draw(Banner, new Vector2(35, -100), Color.White);
         }
     }
 }
