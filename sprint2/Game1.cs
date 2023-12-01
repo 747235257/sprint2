@@ -56,7 +56,7 @@ namespace sprint2
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
-        public List<IItem> items;
+        public List<IItem> items { get; set; }
 
 
         private IItem item;
@@ -65,6 +65,7 @@ namespace sprint2
         public LevelManager levelManager;
         public Level curLevel;
         public ObstacleHandler obstacleHandler;
+        public RandomLevelHandler randomLevelHandler;
         public List<Rectangle> wallHitboxes;
         public List<DoorHitbox> doors;
         public List<Rectangle> doorHitboxes;
@@ -152,10 +153,12 @@ namespace sprint2
             pixel = new Texture2D(GraphicsDevice, 1, 1);
             pixel.SetData<Color>(new Color[] { Color.White });
             obstacleHandler = new ObstacleHandler(this, this, Blocks);
+            randomLevelHandler = new RandomLevelHandler(this, blocks);
             wallHitboxes = WallHitboxHandler();
             doors = DoorHitboxHandler();
             LockDoorHandler();
             obstacleHandler.Update();
+            randomLevelHandler.Update();
             //ItemSprite = Content.Load<Texture2D>("Sheet");
             //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
