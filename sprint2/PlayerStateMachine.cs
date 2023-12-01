@@ -64,7 +64,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     //Dimensions for player hitbox
     private enum HitboxDims
     {
-        WIDTH = 45, HEIGHT = 45, X_ADJ = 20, Y_ADJ = 25, ROW = 1, COL = 1
+        WIDTH = 45, HEIGHT = 45, X_ADJ = 10, Y_ADJ = 10, ROW = 1, COL = 1
     }
 
     State state;
@@ -129,7 +129,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void drawCurrentSprite()
     {
         //spriteBatch.Begin
-        //drawHitbox(); //draws hitbox under player
+        drawHitbox(); //draws hitbox under player
         currSprite.Draw(spriteBatch, currPos); //draws current sprite
         //spriteBatch.End();
     }

@@ -106,7 +106,7 @@ namespace sprint2
                 Vector2 updateMove = SkullSprite.Update(gametime, 0);
                 Vector2 direction = _player.getPosition() - prevPos;
                 direction.Normalize();
-                currPos += direction * 2;
+                currPos += direction * 1;
 
                 prevHitbox = hitbox;
                 hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
