@@ -30,6 +30,7 @@ namespace sprint2
         private INPC Goriya;
         private INPC Gel;
         private INPC Bat;
+        
         public INPC cur;
         public int currentNPC { get; set; }
 
@@ -41,6 +42,7 @@ namespace sprint2
 
         public Texture2D Enemies;
         public Texture2D Bosses;
+        public Texture2D Boss1;
         public Texture2D NPCs;
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
@@ -72,8 +74,12 @@ namespace sprint2
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
+
+        public List<INPC> groundHit;
+
         public List<IChest> chests;
         public List<IItem> items { get; set; }
+
 
 
         private IItem item;
@@ -136,7 +142,11 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+
+            groundHit  = new List<INPC>();
+
             chests = new List<IChest>();
+
             lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
             //loads kb and mouse support
@@ -162,6 +172,7 @@ namespace sprint2
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
+            Boss1 = Content.Load<Texture2D>("Enemy_Concept");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
@@ -256,6 +267,7 @@ namespace sprint2
                 collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
                 collision.HandlePlayerBlockCollision(player, blocks);
                 collision.HandlePlayerEnemyCollision(player, NPCList);
+                collision.HandlePlayerEnemyCollision(player, groundHit);
                 collision.HandleEnemyEnemyCollision(NPCList);
                 collision.HandleEnemyBlockCollision(NPCList, blocks);
                 collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
@@ -432,10 +444,15 @@ namespace sprint2
 
         private void drawAllEnemies()
         {
+            foreach (INPC enemy in groundHit)
+            {
+                if (enemy != null) enemy.Draw();
+            }
             foreach (INPC enemy in NPCList)
             {
                 if (enemy != null) enemy.Draw();
             }
+            
         }
 
         private void updateEnemyProjectileList(GameTime gameTime)
