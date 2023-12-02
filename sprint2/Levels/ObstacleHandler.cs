@@ -56,7 +56,7 @@ namespace sprint2
 
                     case "Boss1":
                         enemies.Add(new Boss1(game1.Boss1, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-
+                        break;
                     case "Chest":
                         chests.Add(new RandomChest(Chests, game1.chestRow, game1.chestCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game1, game));
 
