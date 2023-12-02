@@ -262,7 +262,7 @@
 #begin Enemy_Concept.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=176,190,197,255
+/processorParam:ColorKeyColor=177,190,197,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True

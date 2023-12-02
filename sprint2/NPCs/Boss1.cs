@@ -18,20 +18,22 @@ namespace sprint2
         private int curdir;
         private int curAttack;
         private bool attack;
+        private bool attacking;
         private float duration;
-        private Game game;
+        private Game1 game;
         private Vector2 currPos;
         private Vector2 prevPos;
         private Rectangle hitbox;      //COLLISION SPRINT 3
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
         private bool isAlive;
-        private enum attackList { leftAttack = 0, rightAttack = 1, middileBeam = 2, bulletHell = 3 }
+        private int health;
+        private enum attackList { leftAttack = 0, rightAttack = 1, middileBeam = 2 }
         private enum HitboxDims
         {
             WIDTH = 74*4, HEIGHT = 48*4, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public Boss1(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
+        public Boss1(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
@@ -41,6 +43,10 @@ namespace sprint2
             curdir = 0;
             isAlive = true;
             duration = 0;
+
+            //health
+            health = 20;
+
             //gets position of the dragon
             currPos = startPos;
             prevPos = currPos;
@@ -60,10 +66,29 @@ namespace sprint2
 
         public List<IProjectile> Attack()
         {
+            
+            switch (curAttack)
+            {
+                //left attack
+                case 0:
+                    game.groundHit.Add(new GroundHit(game.pixel, spriteBatch, game, new Vector2(96, 96)));
+                    break;
+                //right attack
+                case 1:
+                    game.groundHit.Add(new GroundHit(game.pixel, spriteBatch, game, new Vector2(96+288, 96)));
+                    break;
+                //middle beam
+                case 2:
+                    game.groundHit.Add(new GroundHit(game.pixel, spriteBatch, game, new Vector2(96+144, 96)));
+                    break;
+                default:
+                    break;
 
+            }
             return null;
 
         }
+
         public void Stop()
         {
             //Reset the npc
@@ -82,13 +107,23 @@ namespace sprint2
 
                 if (duration == 0)
                 {
-                    projectiles = Attack();
+                    //start to draw the hitbox and warning
+                    //projectiles = Attack();
+                    
                     duration += (float)gametime.ElapsedGameTime.TotalSeconds;
+                }else if(duration > 2 && !attacking)
+                {
+                    //start to attack
+                    duration += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    projectiles = Attack();
+                    attacking = true;
                 }
-                else if (duration > 2)//The cool down duration for an attack is 2 seconds.
+                else if (duration > 4)//The cool down duration for an attack is 2 seconds. end attack
                 {
                     duration = 0;
                     attack = false;
+                    attacking= false;
+                    game.groundHit.Clear();
                 }
                 else
                 {
@@ -99,7 +134,8 @@ namespace sprint2
             if (count % 16 == 0)//Interval of a diraction generator. 
             {
                 curdir = rnd.Next(0, 5);
-                curAttack = rnd.Next(0, 4);
+                curAttack = rnd.Next(0, 3);
+                attack = true;
 
             }
 
@@ -124,6 +160,26 @@ namespace sprint2
         public void Draw()
         {
             //drawHitbox();
+            if (attack)
+            {
+                if(duration <= 2 && curAttack == 0)
+                {
+                    spriteBatch.Draw(game.pixel, new Rectangle(96, 96, 288, 336), Color.Blue);
+                    spriteBatch.Draw(game.pixel, new Rectangle(96, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
+                }else if(duration <= 2 && curAttack == 1)
+                {
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+288, 96, 288, 336), Color.Blue);
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+288, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
+                }
+                else if (duration <= 2 && curAttack == 2)
+                {
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+144, 96, 288, 336), Color.Blue);
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+144, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
+                }
+
+            }
+            spriteBatch.Draw(game.pixel, new Rectangle(190, 46, 388, 20), Color.White);
+            spriteBatch.Draw(game.pixel, new Rectangle(192, 48, 384/20*health, 16), Color.Red);
             BossSprite1.Draw(currPos);
         }
 
@@ -141,7 +197,8 @@ namespace sprint2
 
         public void giveDamage()
         {
-            isAlive = false;
+            health -= 1;
+            if(health == 0) isAlive = false;
             //need to set sound based on npc
         }
 

@@ -16,16 +16,13 @@ namespace sprint2
         public Rectangle source;
         public Rectangle destination;
         private SpriteBatch spriteBatch;
-        private int health;
         private enum attack { leftAttack = 0, rightAttack = 1, middileBeam = 2, bulletHell = 3}
-        private float timer;
 
         public BossSprite1(Texture2D texture, SpriteBatch spriteBatch)
         {
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             source = new Rectangle(0, 0, width, height);//The origin sprite frame.
-            timer = 0;
             destination = new Rectangle(150, 200, 74*4, 48*4);
         }
 
