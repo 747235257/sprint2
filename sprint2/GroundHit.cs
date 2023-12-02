@@ -136,6 +136,10 @@ namespace sprint2
             hitbox = prevHitbox;
         }
 
+        public Vector2 getLastPos()
+        {
+            return currPos;
+        }
     }
 }
 
