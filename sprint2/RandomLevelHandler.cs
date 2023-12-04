@@ -121,6 +121,50 @@ public class RandomLevelHandler
         return hasConflict;
     }
 
+    private bool hasConflictItemBlocks(IItem item, List<IBlock> blocks)
+    {
+        Rectangle hb = item.getHitbox();
+        bool hasConflict = false;
+        int i = 0;
+        while (!hasConflict && (i <blocks.Count))
+        {
+            Rectangle currHB = blocks[i].getHitbox();
+
+            if (currHB.Intersects(hb))
+            {
+                hasConflict = true;
+            }
+
+            i++;
+
+
+        }
+
+        return hasConflict;
+    }
+
+    private bool hasConflictEnemBlocks(INPC enem, List<IBlock> blocks)
+    {
+        Rectangle hb = enem.getHitbox();
+        bool hasConflict = false;
+        int i = 0;
+        while (!hasConflict && (i < blocks.Count))
+        {
+            Rectangle currHB = blocks[i].getHitbox();
+
+            if (currHB.Intersects(hb))
+            {
+                hasConflict = true;
+            }
+
+            i++;
+
+
+        }
+
+        return hasConflict;
+    }
+
     private bool hasConflictListEnem(INPC enem, List<INPC> enems)
     {
         Rectangle hb = enem.getHitbox();
@@ -173,7 +217,7 @@ public class RandomLevelHandler
 
             }
 
-            if(!hasConflictListItem(itemToAdd, itemList))
+            if(!hasConflictListItem(itemToAdd, itemList)    &&  !hasConflictItemBlocks(itemToAdd,blocks))
             {
                 itemList.Add(itemToAdd);
             } else
@@ -219,7 +263,7 @@ public class RandomLevelHandler
             }
 
 
-                if (!hasConflictListEnem(enemToAdd, enemyList))
+                if (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks))
             {
                 enemyList.Add(enemToAdd);
             }

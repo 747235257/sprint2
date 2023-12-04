@@ -212,7 +212,7 @@ namespace sprint2
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (!inTransition)
+            if (!inTransition || curLevel.getClearStatus())
             {
                 //If game is not over, update the time
                 if (player.isAlive() && !player.getHasWon())
