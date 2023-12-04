@@ -9,7 +9,7 @@ namespace sprint2
 {
     public interface IPlayerStateMachine
     {
-
+        public void resetAttackHitbox();
         public bool InAttack();
         public Rectangle getAttackHitbox();
         public void drawCurrentSprite();

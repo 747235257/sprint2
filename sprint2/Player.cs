@@ -43,6 +43,11 @@ namespace sprint2
         {
             return playerState.InAttack();
         }
+
+        public void resetAttackHitbox()
+        {
+            playerState.resetAttackHitbox();
+        }
         public bool getHasMap()
         {
             return hasMap;

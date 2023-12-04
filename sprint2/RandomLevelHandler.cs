@@ -86,6 +86,17 @@ public class RandomLevelHandler
         numItems.Add(3, 2);
 
         //handles diff 4
+        List<String> enem4 = new List<String>();
+        enem4.Add("Boss");
+
+        List<String> item4 = new List<String>();
+        item4.Add("healthItem");
+
+        EnemiesAllowed.Add(4, enem4);
+        ItemsAllowed.Add(4, item4);
+
+        numEnemies.Add(4, 1);
+        numItems.Add(4, 3);
     }
 
     private bool hasConflictListItem(IItem item, List<IItem> items)
@@ -202,9 +213,13 @@ public class RandomLevelHandler
                 enemToAdd = new Bat(game.Enemies, game._spriteBatch, game, pos);
 
             }
+            else if (enemName.Equals("Boss"))
+            {
+                enemToAdd = new Boss1(game.Boss1, game._spriteBatch, game, new Vector2(236, 96));
+            }
 
 
-            if (!hasConflictListEnem(enemToAdd, enemyList))
+                if (!hasConflictListEnem(enemToAdd, enemyList))
             {
                 enemyList.Add(enemToAdd);
             }

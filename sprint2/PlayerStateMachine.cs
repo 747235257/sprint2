@@ -25,10 +25,10 @@ public class PlayerStateMachine : IPlayerStateMachine
     {
         ATTACK_WIDTHL = 30, ATTACK_HEIGHTL = 45,
         ATTACK_WIDTHU = 45, ATTACK_HEIGHTU = 30,
-        UP_X = 20, UP_Y = -5,
-        DOWN_X = 20, DOWN_Y = 70,
-        LEFT_X = -5, LEFT_Y = 30,
-        RIGHT_X = 60, RIGHT_Y = 30,
+        UP_X = 10, UP_Y = -20,
+        DOWN_X = 10, DOWN_Y = 60,
+        LEFT_X = -20, LEFT_Y = 20,
+        RIGHT_X = 60, RIGHT_Y = 20,
     }
 
     private enum DirNums //differentiates directions in arrays
@@ -470,7 +470,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     }
 
     //resets the attack hitbox to empty rectangle
-    private void resetAttackHitbox()
+    public void resetAttackHitbox()
     {
         attackHitbox = new Rectangle(0, 0, 0, 0); //initial attackRect is just a rectangle with area 0
     }
@@ -514,8 +514,8 @@ public class PlayerStateMachine : IPlayerStateMachine
             //direction of item depends on last dir
             Vector2 dir = new Vector2(0, 0);
             Vector2 shootPos = currPos;
-            shootPos.X += (float)PlayerTextureDims.WIDTH / (float)5;
-            shootPos.Y += (float)PlayerTextureDims.HEIGHT / (float)5;
+            shootPos.X += (float)PlayerTextureDims.WIDTH / (float)8;
+            shootPos.Y += (float)PlayerTextureDims.HEIGHT / (float)8;
 
             if (state == State.IDLE_DOWN)
             {

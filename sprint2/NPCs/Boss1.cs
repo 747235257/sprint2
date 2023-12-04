@@ -111,14 +111,14 @@ namespace sprint2
                     //projectiles = Attack();
                     
                     duration += (float)gametime.ElapsedGameTime.TotalSeconds;
-                }else if(duration > 2 && !attacking)
+                }else if(duration > 1.5 && !attacking)
                 {
                     //start to attack
                     duration += (float)gametime.ElapsedGameTime.TotalSeconds;
                     projectiles = Attack();
                     attacking = true;
                 }
-                else if (duration > 4)//The cool down duration for an attack is 2 seconds. end attack
+                else if (duration > 2.5)//The cool down duration for an attack is 2 seconds. end attack
                 {
                     duration = 0;
                     attack = false;
@@ -162,19 +162,19 @@ namespace sprint2
             //drawHitbox();
             if (attack)
             {
-                if(duration <= 2 && curAttack == 0)
+                if(duration <= 1.5 && curAttack == 0)
                 {
                     spriteBatch.Draw(game.pixel, new Rectangle(96, 96, 288, 336), Color.Blue);
-                    spriteBatch.Draw(game.pixel, new Rectangle(96, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
-                }else if(duration <= 2 && curAttack == 1)
+                    spriteBatch.Draw(game.pixel, new Rectangle(96, 96, 288, (int)(336 / 1.5 * duration)), Color.Purple);
+                }else if(duration <= 1.5 && curAttack == 1)
                 {
                     spriteBatch.Draw(game.pixel, new Rectangle(96+288, 96, 288, 336), Color.Blue);
-                    spriteBatch.Draw(game.pixel, new Rectangle(96+288, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+288, 96, 288, (int)(336 / 1.5 * duration)), Color.Purple);
                 }
-                else if (duration <= 2 && curAttack == 2)
+                else if (duration <= 1.5 && curAttack == 2)
                 {
                     spriteBatch.Draw(game.pixel, new Rectangle(96+144, 96, 288, 336), Color.Blue);
-                    spriteBatch.Draw(game.pixel, new Rectangle(96+144, 96, 288, (int)(336 / 2 * duration)), Color.Purple);
+                    spriteBatch.Draw(game.pixel, new Rectangle(96+144, 96, 288, (int)(336 / 1.5 * duration)), Color.Purple);
                 }
 
             }
@@ -198,7 +198,11 @@ namespace sprint2
         public void giveDamage()
         {
             health -= 1;
-            if(health == 0) isAlive = false;
+            if (health == 0)
+            {
+                isAlive = false;
+                game.groundHit.Clear();
+            }
             //need to set sound based on npc
         }
 

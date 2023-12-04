@@ -80,7 +80,9 @@ namespace sprint2
         public List<IChest> chests;
         public List<IItem> items { get; set; }
 
-
+        public const int MAX_TRANSITION = 100;
+        public bool inTransition { get; set; }
+        public int transitionCount { get; set; }
 
         private IItem item;
 
@@ -116,7 +118,8 @@ namespace sprint2
             _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-    }
+            inTransition = true;
+        }
 
         protected override void Initialize()
         {
@@ -208,90 +211,103 @@ namespace sprint2
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
-            //If game is not over, update the time
-            if (player.isAlive() && !player.getHasWon())
+
+            if (!inTransition)
             {
-                // Update the timer
-                gameTimeElapsed += deltaTime;
-            }
-            
-
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
-                Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-            {
-                this.Initialize();
-                /*Reset all the counts for scoreboard to 0*/
-                pickupCount = 0;
-                roomCount = 0;
-                killCount = 0;
-            }
-
-            inventoryScreen.updateInventory();
-            inventoryScreen.updateCounterInventory();
-            updatePauseCounter();
-            keyboard.HandlePause(this);
-            if(gamePaused)keyboard.HandleSwitchInventory(player, inventoryScreen);
-            
-            if (!gamePaused)
-            {
-                keyboard.handleLevelSwitch(this);
-                keyboard.HandleMovement(_graphics, player);
-                Vector2 range = keyboard.HandleAttack(_graphics, player);
-                keyboard.HandleDamaged(_graphics, player);
-
-                player.updatePlayer();
-                curLevel.checkLevelClear(this);
-
-                removePlayerProjectileList();
-                removeEnemyList();
-                //projectile return by keyboard is added to the list
-
-
-                List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
-
-                if (plProj != null) playerProjectiles.AddRange(plProj);
-
-
-                UpdatePlayerProjectileList(gameTime);
-
-
-                removeEnemyProjectileList();
-                updateEnemyProjectileList(gameTime);
-                updateEnemyList(gameTime);
-
-                collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
-                collision.HandlePlayerAttackCollision(player, NPCList);
-                collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
-                collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerBlockCollision(player, blocks);
-                collision.HandlePlayerEnemyCollision(player, NPCList);
-                collision.HandlePlayerEnemyCollision(player, groundHit);
-                collision.HandleEnemyEnemyCollision(NPCList);
-                collision.HandleEnemyBlockCollision(NPCList, blocks);
-                collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
-                collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
-                collision.HandlePlayerWallCollision(player, wallHitboxes);
-                collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
-                collision.HandleEnemyChestCollision(NPCList, chests);
-                collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
-                //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
-                collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
-                collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerItemCollision(items, player);
-                collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
-                collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
-                collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
-                if (player.getHasWon() || !player.isAlive())
+                //If game is not over, update the time
+                if (player.isAlive() && !player.getHasWon())
                 {
-                    pauseGame();
+                    // Update the timer
+                    gameTimeElapsed += deltaTime;
+                }
+
+
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
+                    Exit();
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    this.Initialize();
+                    /*Reset all the counts for scoreboard to 0*/
+                    pickupCount = 0;
+                    roomCount = 0;
+                    killCount = 0;
+                }
+
+                inventoryScreen.updateInventory();
+                inventoryScreen.updateCounterInventory();
+                updatePauseCounter();
+                keyboard.HandlePause(this);
+                if (gamePaused) keyboard.HandleSwitchInventory(player, inventoryScreen);
+
+                if (!gamePaused)
+                {
+                    keyboard.handleLevelSwitch(this);
+                    keyboard.HandleMovement(_graphics, player);
+                    Vector2 range = keyboard.HandleAttack(_graphics, player);
+                    keyboard.HandleDamaged(_graphics, player);
+
+                    player.updatePlayer();
+                    curLevel.checkLevelClear(this);
+
+                    removePlayerProjectileList();
+                    removeEnemyList();
+                    //projectile return by keyboard is added to the list
+
+
+                    List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+
+                    if (plProj != null) playerProjectiles.AddRange(plProj);
+
+
+                    UpdatePlayerProjectileList(gameTime);
+
+
+                    removeEnemyProjectileList();
+                    updateEnemyProjectileList(gameTime);
+                    updateEnemyList(gameTime);
+
+                    collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
+                    collision.HandlePlayerAttackCollision(player, NPCList);
+                    collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
+                    collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerBlockCollision(player, blocks);
+                    collision.HandlePlayerEnemyCollision(player, NPCList);
+                    collision.HandlePlayerEnemyCollision(player, groundHit);
+                    collision.HandleEnemyEnemyCollision(NPCList);
+                    collision.HandleEnemyBlockCollision(NPCList, blocks);
+                    collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+                    collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
+                    collision.HandlePlayerWallCollision(player, wallHitboxes);
+                    collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
+                    collision.HandleEnemyChestCollision(NPCList, chests);
+                    collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
+                    //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+                    collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
+                    collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerItemCollision(items, player);
+                    collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
+                    collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
+                    collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
+                    if (player.getHasWon() || !player.isAlive())
+                    {
+                        pauseGame();
+                    }
+                }
+                //if (!player.isAlive()) this.Initialize();
+                base.Update(gameTime);
+
+            }
+            else
+            {
+                transitionCount++;
+
+                if(transitionCount > MAX_TRANSITION)
+                {
+                    transitionCount = 0;
+                    inTransition = false;
                 }
             }
-         //if (!player.isAlive()) this.Initialize();
-            base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)

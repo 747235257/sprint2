@@ -5,7 +5,7 @@ using sprint2;
 using System;
 using System.Collections.Generic;
 
-
+namespace sprint2;
 public class KeyboardCont : IController
 {
 
@@ -142,9 +142,12 @@ public class KeyboardCont : IController
             game.WallHitboxHandler();
         } else if(mouseState.RightButton == ButtonState.Pressed)
         {
-            game.curLevel = game.levelManager.Levels[1];
+            game.curLevel = game.levelManager.Levels[8];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests );
             game.obstacleHandler.Update();
+
+            game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
+            game.randomLevelHandler.Update();
             game.WallHitboxHandler();
         }
     }
