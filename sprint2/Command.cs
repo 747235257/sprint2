@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 
 namespace sprint2
 {
@@ -66,4 +66,56 @@ namespace sprint2
         }
 
     }
+
+    public class AttackCommand : ICommand
+    {
+        private IPlayer Player;
+
+        public AttackCommand(IPlayer player)
+        {
+            Player = player;
+        }
+        public void Execute()
+        {
+            Player.attack();
+
+        }
+
+    }
+
+    public class PauseCommand : ICommand
+    {
+        private Game1 game;
+
+        public PauseCommand(Game1 game)
+        {
+            this.game = game;
+        }
+        public void Execute()
+        {
+            game.pauseGame();
+
+        }
+
+    }
+
+    public class SwitchInventoryCommand : ICommand
+    {
+        private Inventory inventory;
+        private int inventorySlot;
+
+        public SwitchInventoryCommand(Inventory inventory, int code)
+        {
+            this.inventory = inventory;
+            this.inventorySlot = code;
+        }
+        public void Execute()
+        {
+            inventory.handleSwitchInventory(inventorySlot);
+
+        }
+
+    }
+
+   
 }

@@ -7,19 +7,24 @@ public class KeyboardCont : IController
 {
 
     private Game1 game;
+    private IPlayer player;
+    private Inventory inventory;
     private Dictionary<Keys, ICommand> keyMap = new Dictionary<Keys, ICommand>();
 
 
-    public KeyboardCont(Game1 game)
+    public KeyboardCont(Game1 game, IPlayer player, Inventory inventory)
     {
         this.game = game;
+        this.player = player;
+        this.inventory = inventory;
     }
 
-    public void RegisterCommand(IPlayer player)
+    public void RegisterCommand()
     {
         ICommand attack = new AttackCommand(player);
         keyMap[Keys.N] = attack;
-        keyMap[Keys.Z] = attack;    
+        keyMap[Keys.Z] = attack;   
+        
         ICommand movementUp = new MoveUpCommand(player);
         keyMap[Keys.W] = movementUp;
         keyMap[Keys.Up] = movementUp;
@@ -32,23 +37,46 @@ public class KeyboardCont : IController
         ICommand movementRight = new MoveRightCommand(player);
         keyMap[Keys.D] = movementRight;
         keyMap[Keys.Right] = movementRight;
+
+        ICommand pause = new PauseCommand(game);
+        keyMap[Keys.Tab] = pause;
+
+        ICommand slot1 = new SwitchInventoryCommand(inventory, 1);
+        keyMap[Keys.D1] = slot1;
+        ICommand slot2 = new SwitchInventoryCommand(inventory, 2);
+        keyMap[Keys.D2] = slot2;
+        ICommand slot3 = new SwitchInventoryCommand(inventory, 3);
+        keyMap[Keys.D3] = slot3;
+        ICommand slot4 = new SwitchInventoryCommand(inventory, 4);
+        keyMap[Keys.D4] = slot4;
+        ICommand slot5 = new SwitchInventoryCommand(inventory, 5);
+        keyMap[Keys.D5] = slot5;
+        ICommand slot6 = new SwitchInventoryCommand(inventory, 6);
+        keyMap[Keys.D6] = slot6;
+        ICommand slot7 = new SwitchInventoryCommand(inventory, 7);
+        keyMap[Keys.D7] = slot7;
+        ICommand slot8 = new SwitchInventoryCommand(inventory, 8);
+        keyMap[Keys.D8] = slot8;
+        ICommand slot9 = new SwitchInventoryCommand(inventory, 9);
+        keyMap[Keys.D9] = slot9;
+
     }
 
-    public void HandleAttack(IPlayer player)
+    public void HandleAttack()
     {
-        var kstate = Keyboard.GetState();
+        KeyboardState kstate = Keyboard.GetState();
                
         if (kstate.IsKeyDown(Keys.N) || kstate.IsKeyDown(Keys.Z))
         {
             keyMap[Keys.Z].Execute(); 
         }
-        HandleNoPlayerInput(kstate, player);
+        HandleNoPlayerInput(kstate);
      }
 
     
-    public List<IProjectile> HandlePlayerItem(IPlayer player)
+    public List<IProjectile> HandlePlayerItem()
     {
-        var kstate = Keyboard.GetState();
+        KeyboardState kstate = Keyboard.GetState();
         List<IProjectile> projs = new List<IProjectile>();
         if (kstate.IsKeyDown(Keys.D1))
         {
@@ -63,11 +91,11 @@ public class KeyboardCont : IController
             projs.AddRange(player.useItem(2));
         }
 
-        HandleNoPlayerInput(kstate, player);
+        HandleNoPlayerInput(kstate);
         return projs;
     }
 
-    public void HandleMovement(IPlayer player)
+    public void HandleMovement()
     {
         KeyboardState kstate = Keyboard.GetState();
         
@@ -88,12 +116,12 @@ public class KeyboardCont : IController
             keyMap[Keys.D].Execute();
         }
 
-        HandleNoPlayerInput(kstate, player);
+        HandleNoPlayerInput(kstate);
 
     }
 
 
-    public void HandleNoPlayerInput(KeyboardState kstate, IPlayer player)
+    public void HandleNoPlayerInput(KeyboardState kstate)
     {
         if (kstate.IsKeyUp(Keys.W) && kstate.IsKeyUp(Keys.Up) && kstate.IsKeyUp(Keys.A) && kstate.IsKeyUp(Keys.Left) && kstate.IsKeyUp(Keys.S)
             && kstate.IsKeyUp(Keys.Down) && kstate.IsKeyUp(Keys.D) && kstate.IsKeyUp(Keys.Right) && kstate.IsKeyUp(Keys.N) && kstate.IsKeyUp(Keys.Z)
@@ -103,30 +131,9 @@ public class KeyboardCont : IController
         }
     }
 
-    public bool HandleSwitchEnemy(int currentNPC)
+    public void handleLevelSwitch()
     {
-        KeyboardState kstate = Keyboard.GetState();
-        if (kstate.IsKeyDown(Keys.O))
-        {
-            game.cur.Stop();
-            currentNPC = (currentNPC + 1) % 6;//6 is the total types of enemies.
-            game.currentNPC = currentNPC;
-            return true;
-        }
-        else if (kstate.IsKeyDown(Keys.P))
-        {
-            game.cur.Stop();
-            currentNPC = (currentNPC + 5) % 6;
-
-            game.currentNPC = currentNPC;
-            return true;
-        }
-        return false;
-    }
-
-    public void handleLevelSwitch(Game1 game)
-    {
-        var mouseState = Mouse.GetState();
+        MouseState mouseState = Mouse.GetState();
 
         if (mouseState.LeftButton == ButtonState.Pressed)
         {
@@ -134,7 +141,9 @@ public class KeyboardCont : IController
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
             game.obstacleHandler.Update();
             game.WallHitboxHandler();
-        } else if(mouseState.RightButton == ButtonState.Pressed)
+        } 
+        
+        else if(mouseState.RightButton == ButtonState.Pressed)
         {
             game.curLevel = game.levelManager.Levels[8];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests );
@@ -146,56 +155,56 @@ public class KeyboardCont : IController
         }
     }
 
-    public void HandleSwitchInventory(Inventory inventory)
+    public void HandleSwitchInventory()
     {
-        var kstate = Keyboard.GetState();
+        KeyboardState kstate = Keyboard.GetState();
 
         if (kstate.IsKeyDown(Keys.D1))
         {
-            inventory.handleSwitchInventory(1);
+            keyMap[Keys.D1].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D2))
         {
-            inventory.handleSwitchInventory(2);
+            keyMap[Keys.D2].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D3))
         {
-            inventory.handleSwitchInventory(3);
+            keyMap[Keys.D3].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D4))
         {
-            inventory.handleSwitchInventory(4);
+            keyMap[Keys.D4].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D5))
         {
-            inventory.handleSwitchInventory(5);
+            keyMap[Keys.D5].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D6))
         {
-            inventory.handleSwitchInventory(6);
+            keyMap[Keys.D6].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D7))
         {
-            inventory.handleSwitchInventory(7);
+            keyMap[Keys.D7].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D8))
         {
-            inventory.handleSwitchInventory(8);
+            keyMap[Keys.D8].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D9))
         {
-            inventory.handleSwitchInventory(9);
+            keyMap[Keys.D9].Execute();
         }
 
     }
 
-    public void HandlePause(Game1 game)
+    public void HandlePause()
     {
-        var kstate = Keyboard.GetState();
+        KeyboardState kstate = Keyboard.GetState();
 
         if (kstate.IsKeyDown(Keys.Tab))
         {
-            game.pauseGame();
+            keyMap[Keys.Tab].Execute();
         }
     }
 

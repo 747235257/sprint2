@@ -178,15 +178,15 @@ namespace sprint2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 game.Exit();
 
-            keyboard.handleLevelSwitch(game);
-            keyboard.HandleMovement(player);
-            keyboard.HandleAttack(player);
+            keyboard.handleLevelSwitch();
+            keyboard.HandleMovement();
+            keyboard.HandleAttack();
             player.updatePlayer();
 
             removePlayerProjectileList();
             removeEnemyList();
             //projectile return by keyboard is added to the list
-            List<IProjectile> plProj = keyboard.HandlePlayerItem(player);
+            List<IProjectile> plProj = keyboard.HandlePlayerItem();
 
             if (plProj != null) playerProjectiles.AddRange(plProj);
 

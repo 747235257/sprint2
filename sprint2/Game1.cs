@@ -126,15 +126,15 @@ namespace sprint2
             gameTimeElapsed = 0f; // Initialize the timer to zero
             // TODO: Add your initialization logic here
             levelManager = new LevelManager();
-            
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             levelManager.LoadLevels("Content/levels/level1.json");
             curLevel = levelManager.Levels[0];          
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            
+            player = new Player(this, _graphics, _spriteBatch, new Vector2(250, 250));
             collision = new CollisionHandler(this);
-
+            inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
-            keyboard = new KeyboardCont(this);
+            keyboard = new KeyboardCont(this, player, inventoryScreen);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
@@ -161,11 +161,7 @@ namespace sprint2
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
-            player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
-            inventoryScreen = new Inventory(this, _spriteBatch);
+ 
             //HUD Loading
             hud = new HUD(HUDpos, this, _spriteBatch);
             hud.AddToGrid(curLevel.Name);
@@ -233,15 +229,15 @@ namespace sprint2
             inventoryScreen.updateInventory();
             inventoryScreen.updateCounterInventory();
             updatePauseCounter();
-            keyboard.HandlePause(this);
-            keyboard.RegisterCommand(player);
-            if(gamePaused)keyboard.HandleSwitchInventory(inventoryScreen);
+            keyboard.HandlePause();
+            keyboard.RegisterCommand();
+            if(gamePaused)keyboard.HandleSwitchInventory();
             
             if (!gamePaused)
             {
-                keyboard.handleLevelSwitch(this);
-                keyboard.HandleMovement(player);
-                keyboard.HandleAttack(player);
+                keyboard.handleLevelSwitch();
+                keyboard.HandleMovement();
+                keyboard.HandleAttack();
                 player.updatePlayer();
                 curLevel.checkLevelClear(this);
 
@@ -250,7 +246,7 @@ namespace sprint2
                     //projectile return by keyboard is added to the list
 
 
-                List<IProjectile> plProj = keyboard.HandlePlayerItem(player);
+                List<IProjectile> plProj = keyboard.HandlePlayerItem();
 
                     if (plProj != null) playerProjectiles.AddRange(plProj);
 
