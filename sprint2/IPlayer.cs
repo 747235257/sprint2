@@ -9,6 +9,7 @@ namespace sprint2
     public interface IPlayer
     {
 
+        public void resetAttackHitbox();
         public bool InAttack();
         public bool getHasMap();
         public void incHP();

@@ -127,7 +127,7 @@ namespace sprint2
         public void positionGrid(Dictionary<int, Vector2> gridDictionary)
         {
             gridDictionary.Add(0, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 0)); //0
-            gridDictionary.Add(1, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1,20 + (int)posAdj.HUD_HEIGHT * 0)); //1
+            gridDictionary.Add(1, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 0)); //1
             gridDictionary.Add(2, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 0)); //2
             gridDictionary.Add(3, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 0)); //3
             gridDictionary.Add(4, new Vector2(580 + (int)posAdj.HUD_WIDTH * 0, 20 + (int)posAdj.HUD_HEIGHT * 1)); //4
@@ -146,6 +146,7 @@ namespace sprint2
             gridDictionary.Add(17, new Vector2(580 + (int)posAdj.HUD_WIDTH * 1, 20 + (int)posAdj.HUD_HEIGHT * 4)); //17
             gridDictionary.Add(18, new Vector2(580 + (int)posAdj.HUD_WIDTH * 2, 20 + (int)posAdj.HUD_HEIGHT * 4)); //18
             gridDictionary.Add(19, new Vector2(580 + (int)posAdj.HUD_WIDTH * 3, 20 + (int)posAdj.HUD_HEIGHT * 4)); //19
+
 
         }
 

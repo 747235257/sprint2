@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using sprint2;
 using Microsoft.Xna.Framework.Audio;
+using System.Security.Cryptography.X509Certificates;
 
 namespace sprint2;
 public class CollisionHandler
 {
-	public CollisionHandler()
+    public Game1 _game;
+    public CollisionHandler(Game1 game)
     {
+        _game = game;
     }
 
     public void HandlePlayerParryProjectile(IPlayer player, List<IProjectile> projectiles, Game1 game)
@@ -53,6 +56,7 @@ public class CollisionHandler
                     if(npcRect.Intersects(attackRect))
                     {
                         npc.giveDamage();
+                        player.resetAttackHitbox();
                     }
                 }
             }
@@ -72,6 +76,8 @@ public class CollisionHandler
                     SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
                     pickupSound.Play();
                     player.pickUpItem(item.getItemName());
+                    _game.pickupCount++;
+                    
                 }
 				item.setInactive();
 				
@@ -95,6 +101,7 @@ public class CollisionHandler
 					{
 						projectile.setToInactive();
 						npc.giveDamage();
+                        if (!npc.isStillAlive()) _game.killCount++;
                         SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
                         damageSound.Play();
                     }
@@ -257,7 +264,46 @@ public class CollisionHandler
         }
 
     }
-	//Enemy vs Wall
+    //Player vs Chest
+    public void HandlePlayerChestCollision(IPlayer player, List<IChest> chests, List<IItem> items, SpriteBatch spriteBatch)
+    {
+        Rectangle playerHitbox = player.getHitbox();
+
+        foreach (IChest chest in chests)
+        {
+            if (chest != null)
+            {
+                Rectangle chestHitbox = chest.getHitbox();
+                if (chestHitbox.Intersects(playerHitbox))
+                {
+                    chest.openChest(chest, spriteBatch);
+                    player.setLastPos();
+                }
+            }
+        }
+    }
+    //Enemy vs Chest
+    public void HandleEnemyChestCollision(List<INPC> enemies, List<IChest> chests)
+    {
+        foreach (INPC enemy in enemies)
+        {
+            foreach (IChest chest in chests)
+            {
+                if (enemy != null && chest != null)
+                {
+                    Rectangle cHitbox = chest.getHitbox();
+                    Rectangle eHitbox = enemy.getHitbox();
+
+                    if (cHitbox.Intersects(eHitbox))
+                    {
+                        enemy.setLastPos();
+                    }
+                }
+            }
+
+        }
+    }
+    //Enemy vs Wall
     public void HandleEnemyWallCollision(List<INPC> enemies, List<Rectangle> walls)
     {
         foreach (INPC enemy in enemies)
@@ -356,20 +402,32 @@ public class CollisionHandler
 			{
                 if (game.curLevel.getClearStatus())
                 {
+                    game.inTransition = true;
+                    game.transitionCount = 0;
                     SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
                     changeRoom.Play();
                     game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
                     game.LockDoorHandler();
-                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
+
+                    game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
+                    game.randomLevelHandler.Update();
+
                     player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
                     game.doors = game.DoorHitboxHandler();//doorlists is reset
+                    if (!game.curLevel.getClearStatus())
+                    {
+                        _game.roomCount++;
+                    }
+                    
                 } 
                 else if (!game.curLevel.getClearStatus())
                     player.setLastPos();
+
                 }
             }
 		}
@@ -454,7 +512,7 @@ public class CollisionHandler
                     game.hud.AddToGrid(game.curLevel.Name);
                     //music.MusicLoader(game, game.curLevel);
                     game.LockDoorHandler();
-                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks);
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
                     player.setLocation(lockDoorInstances[i].playerPos); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
@@ -492,6 +550,5 @@ public class CollisionHandler
 
 
     }
-
 }
 

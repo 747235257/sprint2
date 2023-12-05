@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,18 +18,22 @@ namespace sprint2
         List<IBlock> blocks;
         List<INPC> enemies;
         List<IItem> items;
+        List<IChest> chests;
         Level level;
         Game1 game1;
         Game game;
         
         Texture2D Blocks;
-        public ObstacleHandler(Game1 game1, Game game, Texture2D Blocks)
+        Texture2D Chests;
+        public ObstacleHandler(Game1 game1, Game game, Texture2D Blocks, Texture2D Chests)
         {
             this.Blocks = Blocks;
+            this.Chests = Chests;
             level = game1.curLevel; //gets current level in game
             blocks = new List<IBlock>();
             enemies= new List<INPC>();
             items = new List<IItem>();
+            chests = new List<IChest>();
             this.game1 = game1; //TO CHECK
             this.game = game;
             
@@ -48,6 +52,14 @@ namespace sprint2
                         break;
                     case "Block":
                         blocks.Add(new Block(Blocks, game1.blockRow, game1.blockCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game));
+                        break;
+
+                    case "Boss1":
+                        enemies.Add(new Boss1(game1.Boss1, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        break;
+                    case "Chest":
+                        chests.Add(new RandomChest(Chests, game1.chestRow, game1.chestCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game1, game));
+
                         break;
                     case "Dragon":
                         enemies.Add(new Dragon(game1.Bosses, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
@@ -84,14 +96,28 @@ namespace sprint2
                         break;
                     default:
                         break;
-
-
                 }
             }
             //game now has updated lists
-            if(!level.getClearStatus())game1.NPCList = enemies;
+            if (!level.getClearStatus())
+            {
+                game1.NPCList = enemies;
+            }
+            else
+            {
+                game1.NPCList = new List<INPC>();
+            }
             game1.blocks = blocks;
-            if (!level.getClearStatus()) game1.items = items;
+
+            if (!level.getClearStatus()) game1.chests = chests;
+            if (!level.getClearStatus())
+            {
+                game1.items = items;
+            } else
+            {
+                game1.items = new List<IItem>();
+            }
+
             //clears projectiles in the game
             game1.playerProjectiles.Clear();
             game1.enemyProjectiles.Clear();

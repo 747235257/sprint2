@@ -17,27 +17,31 @@ namespace sprint2
         private int count;
         private Random rnd = new Random();
         private int curdir;
-        private Game game;
+        private Game1 game;
         private Vector2 currPos;
         private Vector2 prevPos;
         private Rectangle hitbox;      //COLLISION SPRINT 3
         private Rectangle prevHitbox;
         private ISprite hitboxSprite;
         private bool isAlive;
+        private IPlayer _player;
 
         private enum HitboxDims
         {
             WIDTH = 32, HEIGHT = 30, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
-        public Bat(Texture2D texture, SpriteBatch spriteBatch, Game game, Vector2 startPos)
+        public Bat(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
             this.game = game;
             this.spriteBatch = spriteBatch;
             this.texture = texture;
+            this._player = game.player;
             BatSprite = new BatSprite(this.texture, this.spriteBatch);
             count = 0;
             curdir = 0;
             isAlive = true;
+
+            
 
             //gets position of the dragon
             currPos = startPos;
@@ -71,29 +75,44 @@ namespace sprint2
 
         public List<IProjectile> Execute(GameTime gametime)
         {
-
-            count++;
-            
-            if (count % 16 == 0)//Interval of a diraction generator. 
+            float distance = Vector2.Distance(prevPos, _player.getPosition());
+            if (distance > 300)
             {
-                curdir = rnd.Next(0, 5);
-                
+                count++;
 
+                if (count % 16 == 0)//Interval of a direction generator. 
+                {
+                    curdir = rnd.Next(0, 5);
+
+
+                }
+
+                //UPDATES positions and hitboxes
+
+                prevPos = currPos;
+                Vector2 updateMove = BatSprite.Update(gametime, curdir);
+                currPos.X += updateMove.X;
+                currPos.Y += updateMove.Y;
+                count = count % 16;//Reset the count to prevent unnecessary storage usage.
+
+                //UPDATES positions and hitboxes
+
+                prevHitbox = hitbox;
+                hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+                hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
             }
+            else
+            {
+                prevPos = currPos;
+                Vector2 updateMove = BatSprite.Update(gametime, 0);
+                Vector2 direction = _player.getPosition() - prevPos;
+                direction.Normalize();
+                currPos += direction * 1;
 
-            //UPDATES positions and hitboxes
-
-            prevPos = currPos;
-            Vector2 updateMove = BatSprite.Update(gametime, curdir);
-            currPos.X += updateMove.X;
-            currPos.Y += updateMove.Y;
-            count = count % 16;//Reset the count to prevent unnecessary storage usage.
-            
-            //UPDATES positions and hitboxes
-
-            prevHitbox = hitbox;
-            hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
-            hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
+                prevHitbox = hitbox;
+                hitbox.X = (int)currPos.X + (int)HitboxDims.X_ADJ;
+                hitbox.Y = (int)currPos.Y + (int)HitboxDims.Y_ADJ;
+            }
 
             return null;
 
@@ -132,6 +151,11 @@ namespace sprint2
         {
             currPos = prevPos;
             hitbox = prevHitbox;
+        }
+
+        public Vector2 getLastPos()
+        {
+            return currPos;
         }
 
     }

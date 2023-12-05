@@ -11,6 +11,8 @@ using sprint2;
 public class Level
 {
     public string Name { get; set; }
+
+    public int Diff { get; set; }
     public GridPosition GridLocation{ get; set; }
 
     public List<Obstacle> Obstacles { get; set; }
