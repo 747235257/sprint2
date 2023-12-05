@@ -26,6 +26,8 @@ public class RandomLevelHandler
 
     private List<IBlock> blocks = new List<IBlock>();
 
+    private const int PLAYER_DIST = 200;
+
     public enum position
     {
         minX = 100, maxX = 600,
@@ -186,6 +188,21 @@ public class RandomLevelHandler
 
         return hasConflict;
     }
+
+    private bool hasConflictListEnemPlayer(INPC enem, IPlayer player)
+    {
+        Vector2 enemPos = enem.getLastPos();
+        Vector2 playerPos = player.getPosition();
+        bool hasConflict = false;
+
+        double preDist = (enemPos.X - playerPos.X) * (enemPos.X - playerPos.X) + (enemPos.Y - playerPos.Y)* (enemPos.Y - playerPos.Y);
+        double dist = Math.Sqrt(preDist);
+
+        hasConflict = dist < PLAYER_DIST;
+
+        return hasConflict;
+    }
+
     public void Update()
 	{
         Random rnd = new Random();
@@ -263,7 +280,7 @@ public class RandomLevelHandler
             }
 
 
-                if (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks))
+                if (enemName.Equals("Boss") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
             {
                 enemyList.Add(enemToAdd);
             }
