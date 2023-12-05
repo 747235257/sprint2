@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Timers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+
 
 namespace sprint2
 {
@@ -185,16 +179,14 @@ namespace sprint2
                 game.Exit();
 
             keyboard.handleLevelSwitch(game);
-            keyboard.HandleMovement(_graphics, player);
-            Vector2 range = keyboard.HandleAttack(_graphics, player);
-            keyboard.HandleDamaged(_graphics, player);
-
+            keyboard.HandleMovement(player);
+            keyboard.HandleAttack(player);
             player.updatePlayer();
 
             removePlayerProjectileList();
             removeEnemyList();
             //projectile return by keyboard is added to the list
-            List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+            List<IProjectile> plProj = keyboard.HandlePlayerItem(player);
 
             if (plProj != null) playerProjectiles.AddRange(plProj);
 

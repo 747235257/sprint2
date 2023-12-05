@@ -8,18 +8,16 @@ using System.Collections.Generic;
 public interface IController
 {
 
-    public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky);
-
-    public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player);
-    public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player);
-    public List<IProjectile> HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player);
-    public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player);
-
-
+    //public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky);
+    //public void HandleCommand();
+    public void RegisterCommand(IPlayer player);
+    public void HandleAttack(IPlayer player);
+    public List<IProjectile> HandlePlayerItem(IPlayer player);
+    public void HandleMovement(IPlayer player);
     public bool HandleSwitchEnemy(int currentNPC);
 
     public void handleLevelSwitch(Game1 game);
-    public void HandleSwitchInventory(IPlayer player, Inventory inventory);
+    public void HandleSwitchInventory(Inventory inventory);
 
     public void HandlePause(Game1 game);
 

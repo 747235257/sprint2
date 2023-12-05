@@ -1,44 +1,51 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using sprint2;
-using System;
 using System.Collections.Generic;
-
 
 public class KeyboardCont : IController
 {
 
     private Game1 game;
+    private Dictionary<Keys, ICommand> keyMap = new Dictionary<Keys, ICommand>();
+
+
     public KeyboardCont(Game1 game)
     {
         this.game = game;
     }
 
-    public Vector2 HandleAttack(GraphicsDeviceManager _graphics, IPlayer player)
+    public void RegisterCommand(IPlayer player)
+    {
+        ICommand attack = new AttackCommand(player);
+        keyMap[Keys.N] = attack;
+        keyMap[Keys.Z] = attack;    
+        ICommand movementUp = new MoveUpCommand(player);
+        keyMap[Keys.W] = movementUp;
+        keyMap[Keys.Up] = movementUp;
+        ICommand movementLeft = new MoveLeftCommand(player);
+        keyMap[Keys.A] = movementLeft;
+        keyMap[Keys.Left] = movementLeft;
+        ICommand movementDown = new MoveDownCommand(player);
+        keyMap[Keys.S] = movementDown;
+        keyMap[Keys.Down] = movementDown;
+        ICommand movementRight = new MoveRightCommand(player);
+        keyMap[Keys.D] = movementRight;
+        keyMap[Keys.Right] = movementRight;
+    }
+
+    public void HandleAttack(IPlayer player)
     {
         var kstate = Keyboard.GetState();
-        Vector2 range = new Vector2(0, 0);
+               
         if (kstate.IsKeyDown(Keys.N) || kstate.IsKeyDown(Keys.Z))
         {
-            range = player.attack();
+            keyMap[Keys.Z].Execute(); 
         }
         HandleNoPlayerInput(kstate, player);
-        return range;
-    }
+     }
 
-    public void HandleDamaged(GraphicsDeviceManager _graphics, IPlayer player)
-    {
-        var kstate = Keyboard.GetState();
-
-        if (kstate.IsKeyDown(Keys.E))
-        {
-            player.setDamaged();
-        }
-        HandleNoPlayerInput(kstate, player);
-    }
-    //return projectile class
-    public List<IProjectile> HandlePlayerItem(GraphicsDeviceManager _graphics, IPlayer player)
+    
+    public List<IProjectile> HandlePlayerItem(IPlayer player)
     {
         var kstate = Keyboard.GetState();
         List<IProjectile> projs = new List<IProjectile>();
@@ -59,24 +66,25 @@ public class KeyboardCont : IController
         return projs;
     }
 
-    public void HandleMovement(GraphicsDeviceManager _graphics, IPlayer player)
+    public void HandleMovement(IPlayer player)
     {
         KeyboardState kstate = Keyboard.GetState();
+        
         if (kstate.IsKeyDown(Keys.W) || kstate.IsKeyDown(Keys.Up))
         {
-            player.moveUp();
+            keyMap[Keys.W].Execute();
         }
         else if (kstate.IsKeyDown(Keys.A) || kstate.IsKeyDown(Keys.Left))
         {
-            player.moveLeft();
+            keyMap[Keys.A].Execute();
         }
         else if (kstate.IsKeyDown(Keys.S) || kstate.IsKeyDown(Keys.Down))
         {
-            player.moveDown();
+            keyMap[Keys.S].Execute();
         }
         else if (kstate.IsKeyDown(Keys.D) || kstate.IsKeyDown(Keys.Right))
         {
-            player.moveRight();
+            keyMap[Keys.D].Execute();
         }
 
         HandleNoPlayerInput(kstate, player);
@@ -114,22 +122,7 @@ public class KeyboardCont : IController
         }
         return false;
     }
-    public IBlock blockHandle(GraphicsDeviceManager _graphics, Texture2D block, int spriteRow, int spriteCol, Vector2 initPosition, IBlock blocky)
-    {
-        var kstate = Keyboard.GetState();
 
-        if (kstate.IsKeyDown(Keys.Y))
-        {
-            //blocky = new Block(block, spriteRow, spriteCol, initPosition);
-            blocky.switchBlock(_graphics, Block.FrameDirection.Forward);
-        }
-        if (kstate.IsKeyDown(Keys.T))
-        {
-            //blocky = new Block(block, spriteRow, spriteCol, initPosition);
-            blocky.switchBlock(_graphics, Block.FrameDirection.Backward);
-        }
-        return blocky;
-    }
     public void handleLevelSwitch(Game1 game)
     {
         var mouseState = Mouse.GetState();
@@ -149,7 +142,7 @@ public class KeyboardCont : IController
         }
     }
 
-    public void HandleSwitchInventory(IPlayer player, Inventory inventory)
+    public void HandleSwitchInventory(Inventory inventory)
     {
         var kstate = Keyboard.GetState();
 

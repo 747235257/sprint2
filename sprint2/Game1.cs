@@ -58,9 +58,6 @@ namespace sprint2
         public List<INPC> NPCList;
         public List<IItem> items;
 
-
-        private IItem item;
-
         private CollisionHandler collision;
         public LevelManager levelManager;
         public Level curLevel;
@@ -87,21 +84,17 @@ namespace sprint2
         {
             _graphics = new GraphicsDeviceManager(this);
             //window size
-            _graphics.PreferredBackBufferHeight = 528 + HUDHeight; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
-            _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
+            _graphics.PreferredBackBufferHeight = 528 + HUDHeight; 
+            _graphics.PreferredBackBufferWidth = 768;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
     }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            levelManager = new LevelManager();
-            
+            levelManager = new LevelManager();            
             levelManager.LoadLevels("Content/levels/level1.json");
-            curLevel = levelManager.Levels[0];
-            
-
+            curLevel = levelManager.Levels[0];          
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             
             collision = new CollisionHandler();
@@ -118,7 +111,6 @@ namespace sprint2
             NPCList = new List<INPC>();
             lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
-            //loads kb and mouse support
             timer = 0;
             keyEn = false;
 
@@ -156,8 +148,6 @@ namespace sprint2
             doors = DoorHitboxHandler();
             LockDoorHandler();
             obstacleHandler.Update();
-            //ItemSprite = Content.Load<Texture2D>("Sheet");
-            //item = new Item(ItemSprite, 9, 8, new Vector2(750, 20));
             SoundManager.Instance.InitializeSound(this);
 
             music.InitializeMusic(this);
@@ -176,15 +166,14 @@ namespace sprint2
             inventoryScreen.updateCounterInventory();
             updatePauseCounter();
             keyboard.HandlePause(this);
-            if(gamePaused)keyboard.HandleSwitchInventory(player, inventoryScreen);
+            keyboard.RegisterCommand(player);
+            if(gamePaused)keyboard.HandleSwitchInventory(inventoryScreen);
             
             if (!gamePaused)
             {
                 keyboard.handleLevelSwitch(this);
-                keyboard.HandleMovement(_graphics, player);
-                Vector2 range = keyboard.HandleAttack(_graphics, player);
-                keyboard.HandleDamaged(_graphics, player);
-
+                keyboard.HandleMovement(player);
+                keyboard.HandleAttack(player);
                 player.updatePlayer();
                 curLevel.checkLevelClear(this);
 
@@ -193,7 +182,7 @@ namespace sprint2
                 //projectile return by keyboard is added to the list
 
 
-                List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+                List<IProjectile> plProj = keyboard.HandlePlayerItem(player);
 
                 if (plProj != null) playerProjectiles.AddRange(plProj);
 
