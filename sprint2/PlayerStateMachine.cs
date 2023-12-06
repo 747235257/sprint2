@@ -478,7 +478,11 @@ public class PlayerStateMachine : IPlayerStateMachine
     public int updateItem()
     {
         //locks player in item animation
-        if (itemCounter > 0) itemCounter++;
+        if (itemCounter > 0)
+        {
+            itemCounter++;
+            currSprite.Update();
+        }
         if (itemCounter > (int)MaxFrames.MAX_ITEM)
         {
             itemCounter = 0;
