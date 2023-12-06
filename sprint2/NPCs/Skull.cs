@@ -29,7 +29,7 @@ namespace sprint2
 
         private enum HitboxDims
         {
-            WIDTH = 32, HEIGHT = 32, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 64, HEIGHT = 64, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
 
         public Skull(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)

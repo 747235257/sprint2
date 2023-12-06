@@ -258,6 +258,25 @@ public class RandomLevelHandler
             List<string> currList = EnemiesAllowed[diff];
             string enemName = currList[rnd.Next(0, currList.Count)];
 
+
+            if(enemName.Equals("Dragon")) 
+            { 
+                enemToAdd = new Dragon(game.dragonSprites, game._spriteBatch, game, pos);
+            }
+            else if (enemName.Equals("Skull"))
+            {
+                enemToAdd = new Skull(game.skullSprites, game._spriteBatch, game, pos);
+
+            }
+            else if (enemName.Equals("Goriya"))
+            {
+                enemToAdd = new Goriya(game.goriyaSprite, game._spriteBatch, game, pos);
+
+            }
+            else if (enemName.Equals("Bat"))
+            {
+                enemToAdd = new Bat(game.batSprites, game._spriteBatch, game, pos);
+
             if(game.enemyCreator.isNormalEnem(enemName))
             {
                 enemToAdd=game.enemyCreator.produceEnemy(enemName,pos);

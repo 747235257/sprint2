@@ -31,7 +31,7 @@ namespace sprint2
         private enum attackList { leftAttack = 0, rightAttack = 1, middileBeam = 2 }
         private enum HitboxDims
         {
-            WIDTH = 74*4, HEIGHT = 48*4, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 384, HEIGHT = 192, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
         public Boss1(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
@@ -102,6 +102,7 @@ namespace sprint2
         {
             List<IProjectile> projectiles = null;
             count++;
+            Vector2 updateMove = BossSprite1.Update(gametime, curdir);
             if (attack)
             {
 
@@ -142,7 +143,7 @@ namespace sprint2
             //UPDATES positions and hitboxes
 
             prevPos = currPos;
-            Vector2 updateMove = BossSprite1.Update(gametime, curdir);
+           
             currPos.X += updateMove.X;
             currPos.Y += updateMove.Y;
             count = count % 16;//Reset the count to prevent unnecessary storage usage.

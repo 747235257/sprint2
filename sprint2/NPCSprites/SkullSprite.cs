@@ -13,8 +13,8 @@ namespace sprint2
 
     {
         private Texture2D texture;
-        private const int width = 16;
-        private const int height = 16;
+        private const int width = 64;
+        private const int height = 64;
         public Rectangle source;
         public Rectangle destination;
         private SpriteBatch spriteBatch;
@@ -28,9 +28,9 @@ namespace sprint2
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             spriteEffects = SpriteEffects.FlipHorizontally;
-            source = new Rectangle(1, 59, width, height);//The origin sprite frame.
+            source = new Rectangle(0, 0, width, height);//The origin sprite frame.
             flip = false;
-            destination = new Rectangle(50, 200, 32, 32);
+            destination = new Rectangle(0, 0, 64, 64);
             count = 0;
             
     }

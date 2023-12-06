@@ -33,7 +33,7 @@ namespace sprint2
 
         private enum HitboxDims
         {
-            WIDTH = 50, HEIGHT = 65, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 64, HEIGHT = 128, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
         public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {

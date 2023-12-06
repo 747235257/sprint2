@@ -107,20 +107,20 @@ public class PlayerStateMachine : IPlayerStateMachine
         attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackRight2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
         attackSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("AttackLeft2"), ((int)TextureDims.ATTACK_R), ((int)TextureDims.ATTACK_C), this.currPos));
         //walkSprites
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerUpL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
-        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerDownR1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerDown5"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
+        walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerUp5"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerLeftL"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         walkSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("PlayerRightL1"), ((int)TextureDims.WALK_R), ((int)TextureDims.WALK_C), this.currPos));
         //damagedSprites
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedLeft"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
-        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedRight"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedDown2"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedUp2"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedLeft2"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
+        damagedSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("DamagedRight2"), ((int)TextureDims.DAMAGED_R), ((int)TextureDims.DAMAGED_C), this.currPos));
         //itemSprites
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemDown"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemUp"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemLeft"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
-        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("ItemRight"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("itemDown5"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("itemUp5"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("itemLeft5"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
+        itemSprites.Add(new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("itemRight5"), ((int)TextureDims.ITEM_R), ((int)TextureDims.ITEM_C), this.currPos));
 
         //Red square to draw hitbox
         hitboxSprite = new NonMoveAnimatedSprite(game.Content.Load<Texture2D>("hitbox"), (int)HitboxDims.ROW, (int)HitboxDims.COL, new Vector2(hitbox.X, hitbox.Y));
