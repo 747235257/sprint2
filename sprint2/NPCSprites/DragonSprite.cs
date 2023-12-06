@@ -61,8 +61,6 @@ namespace sprint2
                         break;
 
                 }
-                SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("walking");
-                walkingSound.Play();
                 source.X = 1 + 25 * (frameCol % 4);//Change the sprite source position in a spritesheet.
                 frameCol %= 4;//Total frame number is 4.
 

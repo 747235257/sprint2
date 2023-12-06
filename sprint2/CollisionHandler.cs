@@ -64,18 +64,30 @@ public class CollisionHandler
     }
     public void HandlePlayerItemCollision(List<IItem> items, IPlayer player)
 	{
+        String itemName;
 		foreach(IItem item in items)
 		{
 			Rectangle iHitbox = item.getHitbox();
 			Rectangle pHitbox = player.getHitbox();
+            itemName = item.getItemName();
 
-			if(iHitbox.Intersects(pHitbox))
+
+            if (iHitbox.Intersects(pHitbox))
 			{
 				if (item.isAlive())
 				{
-                    SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
-                    pickupSound.Play();
-                    player.pickUpItem(item.getItemName());
+                    if(itemName == "healthItem")
+                    {
+                        SoundEffectInstance healthSound = SoundManager.Instance.CreateSound("health");
+                        healthSound.Play();
+                    }
+                    else
+                    {
+                        SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
+                        pickupSound.Play();
+                    }
+                    
+                    player.pickUpItem(itemName);
                     _game.pickupCount++;
                     
                 }
@@ -253,6 +265,8 @@ public class CollisionHandler
                 {
                     if (!chest.isOpen() && (player.getKeyCount() > 0))           //Check that when in range (touching the chest) it opens
                     {
+                        SoundEffectInstance openChest = SoundManager.Instance.CreateSound("chest");
+                        openChest.Play();
                         chest.openChest(chest, spriteBatch);
                         player.decrementKeyCount();
                     }
@@ -453,6 +467,8 @@ public class CollisionHandler
 
                     if (lockDoor.position.Intersects(eHitbox))
                     {
+                        SoundEffectInstance unlockDoor = SoundManager.Instance.CreateSound("unlock");
+                        unlockDoor.Play();
                         enemy.setLastPos();
                     }
                 }
