@@ -129,7 +129,7 @@ public class PlayerStateMachine : IPlayerStateMachine
     public void drawCurrentSprite()
     {
         //spriteBatch.Begin
-        drawHitbox(); //draws hitbox under player
+        //drawHitbox(); //draws hitbox under player
         currSprite.Draw(spriteBatch, currPos); //draws current sprite
         //spriteBatch.End();
     }
