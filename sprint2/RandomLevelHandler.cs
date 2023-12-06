@@ -214,9 +214,9 @@ public class RandomLevelHandler
     }
 
     public void Update()
-	{
+    {
         Random rnd = new Random();
-		int diff = game.curLevel.Diff;
+        int diff = game.curLevel.Diff;
         Level level = game.curLevel;
 
         int mItems = numItems[diff];
@@ -225,7 +225,7 @@ public class RandomLevelHandler
         itemList = game.items;
 
         //populates items
-        for(int i = 0; i < mItems; i++)
+        for (int i = 0; i < mItems; i++)
         {
             int x = rnd.Next((int)position.minX, (int)position.maxX);
             int y = rnd.Next((int)position.minY, (int)position.maxY);
@@ -237,10 +237,11 @@ public class RandomLevelHandler
 
             itemToAdd = game.itemCreator.produceItem(itemName, pos);
 
-            if(!hasConflictListItem(itemToAdd, itemList)    &&  !hasConflictItemBlocks(itemToAdd,blocks))
+            if (!hasConflictListItem(itemToAdd, itemList) && !hasConflictItemBlocks(itemToAdd, blocks))
             {
                 itemList.Add(itemToAdd);
-            } else
+            }
+            else
             {
                 i--;
             }
@@ -259,8 +260,8 @@ public class RandomLevelHandler
             string enemName = currList[rnd.Next(0, currList.Count)];
 
 
-            if(enemName.Equals("Dragon")) 
-            { 
+            if (enemName.Equals("Dragon"))
+            {
                 enemToAdd = new Dragon(game.dragonSprites, game._spriteBatch, game, pos);
             }
             else if (enemName.Equals("Skull"))
@@ -277,52 +278,54 @@ public class RandomLevelHandler
             {
                 enemToAdd = new Bat(game.batSprites, game._spriteBatch, game, pos);
 
-            if(game.enemyCreator.isNormalEnem(enemName))
-            {
-                enemToAdd=game.enemyCreator.produceEnemy(enemName,pos);
+                if (game.enemyCreator.isNormalEnem(enemName))
+                {
+                    enemToAdd = game.enemyCreator.produceEnemy(enemName, pos);
+                }
+
+
+                if (game.enemyCreator.isBossEnem(enemName))
+                {
+                    enemToAdd = game.enemyCreator.produceEnemy(enemName, Boss1Pos);
+                }
+
+
+                if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd, game.player)))
+                {
+                    enemyList.Add(enemToAdd);
+                }
+                else
+                {
+                    j--;
+                }
+
             }
 
-
-            if (game.enemyCreator.isBossEnem(enemName))
+            //game now has updated lists
+            if (!level.getClearStatus())
             {
-                enemToAdd = game.enemyCreator.produceEnemy(enemName,Boss1Pos);
-            }
-
-
-            if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
-            {
-                enemyList.Add(enemToAdd);
+                game.NPCList = enemyList;
             }
             else
             {
-                j--;
+                game.NPCList = new List<INPC>();
+            }
+            game.blocks = blocks;
+            if (!level.getClearStatus())
+            {
+                game.items = itemList;
+            }
+            else
+            {
+                game.items = new List<IItem>();
             }
 
+            //clears projectiles in the game
+            game.playerProjectiles.Clear();
+            game.enemyProjectiles.Clear();
+            LoadBack(level.Name);
         }
-
-        //game now has updated lists
-        if (!level.getClearStatus())
-        {
-            game.NPCList = enemyList;
-        } else
-        {
-            game.NPCList = new List<INPC>();
-        }
-        game.blocks = blocks;
-        if (!level.getClearStatus())
-        { 
-            game.items = itemList;
-        } else
-        {
-            game.items = new List<IItem>();
-        }
-
-//clears projectiles in the game
-game.playerProjectiles.Clear();
-        game.enemyProjectiles.Clear();
-        LoadBack(level.Name);
     }
-
     //loads level background
     public void LoadBack(string levelName)
     {
