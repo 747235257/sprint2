@@ -31,7 +31,7 @@ public class RandomLevelHandler
     public enum position
     {
         minX = 100, maxX = 600,
-        minY = 100, maxY = 400,
+        minY = 100, maxY = 350,
 
     }
     public RandomLevelHandler(Game1 game, List<IBlock> blocks)
@@ -260,46 +260,28 @@ public class RandomLevelHandler
             string enemName = currList[rnd.Next(0, currList.Count)];
 
 
-            if (enemName.Equals("Dragon"))
+            if (game.enemyCreator.isNormalEnem(enemName))
             {
-                enemToAdd = new Dragon(game.dragonSprites, game._spriteBatch, game, pos);
+                enemToAdd = game.enemyCreator.produceEnemy(enemName, pos);
             }
-            else if (enemName.Equals("Skull"))
+
+
+            if (game.enemyCreator.isBossEnem(enemName))
             {
-                enemToAdd = new Skull(game.skullSprites, game._spriteBatch, game, pos);
-
+                enemToAdd = game.enemyCreator.produceEnemy(enemName, Boss1Pos);
             }
-            else if (enemName.Equals("Goriya"))
+
+
+            if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd, game.player)))
             {
-                enemToAdd = new Goriya(game.goriyaSprite, game._spriteBatch, game, pos);
-
+                enemyList.Add(enemToAdd);
             }
-            else if (enemName.Equals("Bat"))
+            else
             {
-                enemToAdd = new Bat(game.batSprites, game._spriteBatch, game, pos);
-
-                if (game.enemyCreator.isNormalEnem(enemName))
-                {
-                    enemToAdd = game.enemyCreator.produceEnemy(enemName, pos);
-                }
-
-
-                if (game.enemyCreator.isBossEnem(enemName))
-                {
-                    enemToAdd = game.enemyCreator.produceEnemy(enemName, Boss1Pos);
-                }
-
-
-                if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd, game.player)))
-                {
-                    enemyList.Add(enemToAdd);
-                }
-                else
-                {
-                    j--;
-                }
-
+                j--;
             }
+
+        }
 
             //game now has updated lists
             if (!level.getClearStatus())
@@ -324,7 +306,7 @@ public class RandomLevelHandler
             game.playerProjectiles.Clear();
             game.enemyProjectiles.Clear();
             LoadBack(level.Name);
-        }
+        
     }
     //loads level background
     public void LoadBack(string levelName)

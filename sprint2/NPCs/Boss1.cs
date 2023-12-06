@@ -31,7 +31,7 @@ namespace sprint2
         private enum attackList { leftAttack = 0, rightAttack = 1, middileBeam = 2 }
         private enum HitboxDims
         {
-            WIDTH = 384, HEIGHT = 192, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 300, HEIGHT = 192, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
         public Boss1(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {

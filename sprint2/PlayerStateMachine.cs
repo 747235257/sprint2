@@ -42,7 +42,7 @@ public class PlayerStateMachine : IPlayerStateMachine
         ATTACK_R = 1, ATTACK_C = 3,
         WALK_R = 1, WALK_C = 4,
         DAMAGED_R = 1, DAMAGED_C = 1,
-        ITEM_R = 1, ITEM_C = 1,
+        ITEM_R = 1, ITEM_C = 4,
 
     }
 

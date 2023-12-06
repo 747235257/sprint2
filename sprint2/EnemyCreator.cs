@@ -47,16 +47,16 @@ public class EnemyCreator
                 enem=new Boss1(game1.Boss1, game1._spriteBatch, game1, pos);
                 break;
             case "Dragon":
-                enem=new Dragon(game1.Bosses, game1._spriteBatch, game1, pos);
+                enem=new Dragon(game1.dragonSprites, game1._spriteBatch, game1, pos);
                 break;
             case "Skull":
-                enem=new Skull(game1.Enemies, game1._spriteBatch, game1, pos);
+                enem=new Skull(game1.skullSprites, game1._spriteBatch, game1, pos);
                 break;
             case "Goriya":
-                enem=new Goriya(game1.Enemies, game1._spriteBatch, game1, pos);
+                enem=new Goriya(game1.goriyaSprite, game1._spriteBatch, game1, pos);
                 break;
             case "Bat":
-                enem=new Bat(game1.Enemies, game1._spriteBatch, game1, pos);
+                enem=new Bat(game1.batSprites, game1._spriteBatch, game1, pos);
                 break;
             default: break;
 
