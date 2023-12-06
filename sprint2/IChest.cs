@@ -15,7 +15,6 @@ namespace sprint2
         public void drawRandomChest();
 
         public Boolean isOpen();
-        public Boolean isTouching();
         public Rectangle getHitbox();
     }
 }

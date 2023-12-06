@@ -75,11 +75,12 @@ namespace sprint2
         public List<IBlock> blocks;
         public List<INPC> NPCList;
 
-        public List<INPC> groundHit;
-
-        public List<IChest> chests;
         public List<IItem> items { get; set; }
 
+        public List<INPC> groundHit;
+
+
+        public List<IChest> chests;
         public const int MAX_TRANSITION = 100;
         public bool inTransition { get; set; }
         public int transitionCount { get; set; }

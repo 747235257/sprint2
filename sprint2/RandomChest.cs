@@ -55,13 +55,15 @@ public class RandomChest : IChest
         this.spriteBatch = spriteBatch;
         this.game1 = game1;
         this.game = game;
-        this.items = new List<IItem>();
-        this.items.Add(new healthItem(new Vector2(pos.X, pos.Y + 10), game1, game1._spriteBatch));
-        this.items.Add(new wep1(new Vector2(pos.X, pos.Y + 10), game1, game1._spriteBatch));
-        this.items.Add(new wep2(new Vector2(pos.X, pos.Y + 10), game1, game1._spriteBatch));
-        this.items.Add(new wep3(new Vector2(pos.X, pos.Y + 10), game1, game1._spriteBatch));
-        this.items.Add(new mapItem(new Vector2(pos.X, pos.Y + 10), game1, game1._spriteBatch));
-    }
+        items = new List<IItem>
+        {
+            new healthItem(new Vector2(pos.X - 5, pos.Y + 20), game1, game1._spriteBatch),
+            new wep1(new Vector2(pos.X - 5, pos.Y + 20), game1, game1._spriteBatch),
+            new wep2(new Vector2(pos.X - 5, pos.Y + 20), game1, game1._spriteBatch),
+            new wep3(new Vector2(pos.X - 5, pos.Y + 20), game1, game1._spriteBatch),
+            new mapItem(new Vector2(pos.X - 5, pos.Y + 20), game1, game1._spriteBatch)
+        };
+    }   
     public void drawRandomChest()
     {
         int row = currentFrame / (int)SpriteDims.COLS;
@@ -81,22 +83,18 @@ public class RandomChest : IChest
         List<IItem> active = new List<IItem>();
         int item;
         int activeCount = 0;
-        if(chest.isOpen())           //Check that when in range (touching the chest) it opens
+        currentFrame++;
+
+        for (int i = 0; i < items.Count; i++)
         {
-            for (int i = 0; i < items.Count; i++)
+            if (items[i].isAlive())
             {
-                if (items[i].isAlive())
-                {
-                    active.Add(items[i]);
-                    activeCount++;
-                }
+                active.Add(items[i]);
+                activeCount++;
             }
-            item = rand.Next(activeCount);
-            spriteBatch.Begin();
-            currentFrame++;
-            active[item].Draw();
-            spriteBatch.End();
         }
+        item = rand.Next(activeCount);
+        game1.items.Add(items[item]);
     }
 
     public Boolean isOpen()
@@ -104,16 +102,13 @@ public class RandomChest : IChest
         int open = currentFrame;
         if(open != 0)
         {
-            return false;
+            return true;
         }
-        else return true;
+        else return false;
     }
     public Rectangle getHitbox()
     {
         return hitbox;
     }
-    public Boolean isTouching()
-    {
-        return true;
-    }
+
 }
