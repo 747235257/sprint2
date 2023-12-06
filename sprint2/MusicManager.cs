@@ -34,7 +34,7 @@ namespace sprint2
                     music = game.Content.Load<Song>("Audio/8-bit");
                     break;
             }
-            MediaPlayer.Play(music);
+            if (level.Name == "Level9") MediaPlayer.Play(music);
         }
 
         public void MuteMusic()
