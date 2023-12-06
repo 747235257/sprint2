@@ -26,8 +26,8 @@ public class RandomLevelHandler
 
     private List<IBlock> blocks = new List<IBlock>();
 
-    private const int PLAYER_DIST = 200;
-
+    private const int PLAYER_DIST = 150;
+    private Vector2 Boss1Pos = new Vector2(236, 96);
     public enum position
     {
         minX = 100, maxX = 600,
@@ -99,7 +99,7 @@ public class RandomLevelHandler
 
         //handles diff 4
         List<String> enem4 = new List<String>();
-        enem4.Add("Boss");
+        enem4.Add("Boss1");
 
         List<String> item4 = new List<String>();
         item4.Add("healthItem");
@@ -235,14 +235,7 @@ public class RandomLevelHandler
             List<string> currList = ItemsAllowed[diff];
             string itemName = currList[rnd.Next(0, currList.Count)];
 
-            if (itemName.Equals("key"))
-            {
-                itemToAdd = new key(new Vector2(x, y), game, game._spriteBatch);
-            } else if (itemName.Equals("healthItem"))
-            {
-                itemToAdd = new healthItem(new Vector2(x, y), game, game._spriteBatch);
-
-            }
+            itemToAdd = game.itemCreator.produceItem(itemName, pos);
 
             if(!hasConflictListItem(itemToAdd, itemList)    &&  !hasConflictItemBlocks(itemToAdd,blocks))
             {
@@ -265,32 +258,19 @@ public class RandomLevelHandler
             List<string> currList = EnemiesAllowed[diff];
             string enemName = currList[rnd.Next(0, currList.Count)];
 
-            if(enemName.Equals("Dragon")) 
-            { 
-                enemToAdd = new Dragon(game.Bosses, game._spriteBatch, game, pos);
-            }
-            else if (enemName.Equals("Skull"))
+            if(game.enemyCreator.isNormalEnem(enemName))
             {
-                enemToAdd = new Skull(game.Enemies, game._spriteBatch, game, pos);
-
+                enemToAdd=game.enemyCreator.produceEnemy(enemName,pos);
             }
-            else if (enemName.Equals("Goriya"))
+
+
+            if (game.enemyCreator.isBossEnem(enemName))
             {
-                enemToAdd = new Goriya(game.Enemies, game._spriteBatch, game, pos);
-
-            }
-            else if (enemName.Equals("Bat"))
-            {
-                enemToAdd = new Bat(game.Enemies, game._spriteBatch, game, pos);
-
-            }
-            else if (enemName.Equals("Boss"))
-            {
-                enemToAdd = new Boss1(game.Boss1, game._spriteBatch, game, new Vector2(236, 96));
+                enemToAdd = game.enemyCreator.produceEnemy(enemName,Boss1Pos);
             }
 
 
-                if (enemName.Equals("Boss") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
+            if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
             {
                 enemyList.Add(enemToAdd);
             }
