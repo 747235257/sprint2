@@ -43,8 +43,18 @@ public class RandomLevelHandler
 
 	private void initDict()
 	{
-		//handles diff 1
-		List<String> enem1 = new List<String>();
+        //handles diff 0
+        List<String> enem0 = new List<String>();
+        List<String> item0 = new List<String>();
+
+
+        numEnemies.Add(0, 0);
+        numItems.Add(0, 0);
+
+        EnemiesAllowed.Add(0, enem0);
+        ItemsAllowed.Add(0, item0);
+        //handles diff 1
+        List<String> enem1 = new List<String>();
 		enem1.Add("Skull");
         enem1.Add("Bat");
 

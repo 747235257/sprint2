@@ -236,6 +236,7 @@ namespace sprint2
             if (!gamePaused)
             {
                 keyboard.handleLevelSwitch();
+                keyboard.HandleLevelDebug();
                 keyboard.HandleMovement();
                 keyboard.HandleAttack();
                 player.updatePlayer();
@@ -322,8 +323,8 @@ namespace sprint2
                 _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
                 drawAllBlocks();
                 drawAllProjectiles();
-                drawAllEnemies();
                 drawAllItems();
+                drawAllEnemies();
                 drawAllChests();
                 player.Draw();
                 hud.Draw();

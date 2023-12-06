@@ -10,13 +10,20 @@ public class KeyboardCont : IController
     private IPlayer player;
     private Inventory inventory;
     private Dictionary<Keys, ICommand> keyMap = new Dictionary<Keys, ICommand>();
-
+    private int levelCount = 0;
+    private int levelUpdate = 0;
+    private int mLevelUpdate = 15;
+    private int minLev;
+    private int maxLev;
 
     public KeyboardCont(Game1 game, IPlayer player, Inventory inventory)
     {
         this.game = game;
         this.player = player;
         this.inventory = inventory;
+
+        minLev = 0;
+        maxLev = game.levelManager.Levels.Count;
     }
 
     public void RegisterCommand()
@@ -135,18 +142,61 @@ public class KeyboardCont : IController
     {
         MouseState mouseState = Mouse.GetState();
 
-        if (mouseState.LeftButton == ButtonState.Pressed)
+        levelUpdate++;
+
+        if (levelUpdate > mLevelUpdate)
         {
-            game.curLevel = game.levelManager.Levels[0];
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                levelCount--;
+
+                if (levelCount > minLev && levelCount < maxLev)
+                {
+                    game.curLevel = game.levelManager.Levels[levelCount];
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
+                    game.obstacleHandler.Update();
+                    game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
+                    game.randomLevelHandler.Update();
+
+                    game.WallHitboxHandler();
+                }
+                else
+                {
+                    levelCount = maxLev - 1;
+                }
+
+                levelUpdate = 0;
+            }
+            else if (mouseState.RightButton == ButtonState.Pressed)
+            {
+                levelCount++;
+                if (levelCount > minLev && levelCount < maxLev)
+                {
+                    game.curLevel = game.levelManager.Levels[levelCount];
+                    game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
+                    game.obstacleHandler.Update();
+
+                    game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
+                    game.randomLevelHandler.Update();
+                    game.WallHitboxHandler();
+                }
+                else
+                {
+                    levelCount = 0;
+                }
+                levelUpdate = 0;
+            }
+        }
+    }
+
+    public void HandleLevelDebug()
+    {
+        var kstate = Keyboard.GetState();
+
+        if(kstate.IsKeyDown(Keys.B))
+        {
+            game.curLevel = game.levelManager.Levels[9];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
-            game.obstacleHandler.Update();
-            game.WallHitboxHandler();
-        } 
-        
-        else if(mouseState.RightButton == ButtonState.Pressed)
-        {
-            game.curLevel = game.levelManager.Levels[8];
-            game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests );
             game.obstacleHandler.Update();
 
             game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
