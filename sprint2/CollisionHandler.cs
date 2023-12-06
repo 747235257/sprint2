@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using sprint2;
 using Microsoft.Xna.Framework.Audio;
+using System.Security.Cryptography.X509Certificates;
 
 namespace sprint2;
 public class CollisionHandler
 {
-	public CollisionHandler()
+    public Game1 _game;
+    public CollisionHandler(Game1 game)
     {
+        _game = game;
     }
 
     public void HandlePlayerParryProjectile(IPlayer player, List<IProjectile> projectiles, Game1 game)
@@ -72,6 +75,8 @@ public class CollisionHandler
                     SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
                     pickupSound.Play();
                     player.pickUpItem(item.getItemName());
+                    _game.pickupCount++;
+                    
                 }
 				item.setInactive();
 				
@@ -93,6 +98,7 @@ public class CollisionHandler
 
 					if(eHitbox.Intersects(pHitbox))
 					{
+                        _game.killCount ++;
 						projectile.setToInactive();
 						npc.giveDamage();
                         SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
@@ -406,12 +412,22 @@ public class CollisionHandler
                     game.LockDoorHandler();
                     game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
+
+                    game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
+                    game.randomLevelHandler.Update();
+
                     player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
                     game.doors = game.DoorHitboxHandler();//doorlists is reset
+                    if (!game.curLevel.getClearStatus())
+                    {
+                        _game.roomCount++;
+                    }
+                    
                 } 
                 else if (!game.curLevel.getClearStatus())
                     player.setLastPos();
+
                 }
             }
 		}
@@ -534,6 +550,5 @@ public class CollisionHandler
 
 
     }
-
 }
 
