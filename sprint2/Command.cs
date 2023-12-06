@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
 
 namespace sprint2
 {
@@ -98,7 +99,21 @@ namespace sprint2
         }
 
     }
+    public class MuteMusicCommand : ICommand
+    {
+        private MusicManager music;
 
+        public MuteMusicCommand(MusicManager music)
+        {
+            //this.game = game;
+            this.music = music;
+        }
+        public void Execute()
+        {
+            music.MuteMusic();
+        }
+
+    }
     public class SwitchInventoryCommand : ICommand
     {
         private Inventory inventory;

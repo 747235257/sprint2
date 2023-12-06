@@ -126,6 +126,7 @@ namespace sprint2
         {
             gameTimeElapsed = 0f; // Initialize the timer to zero
             // TODO: Add your initialization logic here
+            music = new MusicManager(this);
             levelManager = new LevelManager();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             levelManager.LoadLevels("Content/levels/level1.json");
@@ -135,7 +136,7 @@ namespace sprint2
             collision = new CollisionHandler(this);
             inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
-            keyboard = new KeyboardCont(this, player, inventoryScreen);
+            keyboard = new KeyboardCont(this, player, inventoryScreen, music);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
@@ -150,7 +151,6 @@ namespace sprint2
             chests = new List<IChest>();
 
             lockDoorInstances = new List<LockDoorInstance>();
-            music = new MusicManager(this);
             timer = 0;
             keyEn = false;
 
@@ -231,6 +231,7 @@ namespace sprint2
             inventoryScreen.updateCounterInventory();
             updatePauseCounter();
             keyboard.HandlePause();
+                keyboard.HandleMuteMusic();
             keyboard.RegisterCommand();
             if(gamePaused)keyboard.HandleSwitchInventory();
             

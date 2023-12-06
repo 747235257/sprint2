@@ -14,11 +14,12 @@ namespace sprint2
     {
         readonly Dictionary<string, Song> album = new Dictionary<string, Song>();
         Level level;
-        Game1 game1;
+        Game1 game;
 
         public MusicManager(Game1 game1)
         {
             level = game1.curLevel;
+            this.game = game1;
         }
         public void MusicLoader(Game1 game, Level level)
         {
@@ -26,19 +27,29 @@ namespace sprint2
 
             switch(level.Name)
             {
-                case "boss":
-                    music = game.Content.Load<Song>("song/boss");
+                case "Level9":
+                    music = game.Content.Load<Song>("Audio/enemyBGM");
                     break;
                 default:
-                    music = game.Content.Load<Song>("Audio/enemyBGM");
+                    music = game.Content.Load<Song>("Audio/8-bit");
                     break;
             }
             MediaPlayer.Play(music);
         }
 
-        public void InitializeMusic(Game1 game)
+        public void MuteMusic()
         {
-            Song music = game.Content.Load<Song>("Audio/enemyBGM");
+            if(MediaPlayer.Volume == 0f)
+            {
+                MediaPlayer.Volume = 1f;
+            }
+            else {
+                MediaPlayer.Volume = 0f;
+            }
+        }
+            public void InitializeMusic(Game1 game)
+        {
+            Song music = game.Content.Load<Song>("Audio/8-bit");
             MediaPlayer.Play(music);
         }
 

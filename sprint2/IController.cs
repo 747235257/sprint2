@@ -18,5 +18,6 @@ public interface IController
     public void handleLevelSwitch();
     public void HandleSwitchInventory();
     public void HandlePause();
+    public void HandleMuteMusic();
 
 }

@@ -9,6 +9,7 @@ public class KeyboardCont : IController
     private Game1 game;
     private IPlayer player;
     private Inventory inventory;
+    private MusicManager music;
     private Dictionary<Keys, ICommand> keyMap = new Dictionary<Keys, ICommand>();
     private int levelCount = 0;
     private int levelUpdate = 0;
@@ -16,11 +17,12 @@ public class KeyboardCont : IController
     private int minLev;
     private int maxLev;
 
-    public KeyboardCont(Game1 game, IPlayer player, Inventory inventory)
+    public KeyboardCont(Game1 game, IPlayer player, Inventory inventory, MusicManager music)
     {
         this.game = game;
         this.player = player;
         this.inventory = inventory;
+        this.music = music;
 
         minLev = 0;
         maxLev = game.levelManager.Levels.Count;
@@ -47,6 +49,9 @@ public class KeyboardCont : IController
 
         ICommand pause = new PauseCommand(game);
         keyMap[Keys.Tab] = pause;
+
+        ICommand mute = new MuteMusicCommand(music);
+        keyMap[Keys.I] = mute;
 
         ICommand slot1 = new SwitchInventoryCommand(inventory, 1);
         keyMap[Keys.D1] = slot1;
@@ -257,5 +262,13 @@ public class KeyboardCont : IController
             keyMap[Keys.Tab].Execute();
         }
     }
+    public void HandleMuteMusic()
+    {
+        KeyboardState kstate = Keyboard.GetState();
 
+        if (kstate.IsKeyDown(Keys.I))
+        {
+            keyMap[Keys.I].Execute();
+        }
+    }
 }

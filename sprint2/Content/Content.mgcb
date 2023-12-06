@@ -116,6 +116,12 @@
 /processorParam:TextureFormat=Color
 /build:AttackUp2.png
 
+#begin Audio/8-bit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/8-bit.mp3
+
 #begin Audio/beam.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
