@@ -87,6 +87,8 @@ namespace sprint2
 
         private IItem item;
 
+        public ItemCreator itemCreator { get; set; }
+        public  EnemyCreator enemyCreator { get; set; }
         public CollisionHandler collision;
         public LevelManager levelManager;
         public Level curLevel;
@@ -134,6 +136,8 @@ namespace sprint2
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             player = new Player(this, _graphics, _spriteBatch, new Vector2(250, 250));
             collision = new CollisionHandler(this);
+            itemCreator = new ItemCreator(this);
+            enemyCreator = new EnemyCreator(this);
             inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
             keyboard = new KeyboardCont(this, player, inventoryScreen, music);

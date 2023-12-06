@@ -203,7 +203,7 @@ public class KeyboardCont : IController
             game.curLevel = game.levelManager.Levels[9];
             game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
             game.obstacleHandler.Update();
-
+    
             game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
             game.randomLevelHandler.Update();
             game.WallHitboxHandler();
