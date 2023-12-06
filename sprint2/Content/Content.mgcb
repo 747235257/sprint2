@@ -140,11 +140,23 @@
 /processorParam:TextureFormat=Color
 /build:AttackUp2.png
 
+#begin Audio/8-bit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/8-bit.mp3
+
 #begin Audio/beam.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/beam.wav
+
+#begin Audio/chest.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/chest.wav
 
 #begin Audio/enemyBGM.mp3
 /importer:Mp3Importer
@@ -157,6 +169,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/enemykill.wav
+
+#begin Audio/health.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/health.wav
 
 #begin Audio/itempick.wav
 /importer:WavImporter
@@ -995,6 +1013,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/level9hud.png
+
+#begin levels/LevelDebug.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/LevelDebug.png
+
+#begin levels/LevelDebughud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/LevelDebughud.png
 
 #begin mapItem.png
 /importer:TextureImporter

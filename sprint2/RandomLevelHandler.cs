@@ -26,6 +26,8 @@ public class RandomLevelHandler
 
     private List<IBlock> blocks = new List<IBlock>();
 
+    private const int PLAYER_DIST = 150;
+    private Vector2 Boss1Pos = new Vector2(236, 96);
     public enum position
     {
         minX = 100, maxX = 600,
@@ -41,8 +43,18 @@ public class RandomLevelHandler
 
 	private void initDict()
 	{
-		//handles diff 1
-		List<String> enem1 = new List<String>();
+        //handles diff 0
+        List<String> enem0 = new List<String>();
+        List<String> item0 = new List<String>();
+
+
+        numEnemies.Add(0, 0);
+        numItems.Add(0, 0);
+
+        EnemiesAllowed.Add(0, enem0);
+        ItemsAllowed.Add(0, item0);
+        //handles diff 1
+        List<String> enem1 = new List<String>();
 		enem1.Add("Skull");
         enem1.Add("Bat");
 
@@ -87,7 +99,7 @@ public class RandomLevelHandler
 
         //handles diff 4
         List<String> enem4 = new List<String>();
-        enem4.Add("Boss");
+        enem4.Add("Boss1");
 
         List<String> item4 = new List<String>();
         item4.Add("healthItem");
@@ -186,6 +198,21 @@ public class RandomLevelHandler
 
         return hasConflict;
     }
+
+    private bool hasConflictListEnemPlayer(INPC enem, IPlayer player)
+    {
+        Vector2 enemPos = enem.getLastPos();
+        Vector2 playerPos = player.getPosition();
+        bool hasConflict = false;
+
+        double preDist = (enemPos.X - playerPos.X) * (enemPos.X - playerPos.X) + (enemPos.Y - playerPos.Y)* (enemPos.Y - playerPos.Y);
+        double dist = Math.Sqrt(preDist);
+
+        hasConflict = dist < PLAYER_DIST;
+
+        return hasConflict;
+    }
+
     public void Update()
 	{
         Random rnd = new Random();
@@ -208,14 +235,7 @@ public class RandomLevelHandler
             List<string> currList = ItemsAllowed[diff];
             string itemName = currList[rnd.Next(0, currList.Count)];
 
-            if (itemName.Equals("key"))
-            {
-                itemToAdd = new key(new Vector2(x, y), game, game._spriteBatch);
-            } else if (itemName.Equals("healthItem"))
-            {
-                itemToAdd = new healthItem(new Vector2(x, y), game, game._spriteBatch);
-
-            }
+            itemToAdd = game.itemCreator.produceItem(itemName, pos);
 
             if(!hasConflictListItem(itemToAdd, itemList)    &&  !hasConflictItemBlocks(itemToAdd,blocks))
             {
@@ -238,6 +258,7 @@ public class RandomLevelHandler
             List<string> currList = EnemiesAllowed[diff];
             string enemName = currList[rnd.Next(0, currList.Count)];
 
+
             if(enemName.Equals("Dragon")) 
             { 
                 enemToAdd = new Dragon(game.dragonSprites, game._spriteBatch, game, pos);
@@ -256,14 +277,19 @@ public class RandomLevelHandler
             {
                 enemToAdd = new Bat(game.batSprites, game._spriteBatch, game, pos);
 
-            }
-            else if (enemName.Equals("Boss"))
+            if(game.enemyCreator.isNormalEnem(enemName))
             {
-                enemToAdd = new Boss1(game.Boss1, game._spriteBatch, game, new Vector2(236, 96));
+                enemToAdd=game.enemyCreator.produceEnemy(enemName,pos);
             }
 
 
-                if (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks))
+            if (game.enemyCreator.isBossEnem(enemName))
+            {
+                enemToAdd = game.enemyCreator.produceEnemy(enemName,Boss1Pos);
+            }
+
+
+            if (enemName.Equals("Boss1") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
             {
                 enemyList.Add(enemToAdd);
             }

@@ -41,11 +41,12 @@ namespace sprint2
         }
 
         public void Update()
-        {
+        {   
             //places/modifies game elements based on Level Contents
             for (int i = 0; i < level.Obstacles.Count; i++)
             {
-                switch (level.Obstacles[i].Type)
+                string type = level.Obstacles[i].Type;
+                switch (type)
                 {
                     case "Player":
                         game1.player.setLocation(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y));
@@ -53,13 +54,8 @@ namespace sprint2
                     case "Block":
                         blocks.Add(new Block(Blocks, game1.blockRow, game1.blockCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game));
                         break;
-
-                    case "Boss1":
-                        enemies.Add(new Boss1(game1.Boss1, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-                        break;
                     case "Chest":
                         chests.Add(new RandomChest(Chests, game1.chestRow, game1.chestCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game1, game));
-
                         break;
                     case "Dragon":
                         enemies.Add(new Dragon(game1.dragonSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
@@ -93,9 +89,28 @@ namespace sprint2
                         break;
                     case "healthItem":
                         items.Add(new healthItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
+
                         break;
                     default:
                         break;
+                }
+
+
+                //adds  enems
+                if(game1.enemyCreator.isNormalEnem(type))
+                {
+                    enemies.Add(game1.enemyCreator.produceEnemy(type, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                }
+
+                if(game1.enemyCreator.isBossEnem(type))
+                {
+                    enemies.Add(game1.enemyCreator.produceEnemy(type, new Vector2(236,96)));
+
+                }
+                //adds  items
+                if (game1.itemCreator.isItem(type))
+                {
+                    items.Add(game1.itemCreator.produceItem(type, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                 }
             }
             //game now has updated lists

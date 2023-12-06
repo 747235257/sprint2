@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Timers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+
 
 namespace sprint2
 {
@@ -184,34 +178,19 @@ namespace sprint2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 game.Exit();
 
-            keyboard.handleLevelSwitch(game);
-            keyboard.HandleMovement(_graphics, player);
-            Vector2 range = keyboard.HandleAttack(_graphics, player);
-            keyboard.HandleDamaged(_graphics, player);
-
+            keyboard.handleLevelSwitch();
+            keyboard.HandleMovement();
+            keyboard.HandleAttack();
             player.updatePlayer();
 
             removePlayerProjectileList();
             removeEnemyList();
             //projectile return by keyboard is added to the list
-            List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+            List<IProjectile> plProj = keyboard.HandlePlayerItem();
 
             if (plProj != null) playerProjectiles.AddRange(plProj);
 
             UpdatePlayerProjectileList(gameTime);
-            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if(timer > 0.5 && !keyEn)
-            //{
-            //    keyEn = keyboard.HandleSwitchEnemy(currentNPC);
-            //    if(keyEn)
-            //    {
-            //        timer = 0;
-            //    }
-            //}else if(timer > 0.5 && keyEn)
-            //{
-            //    keyEn = false;
-            //}
-
             removeEnemyProjectileList();
             updateEnemyProjectileList(gameTime);
             updateEnemyList(gameTime);
@@ -231,8 +210,6 @@ namespace sprint2
             collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerItemCollision(items, player);
-
-            //if (!player.isAlive()) this.Initialize();
         }
 
         private void updateEnemyList(GameTime gameTime)

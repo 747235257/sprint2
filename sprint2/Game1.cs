@@ -79,17 +79,20 @@ namespace sprint2
         public List<IBlock> blocks;
         public List<INPC> NPCList;
 
-        public List<INPC> groundHit;
-
-        public List<IChest> chests;
         public List<IItem> items { get; set; }
 
+        public List<INPC> groundHit;
+
+
+        public List<IChest> chests;
         public const int MAX_TRANSITION = 100;
         public bool inTransition { get; set; }
         public int transitionCount { get; set; }
 
         private IItem item;
 
+        public ItemCreator itemCreator { get; set; }
+        public  EnemyCreator enemyCreator { get; set; }
         public CollisionHandler collision;
         public LevelManager levelManager;
         public Level curLevel;
@@ -129,18 +132,19 @@ namespace sprint2
         {
             gameTimeElapsed = 0f; // Initialize the timer to zero
             // TODO: Add your initialization logic here
+            music = new MusicManager(this);
             levelManager = new LevelManager();
-            
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             levelManager.LoadLevels("Content/levels/level1.json");
-            curLevel = levelManager.Levels[0];
-            
-
+            curLevel = levelManager.Levels[0];          
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            
+            player = new Player(this, _graphics, _spriteBatch, new Vector2(250, 250));
             collision = new CollisionHandler(this);
-
+            itemCreator = new ItemCreator(this);
+            enemyCreator = new EnemyCreator(this);
+            inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
-            keyboard = new KeyboardCont(this);
+            keyboard = new KeyboardCont(this, player, inventoryScreen, music);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
@@ -155,8 +159,6 @@ namespace sprint2
             chests = new List<IChest>();
 
             lockDoorInstances = new List<LockDoorInstance>();
-            music = new MusicManager(this);
-            //loads kb and mouse support
             timer = 0;
             keyEn = false;
 
@@ -168,11 +170,7 @@ namespace sprint2
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
-            player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
-            inventoryScreen = new Inventory(this, _spriteBatch);
+ 
             //HUD Loading
             hud = new HUD(HUDpos, this, _spriteBatch);
             hud.AddToGrid(curLevel.Name);
@@ -241,28 +239,29 @@ namespace sprint2
                     killCount = 0;
                 }
 
-                inventoryScreen.updateInventory();
-                inventoryScreen.updateCounterInventory();
-                updatePauseCounter();
-                keyboard.HandlePause(this);
-                if (gamePaused) keyboard.HandleSwitchInventory(player, inventoryScreen);
-
-                if (!gamePaused)
-                {
-                    keyboard.handleLevelSwitch(this);
-                    keyboard.HandleMovement(_graphics, player);
-                    Vector2 range = keyboard.HandleAttack(_graphics, player);
-                    keyboard.HandleDamaged(_graphics, player);
-
-                    player.updatePlayer();
-                    curLevel.checkLevelClear(this);
+            inventoryScreen.updateInventory();
+            inventoryScreen.updateCounterInventory();
+            updatePauseCounter();
+            keyboard.HandlePause();
+                keyboard.HandleMuteMusic();
+            keyboard.RegisterCommand();
+            if(gamePaused)keyboard.HandleSwitchInventory();
+            
+            if (!gamePaused)
+            {
+                keyboard.handleLevelSwitch();
+                keyboard.HandleLevelDebug();
+                keyboard.HandleMovement();
+                keyboard.HandleAttack();
+                player.updatePlayer();
+                curLevel.checkLevelClear(this);
 
                     removePlayerProjectileList();
                     removeEnemyList();
                     //projectile return by keyboard is added to the list
 
 
-                    List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+                List<IProjectile> plProj = keyboard.HandlePlayerItem();
 
                     if (plProj != null) playerProjectiles.AddRange(plProj);
 
@@ -281,7 +280,7 @@ namespace sprint2
                     collision.HandlePlayerBlockCollision(player, blocks);
                     collision.HandlePlayerEnemyCollision(player, NPCList);
                     collision.HandlePlayerEnemyCollision(player, groundHit);
-                    collision.HandleEnemyEnemyCollision(NPCList);
+                   // collision.HandleEnemyEnemyCollision(NPCList);
                     collision.HandleEnemyBlockCollision(NPCList, blocks);
                     collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
                     collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
@@ -338,8 +337,8 @@ namespace sprint2
                 _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
                 drawAllBlocks();
                 drawAllProjectiles();
-                drawAllEnemies();
                 drawAllItems();
+                drawAllEnemies();
                 drawAllChests();
                 player.Draw();
                 hud.Draw();

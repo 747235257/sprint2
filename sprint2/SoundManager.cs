@@ -23,7 +23,6 @@ namespace sprint2
 
             soundBank["Nunchucks"] = game.Content.Load<SoundEffect>("audio/nunchuckstrike");
             soundBank["damaged"] = game.Content.Load<SoundEffect>("audio/takedamage");
-            soundBank["walking"] = game.Content.Load<SoundEffect>("audio/playerwalk");
             soundBank["pickupitem"] = game.Content.Load<SoundEffect>("audio/itempick");
             soundBank["attack"] = game.Content.Load<SoundEffect>("audio/meleestrike");
             soundBank["Dragon"] = game.Content.Load<SoundEffect>("audio/projectile2");
@@ -34,7 +33,8 @@ namespace sprint2
             soundBank["enemykill"] = game.Content.Load<SoundEffect>("audio/enemykill");
             soundBank["beam"] = game.Content.Load<SoundEffect>("audio/beam");
             soundBank["nextroom"] = game.Content.Load<SoundEffect>("audio/nextroom");
-
+            soundBank["health"] = game.Content.Load<SoundEffect>("audio/health");
+            soundBank["chest"] = game.Content.Load<SoundEffect>("audio/chest");
         }
         public SoundEffectInstance CreateSound(string soundType)
         {
