@@ -267,7 +267,7 @@ namespace sprint2
                     collision.HandlePlayerBlockCollision(player, blocks);
                     collision.HandlePlayerEnemyCollision(player, NPCList);
                     collision.HandlePlayerEnemyCollision(player, groundHit);
-                    collision.HandleEnemyEnemyCollision(NPCList);
+                    //collision.HandleEnemyEnemyCollision(NPCList);
                     collision.HandleEnemyBlockCollision(NPCList, blocks);
                     collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
                     collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
