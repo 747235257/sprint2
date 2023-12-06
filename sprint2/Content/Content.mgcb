@@ -350,6 +350,18 @@
 /processorParam:TextureFormat=Color
 /build:Enemies.png
 
+#begin Enemy_Concept.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=177,190,197,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Enemy_Concept.png
+
 #begin File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -815,6 +827,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:levels/level9hud.png
+
+#begin levels/LevelDebug.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/LevelDebug.png
+
+#begin levels/LevelDebughud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:levels/LevelDebughud.png
 
 #begin mapItem.png
 /importer:TextureImporter

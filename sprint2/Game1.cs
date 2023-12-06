@@ -30,6 +30,7 @@ namespace sprint2
         private INPC Goriya;
         private INPC Gel;
         private INPC Bat;
+        
         public INPC cur;
         public int currentNPC { get; set; }
 
@@ -41,6 +42,7 @@ namespace sprint2
 
         public Texture2D Enemies;
         public Texture2D Bosses;
+        public Texture2D Boss1;
         public Texture2D NPCs;
         public Texture2D ItemSprite;
         public Texture2D LevelBack;
@@ -49,6 +51,7 @@ namespace sprint2
         public Texture2D VictoryScreen; //CHANGE
         public Texture2D Scoreboard;
         public Texture2D Banner;
+        public Texture2D ranChests;
 
         public IPlayer player;
         private IController keyboard;
@@ -71,10 +74,16 @@ namespace sprint2
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
-        public List<IItem> items { get; set; }
-        public List<IChest> chests;
+
         public List<IItem> items { get; set; }
 
+        public List<INPC> groundHit;
+
+
+        public List<IChest> chests;
+        public const int MAX_TRANSITION = 100;
+        public bool inTransition { get; set; }
+        public int transitionCount { get; set; }
 
         private IItem item;
 
@@ -110,24 +119,23 @@ namespace sprint2
             _graphics.PreferredBackBufferWidth = 768; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-    }
+            inTransition = true;
+        }
 
         protected override void Initialize()
         {
             gameTimeElapsed = 0f; // Initialize the timer to zero
             // TODO: Add your initialization logic here
             levelManager = new LevelManager();
-            
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             levelManager.LoadLevels("Content/levels/level1.json");
-            curLevel = levelManager.Levels[0];
-            
-
+            curLevel = levelManager.Levels[0];          
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            
+            player = new Player(this, _graphics, _spriteBatch, new Vector2(250, 250));
             collision = new CollisionHandler(this);
-
+            inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
-            keyboard = new KeyboardCont(this);
+            keyboard = new KeyboardCont(this, player, inventoryScreen);
             playerProjectiles = new List<IProjectile>();
             enemyProjectiles = new List<IProjectile>();
             blocks = new List<IBlock>();
@@ -136,10 +144,13 @@ namespace sprint2
             doorHitboxes= new List<Rectangle>();
             doors= new List<DoorHitbox>();
             NPCList = new List<INPC>();
+
+            groundHit  = new List<INPC>();
+
             chests = new List<IChest>();
+
             lockDoorInstances = new List<LockDoorInstance>();
             music = new MusicManager(this);
-            //loads kb and mouse support
             timer = 0;
             keyEn = false;
 
@@ -151,17 +162,14 @@ namespace sprint2
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
-            player = new Player(this, _graphics, _spriteBatch, new Vector2 (250, 250));
-            inventoryScreen = new Inventory(this, _spriteBatch);
+ 
             //HUD Loading
             hud = new HUD(HUDpos, this, _spriteBatch);
             hud.AddToGrid(curLevel.Name);
 
             Enemies = Content.Load<Texture2D>("Enemies");
             Bosses = Content.Load<Texture2D>("Bosses");
+            Boss1 = Content.Load<Texture2D>("Enemy_Concept");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
@@ -197,89 +205,103 @@ namespace sprint2
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
-            //If game is not over, update the time
-            if (player.isAlive() && !player.getHasWon())
-            {
-                // Update the timer
-                gameTimeElapsed += deltaTime;
-            }
-            
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
-                Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            if (!inTransition || curLevel.getClearStatus())
             {
-                this.Initialize();
-                /*Reset all the counts for scoreboard to 0*/
-                pickupCount = 0;
-                roomCount = 0;
-                killCount = 0;
-            }
+                //If game is not over, update the time
+                if (player.isAlive() && !player.getHasWon())
+                {
+                    // Update the timer
+                    gameTimeElapsed += deltaTime;
+                }
+
+
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
+                    Exit();
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    this.Initialize();
+                    /*Reset all the counts for scoreboard to 0*/
+                    pickupCount = 0;
+                    roomCount = 0;
+                    killCount = 0;
+                }
 
             inventoryScreen.updateInventory();
             inventoryScreen.updateCounterInventory();
             updatePauseCounter();
-            keyboard.HandlePause(this);
-            if(gamePaused)keyboard.HandleSwitchInventory(player, inventoryScreen);
+            keyboard.HandlePause();
+            keyboard.RegisterCommand();
+            if(gamePaused)keyboard.HandleSwitchInventory();
             
             if (!gamePaused)
             {
-                keyboard.handleLevelSwitch(this);
-                keyboard.HandleMovement(_graphics, player);
-                Vector2 range = keyboard.HandleAttack(_graphics, player);
-                keyboard.HandleDamaged(_graphics, player);
-
+                keyboard.handleLevelSwitch();
+                keyboard.HandleLevelDebug();
+                keyboard.HandleMovement();
+                keyboard.HandleAttack();
                 player.updatePlayer();
                 curLevel.checkLevelClear(this);
 
-                removePlayerProjectileList();
-                removeEnemyList();
-                //projectile return by keyboard is added to the list
+                    removePlayerProjectileList();
+                    removeEnemyList();
+                    //projectile return by keyboard is added to the list
 
 
-                List<IProjectile> plProj = keyboard.HandlePlayerItem(_graphics, player);
+                List<IProjectile> plProj = keyboard.HandlePlayerItem();
 
-                if (plProj != null) playerProjectiles.AddRange(plProj);
-
-
-                UpdatePlayerProjectileList(gameTime);
+                    if (plProj != null) playerProjectiles.AddRange(plProj);
 
 
-                removeEnemyProjectileList();
-                updateEnemyProjectileList(gameTime);
-                updateEnemyList(gameTime);
+                    UpdatePlayerProjectileList(gameTime);
 
-                collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
-                collision.HandlePlayerAttackCollision(player, NPCList);
-                collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
-                collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerBlockCollision(player, blocks);
-                collision.HandlePlayerEnemyCollision(player, NPCList);
-                collision.HandleEnemyEnemyCollision(NPCList);
-                collision.HandleEnemyBlockCollision(NPCList, blocks);
-                collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
-                collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
-                collision.HandlePlayerWallCollision(player, wallHitboxes);
-                collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
-                collision.HandleEnemyChestCollision(NPCList, chests);
-                collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
-                //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
-                collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
-                collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
-                collision.HandlePlayerItemCollision(items, player);
-                collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
-                collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
-                collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
-                if (player.getHasWon() || !player.isAlive())
+
+                    removeEnemyProjectileList();
+                    updateEnemyProjectileList(gameTime);
+                    updateEnemyList(gameTime);
+
+                    collision.HandlePlayerParryProjectile(player, enemyProjectiles, this);
+                    collision.HandlePlayerAttackCollision(player, NPCList);
+                    collision.HandlePlayerProjectileCollision(player, enemyProjectiles);
+                    collision.HandleProjectileBlockCollision(blocks, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerBlockCollision(player, blocks);
+                    collision.HandlePlayerEnemyCollision(player, NPCList);
+                    collision.HandlePlayerEnemyCollision(player, groundHit);
+                    collision.HandleEnemyEnemyCollision(NPCList);
+                    collision.HandleEnemyBlockCollision(NPCList, blocks);
+                    collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
+                    collision.HandleEnemyWallCollision(NPCList, wallHitboxes);
+                    collision.HandlePlayerWallCollision(player, wallHitboxes);
+                    collision.HandleProjectileWallCollision(wallHitboxes, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerChestCollision(player, chests, items, _spriteBatch);
+                    collision.HandleEnemyChestCollision(NPCList, chests);
+                    collision.HandlePlayerDoorCollision(player, doorHitboxes, doors, this);
+                    //collision.HandleEnemyEnemyProjectileCollision(NPCList, enemyProjectiles);
+                    collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
+                    collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
+                    collision.HandlePlayerItemCollision(items, player);
+                    collision.HandleEnemyLockDoorCollision(NPCList, lockDoorInstances);
+                    collision.HandlePlayerLockDoorCollision(player, lockDoorInstances, this);
+                    collision.HandleProjectileLockDoorCollision(lockDoorInstances, enemyProjectiles, playerProjectiles);
+                    if (player.getHasWon() || !player.isAlive())
+                    {
+                        pauseGame();
+                    }
+                }
+                //if (!player.isAlive()) this.Initialize();
+                base.Update(gameTime);
+
+            }
+            else
+            {
+                transitionCount++;
+
+                if(transitionCount > MAX_TRANSITION)
                 {
-                    pauseGame();
+                    transitionCount = 0;
+                    inTransition = false;
                 }
             }
-         //if (!player.isAlive()) this.Initialize();
-            base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)
@@ -302,8 +324,8 @@ namespace sprint2
                 _spriteBatch.Draw(LevelBack, new Rectangle(0, 0, 768, 528), Color.White);
                 drawAllBlocks();
                 drawAllProjectiles();
-                drawAllEnemies();
                 drawAllItems();
+                drawAllEnemies();
                 drawAllChests();
                 player.Draw();
                 hud.Draw();
@@ -432,10 +454,15 @@ namespace sprint2
 
         private void drawAllEnemies()
         {
+            foreach (INPC enemy in groundHit)
+            {
+                if (enemy != null) enemy.Draw();
+            }
             foreach (INPC enemy in NPCList)
             {
                 if (enemy != null) enemy.Draw();
             }
+            
         }
 
         private void updateEnemyProjectileList(GameTime gameTime)

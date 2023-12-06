@@ -26,6 +26,8 @@ public class RandomLevelHandler
 
     private List<IBlock> blocks = new List<IBlock>();
 
+    private const int PLAYER_DIST = 200;
+
     public enum position
     {
         minX = 100, maxX = 600,
@@ -41,8 +43,18 @@ public class RandomLevelHandler
 
 	private void initDict()
 	{
-		//handles diff 1
-		List<String> enem1 = new List<String>();
+        //handles diff 0
+        List<String> enem0 = new List<String>();
+        List<String> item0 = new List<String>();
+
+
+        numEnemies.Add(0, 0);
+        numItems.Add(0, 0);
+
+        EnemiesAllowed.Add(0, enem0);
+        ItemsAllowed.Add(0, item0);
+        //handles diff 1
+        List<String> enem1 = new List<String>();
 		enem1.Add("Skull");
         enem1.Add("Bat");
 
@@ -86,6 +98,17 @@ public class RandomLevelHandler
         numItems.Add(3, 2);
 
         //handles diff 4
+        List<String> enem4 = new List<String>();
+        enem4.Add("Boss");
+
+        List<String> item4 = new List<String>();
+        item4.Add("healthItem");
+
+        EnemiesAllowed.Add(4, enem4);
+        ItemsAllowed.Add(4, item4);
+
+        numEnemies.Add(4, 1);
+        numItems.Add(4, 3);
     }
 
     private bool hasConflictListItem(IItem item, List<IItem> items)
@@ -104,6 +127,50 @@ public class RandomLevelHandler
 
             i++;
             
+
+        }
+
+        return hasConflict;
+    }
+
+    private bool hasConflictItemBlocks(IItem item, List<IBlock> blocks)
+    {
+        Rectangle hb = item.getHitbox();
+        bool hasConflict = false;
+        int i = 0;
+        while (!hasConflict && (i <blocks.Count))
+        {
+            Rectangle currHB = blocks[i].getHitbox();
+
+            if (currHB.Intersects(hb))
+            {
+                hasConflict = true;
+            }
+
+            i++;
+
+
+        }
+
+        return hasConflict;
+    }
+
+    private bool hasConflictEnemBlocks(INPC enem, List<IBlock> blocks)
+    {
+        Rectangle hb = enem.getHitbox();
+        bool hasConflict = false;
+        int i = 0;
+        while (!hasConflict && (i < blocks.Count))
+        {
+            Rectangle currHB = blocks[i].getHitbox();
+
+            if (currHB.Intersects(hb))
+            {
+                hasConflict = true;
+            }
+
+            i++;
+
 
         }
 
@@ -131,6 +198,21 @@ public class RandomLevelHandler
 
         return hasConflict;
     }
+
+    private bool hasConflictListEnemPlayer(INPC enem, IPlayer player)
+    {
+        Vector2 enemPos = enem.getLastPos();
+        Vector2 playerPos = player.getPosition();
+        bool hasConflict = false;
+
+        double preDist = (enemPos.X - playerPos.X) * (enemPos.X - playerPos.X) + (enemPos.Y - playerPos.Y)* (enemPos.Y - playerPos.Y);
+        double dist = Math.Sqrt(preDist);
+
+        hasConflict = dist < PLAYER_DIST;
+
+        return hasConflict;
+    }
+
     public void Update()
 	{
         Random rnd = new Random();
@@ -162,7 +244,7 @@ public class RandomLevelHandler
 
             }
 
-            if(!hasConflictListItem(itemToAdd, itemList))
+            if(!hasConflictListItem(itemToAdd, itemList)    &&  !hasConflictItemBlocks(itemToAdd,blocks))
             {
                 itemList.Add(itemToAdd);
             } else
@@ -202,9 +284,13 @@ public class RandomLevelHandler
                 enemToAdd = new Bat(game.Enemies, game._spriteBatch, game, pos);
 
             }
+            else if (enemName.Equals("Boss"))
+            {
+                enemToAdd = new Boss1(game.Boss1, game._spriteBatch, game, new Vector2(236, 96));
+            }
 
 
-            if (!hasConflictListEnem(enemToAdd, enemyList))
+                if (enemName.Equals("Boss") || (!hasConflictListEnem(enemToAdd, enemyList) && !hasConflictEnemBlocks(enemToAdd, blocks) && !hasConflictListEnemPlayer(enemToAdd,game.player)))
             {
                 enemyList.Add(enemToAdd);
             }

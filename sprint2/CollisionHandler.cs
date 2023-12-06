@@ -56,6 +56,7 @@ public class CollisionHandler
                     if(npcRect.Intersects(attackRect))
                     {
                         npc.giveDamage();
+                        player.resetAttackHitbox();
                     }
                 }
             }
@@ -98,9 +99,9 @@ public class CollisionHandler
 
 					if(eHitbox.Intersects(pHitbox))
 					{
-                        _game.killCount ++;
 						projectile.setToInactive();
 						npc.giveDamage();
+                        if (!npc.isStillAlive()) _game.killCount++;
                         SoundEffectInstance damageSound = SoundManager.Instance.CreateSound("enemykill");
                         damageSound.Play();
                     }
@@ -404,6 +405,8 @@ public class CollisionHandler
 			{
                 if (game.curLevel.getClearStatus())
                 {
+                    game.inTransition = true;
+                    game.transitionCount = 0;
                     SoundEffectInstance changeRoom = SoundManager.Instance.CreateSound("nextroom");
                     changeRoom.Play();
                     game.curLevel = game.levelManager.Levels[doors[i].NextLevel - 1]; //changes current level

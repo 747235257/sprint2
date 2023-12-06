@@ -818,7 +818,19 @@
         "Type": "wep1",
         "X": 200,
         "Y": 250
-      }
+
+      },
+      {
+        "Type": "key",
+        "X": 300,
+        "Y": 250
+      },
+      //{
+      //  "Type": "Boss1",
+      //  "X": 236,
+      //  "Y": 96
+
+      //}
       //{
       //  "Type": "key",
       //  "X": 300,
@@ -871,14 +883,14 @@
   },
   {
     "Name": "Level9",
-    "Diff":  4,
+    "Diff": 4,
     "GridLocation": {
       "Grid": 1
     },
     "Obstacles": [
       {
         "Type": "triforce",
-        "X": 200,
+        "X": 300,
         "Y": 150
 
       }
@@ -927,6 +939,102 @@
       //  "X": 200,
       //  "Y": 350
       //}
+
+    ],
+    "DoorHitboxs": [
+      {
+        //bottom
+        "X": 336,
+        "Y": 450,
+        "Width": 90,
+        "Height": 90,
+        "NextX": 348,
+        "NextY": 93,
+        "NextLevel": 7
+      }
+    ],
+    "WallHitboxs": [
+      { //left wall
+        "X": 0,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      },
+      { //up wall
+        "X": 0,
+        "Y": 0,
+        "Width": 768,
+        "Height": 90
+      },
+      { //bottom-left wall
+        "X": 0,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //bottom-right wall
+        "X": 426,
+        "Y": 432,
+        "Width": 336,
+        "Height": 96
+      },
+      { //right wall
+        "X": 672,
+        "Y": 0,
+        "Width": 96,
+        "Height": 528
+      }
+    ]
+  },
+  {
+    "Name": "LevelDebug",
+    "Diff": 0,
+    "GridLocation": {
+      "Grid": 19
+    },
+    "Obstacles": [
+      {
+        "Type": "triforce",
+        "X": 200,
+        "Y": 150
+
+      },
+      {
+        "Type": "wep3",
+        "X": 400,
+        "Y": 250
+      },
+      {
+        "Type": "wep1",
+        "X": 200,
+        "Y": 250
+
+      },
+      {
+        "Type": "wep2",
+        "X": 300,
+        "Y": 200
+      },
+      {
+        "Type": "key",
+        "X": 350,
+        "Y": 250
+      },
+      {
+        "Type": "healthItem",
+        "X": 250,
+        "Y": 250
+      },
+      {
+        "Type": "healthItem",
+        "X": 300,
+        "Y": 250
+      },
+      {
+        "Type": "mapItem",
+        "X": 280,
+        "Y": 250
+      }
 
     ],
     "DoorHitboxs": [
