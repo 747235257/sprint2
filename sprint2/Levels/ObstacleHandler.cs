@@ -62,16 +62,16 @@ namespace sprint2
 
                         break;
                     case "Dragon":
-                        enemies.Add(new Dragon(game1.Bosses, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        enemies.Add(new Dragon(game1.dragonSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;
                     case "Skull":
-                        enemies.Add(new Skull(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        enemies.Add(new Skull(game1.skullSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;
                     case "Goriya":
-                        enemies.Add(new Goriya(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        enemies.Add(new Goriya(game1.goriyaSprite, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;
                     case "Bat":
-                        enemies.Add(new Bat(game1.Enemies, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
+                        enemies.Add(new Bat(game1.batSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
                         break;
                     case "wep1":
                         items.Add(new wep1(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));

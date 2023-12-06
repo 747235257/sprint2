@@ -41,6 +41,9 @@ namespace sprint2
         private bool keyEn;
 
         public Texture2D Enemies;
+        public Texture2D goriyaSprite;
+        public Texture2D batSprites;
+        public Texture2D skullSprites;
         public Texture2D Bosses;
         public Texture2D Boss1;
         public Texture2D NPCs;
@@ -52,6 +55,7 @@ namespace sprint2
         public Texture2D Scoreboard;
         public Texture2D Banner;
         public Texture2D ranChests;
+        public Texture2D dragonSprites;
 
         public IPlayer player;
         private IController keyboard;
@@ -174,8 +178,12 @@ namespace sprint2
             hud.AddToGrid(curLevel.Name);
 
             Enemies = Content.Load<Texture2D>("Enemies");
+            dragonSprites = Content.Load<Texture2D>("DragonNew2");
+            batSprites = Content.Load<Texture2D>("newBat2");
+            goriyaSprite = Content.Load<Texture2D>("goriyaNew");
+            skullSprites = Content.Load<Texture2D>("newSkull4");
             Bosses = Content.Load<Texture2D>("Bosses");
-            Boss1 = Content.Load<Texture2D>("Enemy_Concept");
+            Boss1 = Content.Load<Texture2D>("BossIdle");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");

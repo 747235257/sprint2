@@ -14,8 +14,8 @@ namespace sprint2
     {
 
         private Texture2D texture;
-        private const int width = 16;
-        private const int height = 16;
+        private const int width = 64;
+        private const int height = 64;
         public Rectangle source;
         public Rectangle destination;
         private SpriteBatch spriteBatch;
@@ -31,12 +31,12 @@ namespace sprint2
             this.texture = texture;
             this.spriteBatch = spriteBatch;
             spriteEffects = SpriteEffects.FlipHorizontally;
-            source = new Rectangle(222, 11, width, height);//The origin sprite frame.
+            source = new Rectangle(0, 0, width, height);//The origin sprite frame.
             upDownflip = false;
             speed = 2;
             timer = 0;
             frameCol = 0;
-            destination = new Rectangle(50, 200, 32, 32);
+            destination = new Rectangle(0, 0, 64, 64);
 
 
         }
@@ -57,9 +57,9 @@ namespace sprint2
                 {
                     //Change the position and frame positions.
                     case (int)dir.idle:
-                        if(source.X == 256||source.X == 273)
+                        if(source.X == 0||source.X == 0)
                         {
-                            source.X = 256 + 17 * (frameCol % 2);
+                            source.X = 64 * (frameCol % 2);
                             frameCol = (frameCol + 1) % 2;
                         }
                         break;
@@ -67,24 +67,24 @@ namespace sprint2
                     case (int)dir.up:
 
                         updateMove.Y = -speed;
-                        source.X = 239; 
+                        source.X = 0; 
                         break;
                     case (int)dir.down:
 
                         updateMove.Y = speed;
-                        source.X = 222;
+                        source.X =0;
                         break;
                     case (int)dir.left:
 
                         updateMove.X = -speed;
-                        source.X = 256 + 17 * (frameCol % 2);
+                        source.X = 64* (frameCol % 2);
                         frameCol = (frameCol + 1) % 2;
                         leftRightflip = true;
                         break;
                     case (int)dir.right:
 
                         updateMove.X = +speed;
-                        source.X = 256 + 17 * (frameCol % 2);
+                        source.X = 64* (frameCol % 2);
                         frameCol = (frameCol + 1) % 2;
                         leftRightflip = false;
 

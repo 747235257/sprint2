@@ -240,21 +240,21 @@ public class RandomLevelHandler
 
             if(enemName.Equals("Dragon")) 
             { 
-                enemToAdd = new Dragon(game.Bosses, game._spriteBatch, game, pos);
+                enemToAdd = new Dragon(game.dragonSprites, game._spriteBatch, game, pos);
             }
             else if (enemName.Equals("Skull"))
             {
-                enemToAdd = new Skull(game.Enemies, game._spriteBatch, game, pos);
+                enemToAdd = new Skull(game.skullSprites, game._spriteBatch, game, pos);
 
             }
             else if (enemName.Equals("Goriya"))
             {
-                enemToAdd = new Goriya(game.Enemies, game._spriteBatch, game, pos);
+                enemToAdd = new Goriya(game.goriyaSprite, game._spriteBatch, game, pos);
 
             }
             else if (enemName.Equals("Bat"))
             {
-                enemToAdd = new Bat(game.Enemies, game._spriteBatch, game, pos);
+                enemToAdd = new Bat(game.batSprites, game._spriteBatch, game, pos);
 
             }
             else if (enemName.Equals("Boss"))

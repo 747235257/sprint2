@@ -12,8 +12,8 @@ namespace sprint2
     public class DragonSprite: INPCSprite
     {
         private Texture2D texture;
-        private const int width = 24;
-        private const int height = 32;
+        private const int width = 64;
+        private const int height = 128;
         public Rectangle source;
         public Rectangle destination;
         private SpriteBatch spriteBatch;
@@ -27,10 +27,10 @@ namespace sprint2
         {
             this.texture = texture;
             this.spriteBatch = spriteBatch;
-            source = new Rectangle(1, 11, width, height);//The origin sprite frame.
+            source = new Rectangle(0, 0, width, height);//The origin sprite frame.
             timer = 0;
             frameCol = 0;
-            destination = new Rectangle(200, 100, 48, 64);
+            destination = new Rectangle(0, 0, 64, 128);
         }
 
         //returns the current position of the enemy on screen
@@ -63,7 +63,7 @@ namespace sprint2
                 }
                 SoundEffectInstance walkingSound = SoundManager.Instance.CreateSound("walking");
                 walkingSound.Play();
-                source.X = 1 + 25 * (frameCol % 4);//Change the sprite source position in a spritesheet.
+                source.X = 64* (frameCol % 4);//Change the sprite source position in a spritesheet.
                 frameCol %= 4;//Total frame number is 4.
 
             }

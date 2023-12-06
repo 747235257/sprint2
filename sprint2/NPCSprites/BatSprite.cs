@@ -11,8 +11,8 @@ namespace sprint2
     public class BatSprite:INPCSprite
     {
         private Texture2D texture;
-        private const int width = 16;
-        private const int height = 16;
+        private const int width = 32;
+        private const int height = 32;
         public Rectangle source;
         public Rectangle destination;
         private SpriteBatch spriteBatch;
@@ -24,10 +24,10 @@ namespace sprint2
         {
             this.texture = texture;
             this.spriteBatch = spriteBatch;
-            source = new Rectangle(183, 11, width, height);//The origin sprite frame.
+            source = new Rectangle(0, 0, width, height);//The origin sprite frame.
             timer = 0;
             frameCol = 0;
-            destination = new Rectangle(150, 200, 32, 32);
+            destination = new Rectangle(0, 0, 32, 32);
         }
 
         //returns the current position of the enemy on screen
@@ -64,7 +64,7 @@ namespace sprint2
                         break;
 
                 }
-                source.X = 183 + 17 * (frameCol % 2);//Change the sprite source position in a spritesheet.
+                source.X = 32 * (frameCol % 2);//Change the sprite source position in a spritesheet.
                 frameCol %= 2;//Total frame number is 2.
 
             }
