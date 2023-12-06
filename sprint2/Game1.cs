@@ -58,7 +58,7 @@ namespace sprint2
         public List<IProjectile> enemyProjectiles;
         public List<IBlock> blocks;
         public List<INPC> NPCList;
-        public List<IItem> items;
+        public List<IItem> items { get; set; }
         public List<IChest> chests;
 
 
