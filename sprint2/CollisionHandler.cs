@@ -276,9 +276,10 @@ public class CollisionHandler
                 Rectangle chestHitbox = chest.getHitbox();
                 if (chestHitbox.Intersects(playerHitbox))
                 {
-                    if (!chest.isOpen())           //Check that when in range (touching the chest) it opens
+                    if (!chest.isOpen() && (player.getKeyCount() > 0))           //Check that when in range (touching the chest) it opens
                     {
                         chest.openChest(chest, spriteBatch);
+                        player.decrementKeyCount();
                     }
                     player.setLastPos();
                 }
