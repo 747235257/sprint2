@@ -57,42 +57,6 @@ namespace sprint2
                     case "Chest":
                         chests.Add(new RandomChest(Chests, game1.chestRow, game1.chestCol, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1._spriteBatch, game1, game));
                         break;
-                    case "Dragon":
-                        enemies.Add(new Dragon(game1.dragonSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-                        break;
-                    case "Skull":
-                        enemies.Add(new Skull(game1.skullSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-                        break;
-                    case "Goriya":
-                        enemies.Add(new Goriya(game1.goriyaSprite, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-                        break;
-                    case "Bat":
-                        enemies.Add(new Bat(game1.batSprites, game1._spriteBatch, game1, new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y)));
-                        break;
-                    case "wep1":
-                        items.Add(new wep1(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "wep2":
-                        items.Add(new wep2(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "wep3":
-                        items.Add(new wep3(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "key":
-                        items.Add(new key(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "triforce":
-                        items.Add(new triforce(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "mapItem":
-                        items.Add(new mapItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-                        break;
-                    case "healthItem":
-                        items.Add(new healthItem(new Vector2(level.Obstacles[i].X, level.Obstacles[i].Y), game1, game1._spriteBatch));
-
-                        break;
-                    default:
-                        break;
                 }
 
 
