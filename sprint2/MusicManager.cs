@@ -15,6 +15,8 @@ namespace sprint2
         readonly Dictionary<string, Song> album = new Dictionary<string, Song>();
         Level level;
         Game1 game;
+        const float on = 1f;
+        const float off = 0f;
 
         public MusicManager(Game1 game1)
         {
@@ -39,12 +41,12 @@ namespace sprint2
 
         public void MuteMusic()
         {
-            if(MediaPlayer.Volume == 0f)
+            if(MediaPlayer.Volume == off)
             {
-                MediaPlayer.Volume = 1f;
+                MediaPlayer.Volume = on;
             }
             else {
-                MediaPlayer.Volume = 0f;
+                MediaPlayer.Volume = off;
             }
         }
             public void InitializeMusic(Game1 game)
