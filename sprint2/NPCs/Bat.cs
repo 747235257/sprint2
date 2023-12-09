@@ -28,7 +28,7 @@ namespace sprint2
 
         private enum HitboxDims
         {
-            WIDTH = 32, HEIGHT = 30, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 24, HEIGHT = 24, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
         public Bat(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {

@@ -1,0 +1,24 @@
+Sprint 5 was divided as follows: 
+Enemy Tracking/Asset Imports - Kyrie Iswandy
+Random Levels/Parry/HealthItem/MapItem: Haikal
+Scoreboard- Beal
+ICommand/Sound - Akmal
+FinalBoss  -  DengChen
+Random Chest  -  Nathan
+
+Overall, the team had very different functionalities to work on, so the team was able to work on their separate stuff without any conflicts. The team found success in implementing their own classes and ran into barely any
+issues adding them to the existing project.
+
+GitHub issues were absent in this project. A huge improvement from earlier sprints.
+
+Though these features were not connected in an obvious way, the team believes that combined - it does make the game feel more "Whole". It feels more fun to play and has an identity of its own.
+
+Newly imported assets for the player, enemies, and the boss also make the game feel more unique to the team. The assets are made by the talented Kyrie Iswandy and they add so much value to the game.
+
+The music, made by Deng Chen's contact, also helps with the identity of the game.
+
+Other than the extra functionality, the team also fixed, added, and changed some previous content in the game so that it looks more appealing and professional. 
+
+Warnings from the previous sprints also have been removed so that the code is clean.
+
+

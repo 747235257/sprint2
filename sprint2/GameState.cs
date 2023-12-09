@@ -191,19 +191,6 @@ namespace sprint2
             if (plProj != null) playerProjectiles.AddRange(plProj);
 
             UpdatePlayerProjectileList(gameTime);
-            //timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if(timer > 0.5 && !keyEn)
-            //{
-            //    keyEn = keyboard.HandleSwitchEnemy(currentNPC);
-            //    if(keyEn)
-            //    {
-            //        timer = 0;
-            //    }
-            //}else if(timer > 0.5 && keyEn)
-            //{
-            //    keyEn = false;
-            //}
-
             removeEnemyProjectileList();
             updateEnemyProjectileList(gameTime);
             updateEnemyList(gameTime);
@@ -223,8 +210,6 @@ namespace sprint2
             collision.HandleEnemyDoorCollision(NPCList, doorHitboxes);
             collision.HandleProjectileDoorCollision(doorHitboxes, enemyProjectiles, playerProjectiles);
             collision.HandlePlayerItemCollision(items, player);
-
-            //if (!player.isAlive()) this.Initialize();
         }
 
         private void updateEnemyList(GameTime gameTime)

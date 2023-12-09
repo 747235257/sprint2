@@ -41,6 +41,9 @@ namespace sprint2
         private bool keyEn;
 
         public Texture2D Enemies;
+        public Texture2D goriyaSprite;
+        public Texture2D batSprites;
+        public Texture2D skullSprites;
         public Texture2D Bosses;
         public Texture2D Boss1;
         public Texture2D NPCs;
@@ -52,6 +55,7 @@ namespace sprint2
         public Texture2D Scoreboard;
         public Texture2D Banner;
         public Texture2D ranChests;
+        public Texture2D dragonSprites;
 
         public IPlayer player;
         private IController keyboard;
@@ -87,6 +91,8 @@ namespace sprint2
 
         private IItem item;
 
+        public ItemCreator itemCreator { get; set; }
+        public  EnemyCreator enemyCreator { get; set; }
         public CollisionHandler collision;
         public LevelManager levelManager;
         public Level curLevel;
@@ -134,6 +140,8 @@ namespace sprint2
             initPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             player = new Player(this, _graphics, _spriteBatch, new Vector2(250, 250));
             collision = new CollisionHandler(this);
+            itemCreator = new ItemCreator(this);
+            enemyCreator = new EnemyCreator(this);
             inventoryScreen = new Inventory(this, _spriteBatch);
             //loads kb and mouse support
             keyboard = new KeyboardCont(this, player, inventoryScreen, music);
@@ -168,8 +176,12 @@ namespace sprint2
             hud.AddToGrid(curLevel.Name);
 
             Enemies = Content.Load<Texture2D>("Enemies");
+            dragonSprites = Content.Load<Texture2D>("DragonNew2");
+            batSprites = Content.Load<Texture2D>("newBat2");
+            goriyaSprite = Content.Load<Texture2D>("goriyaNew");
+            skullSprites = Content.Load<Texture2D>("newSkull4");
             Bosses = Content.Load<Texture2D>("Bosses");
-            Boss1 = Content.Load<Texture2D>("Enemy_Concept");
+            Boss1 = Content.Load<Texture2D>("BossIdle");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
             Blocks = Content.Load<Texture2D>("zeldaBlocks");
@@ -268,7 +280,7 @@ namespace sprint2
                     collision.HandlePlayerBlockCollision(player, blocks);
                     collision.HandlePlayerEnemyCollision(player, NPCList);
                     collision.HandlePlayerEnemyCollision(player, groundHit);
-                    //collision.HandleEnemyEnemyCollision(NPCList);
+                   // collision.HandleEnemyEnemyCollision(NPCList);
                     collision.HandleEnemyBlockCollision(NPCList, blocks);
                     collision.HandleEnemyProjectileCollision(NPCList, playerProjectiles);
                     collision.HandleEnemyWallCollision(NPCList, wallHitboxes);

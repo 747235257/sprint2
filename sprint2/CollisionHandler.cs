@@ -64,18 +64,30 @@ public class CollisionHandler
     }
     public void HandlePlayerItemCollision(List<IItem> items, IPlayer player)
 	{
+        String itemName;
 		foreach(IItem item in items)
 		{
 			Rectangle iHitbox = item.getHitbox();
 			Rectangle pHitbox = player.getHitbox();
+            itemName = item.getItemName();
 
-			if(iHitbox.Intersects(pHitbox))
+
+            if (iHitbox.Intersects(pHitbox))
 			{
 				if (item.isAlive())
 				{
-                    SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
-                    pickupSound.Play();
-                    player.pickUpItem(item.getItemName());
+                    if(itemName == "healthItem")
+                    {
+                        SoundEffectInstance healthSound = SoundManager.Instance.CreateSound("health");
+                        healthSound.Play();
+                    }
+                    else
+                    {
+                        SoundEffectInstance pickupSound = SoundManager.Instance.CreateSound("pickupitem");
+                        pickupSound.Play();
+                    }
+                    
+                    player.pickUpItem(itemName);
                     _game.pickupCount++;
                     
                 }
@@ -109,31 +121,6 @@ public class CollisionHandler
 			}
 		}
 	}
-
-	//PlayerProj vs Enemy
-
-	//(IN PROGRESS)
-	//public void HandleEnemyEnemyProjectileCollision(List<INPC> enemies, List<IProjectile> enemyProj)
-	//{
-		//foreach (INPC npc in enemies)
-		//{
-		//	foreach (IProjectile projectile in enemyProj)
-		//	{
-		//		if (projectile != null && npc != null)
-		//		{
-		//			Rectangle eHitbox = npc.getHitbox();
-		//			Rectangle pHitbox = projectile.getHitbox();
-
-		//			if (eHitbox.Intersects(pHitbox))
-		//			{
-		//				projectile.setToInactive();
-		//			}
-		//		}
-		//	}
-		//}
-	//}
-
-
 
 	//EnemyProj vs Player
 	public void HandlePlayerProjectileCollision(IPlayer player, List<IProjectile> enemyProj)
@@ -278,6 +265,8 @@ public class CollisionHandler
                 {
                     if (!chest.isOpen() && (player.getKeyCount() > 0))           //Check that when in range (touching the chest) it opens
                     {
+                        SoundEffectInstance openChest = SoundManager.Instance.CreateSound("chest");
+                        openChest.Play();
                         chest.openChest(chest, spriteBatch);
                         player.decrementKeyCount();
                     }
@@ -416,11 +405,10 @@ public class CollisionHandler
                     game.LockDoorHandler();
                     game.obstacleHandler = new ObstacleHandler(game, game, game.Blocks, game.ranChests);
                     game.obstacleHandler.Update(); //resets lists in game with new objects
+                    player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
 
                     game.randomLevelHandler = new RandomLevelHandler(game, game.blocks);
                     game.randomLevelHandler.Update();
-
-                    player.setLocation(new Vector2((int)doors[i].NextX, (int)doors[i].NextY)); //new player location
                     game.wallHitboxes = game.WallHitboxHandler();
                     game.doors = game.DoorHitboxHandler();//doorlists is reset
                     if (!game.curLevel.getClearStatus())
@@ -479,6 +467,8 @@ public class CollisionHandler
 
                     if (lockDoor.position.Intersects(eHitbox))
                     {
+                        SoundEffectInstance unlockDoor = SoundManager.Instance.CreateSound("unlock");
+                        unlockDoor.Play();
                         enemy.setLastPos();
                     }
                 }

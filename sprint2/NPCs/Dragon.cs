@@ -27,13 +27,13 @@ namespace sprint2
         private ISprite hitboxSprite;
         private Game1 game;
         private ProjectileFactory factory = new ProjectileCreator();
-        private readonly Vector2 DIAGONAL_DOWNLEFT = new Vector2(-1, 1), LEFT = new Vector2(-1, 0), DIAGONAL_UPLEFT = new Vector2(-1, -1);
+        private readonly Vector2 DIAGONAL_DOWNLEFT = new Vector2(-1, 1), LEFT = new Vector2(-1, 0), DIAGONAL_UPLEFT = new Vector2(-1, -1) ,RIGHT = new Vector2(1, 0) ;
         private string Name;
         private bool isAlive;
 
         private enum HitboxDims
         {
-            WIDTH = 50, HEIGHT = 65, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
+            WIDTH = 64, HEIGHT = 128, X_ADJ = 0, Y_ADJ = 0, ROW = 1, COL = 1
         }
         public Dragon(Texture2D texture, SpriteBatch spriteBatch, Game1 game, Vector2 startPos)
         {
@@ -71,8 +71,10 @@ namespace sprint2
             SoundEffectInstance attackSound = SoundManager.Instance.CreateSound("beam");
             attackSound.Play();
 
+            List<IProjectile> projs = factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT);
+            projs.AddRange(factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, RIGHT));
 
-            return factory.GetProjectile(Name, new Vector2(currPos.X, currPos.Y), game.Content, LEFT);
+            return projs;
 
 
 
