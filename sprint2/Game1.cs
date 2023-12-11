@@ -176,7 +176,7 @@ namespace sprint2
             hud.AddToGrid(curLevel.Name);
 
             Enemies = Content.Load<Texture2D>("Enemies");
-            dragonSprites = Content.Load<Texture2D>("DragonNew2");
+            dragonSprites = Content.Load<Texture2D>("DragonNew");
             batSprites = Content.Load<Texture2D>("newBat2");
             goriyaSprite = Content.Load<Texture2D>("goriyaNew");
             skullSprites = Content.Load<Texture2D>("newSkull4");
@@ -193,7 +193,6 @@ namespace sprint2
             bannerFont = Content.Load<SpriteFont>("score");
             Banner = Content.Load<Texture2D>("banner");
             
-            blocks.Add(new Block(Blocks, blockRow, blockCol, initPosition, _spriteBatch, this));
             //Create NPCs
             CreateNPCs();
             pixel = new Texture2D(GraphicsDevice, 1, 1);
