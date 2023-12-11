@@ -184,7 +184,7 @@ namespace sprint2
             Boss1 = Content.Load<Texture2D>("BossIdle");
             NPCs = Content.Load<Texture2D>("NPCs");
             LevelBack = Content.Load<Texture2D>("levels/Level1");
-            Blocks = Content.Load<Texture2D>("zeldaBlocks");
+            Blocks = Content.Load<Texture2D>("newBlock4");
             ranChests = Content.Load<Texture2D>("Chest");
             DeathScreen = Content.Load<Texture2D>("DeathScreen"); //CHANGE
             VictoryScreen = Content.Load<Texture2D>("NewVictoryScreen"); //CHANGE

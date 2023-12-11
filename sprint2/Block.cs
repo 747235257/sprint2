@@ -54,7 +54,7 @@ public class Block : IBlock
 
     private enum SpriteDims
     {
-        ROWS = 3, COLS = 4
+        ROWS =4, COLS = 4
     }
 
     private bool updateCheck()
